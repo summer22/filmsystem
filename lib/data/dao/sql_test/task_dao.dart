@@ -4,7 +4,7 @@ import 'package:filmsystem/utils/log.dart';
 import 'task.dart';
 
 /// *
-/// * author: 传旺
+/// * author: summer
 /// * Date: 2021/5/25
 /// * Describtion: 数据库crud操作api
 /// *

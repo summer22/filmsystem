@@ -21,6 +21,7 @@ class ApiPath {
   static const String forget = "api/user/userForget"; //修改密码
   static const String help = "api/question/list"; //帮助中心
   static const String helpQuery = "api/question/query"; //帮助中心搜索
+  static const String avatarList = "api/auth/avatarList"; //头像列表
 }
 
 

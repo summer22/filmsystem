@@ -26,6 +26,8 @@ class CountDownButton extends StatefulWidget {
     this.text = '',
     this.countDownText = '',
     this.countDownSecond = 60,
+    this.backgroundColor = Colors.white24,
+    this.radius = 10,
     this.textStyle = defaultTextStyle,
     this.disableTextStyle = defaultDisableTextStyle,
   }) : super(key: key);
@@ -51,6 +53,12 @@ class CountDownButton extends StatefulWidget {
   /// 倒计时时长 单位：秒
   final int countDownSecond;
 
+  ///背景色
+  final Color backgroundColor;
+
+  ///radius
+  final double radius;
+
   @override
   _CountDownButtonState createState() => _CountDownButtonState();
 }
@@ -62,8 +70,8 @@ class _CountDownButtonState extends State<CountDownButton> {
   @override
   Widget build(BuildContext context) {
     return Button(
-      radius: 10,
-      backgroundColor: Colors.white24,
+      radius: widget.radius,
+      backgroundColor: widget.backgroundColor,
       textColor:  _countdownTime > 0 ? Colors.white70 : Colors.white,
       text: _countdownTime > 0
           ? '$_countdownTime${widget.countDownText}'

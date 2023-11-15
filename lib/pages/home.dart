@@ -16,6 +16,7 @@ import 'package:filmsystem/pages/login.dart';
 import 'package:filmsystem/pages/news.dart';
 import 'package:filmsystem/pages/search.dart';
 import 'package:filmsystem/pages/subject.dart';
+import 'package:filmsystem/pages/userinfo.dart';
 import 'package:filmsystem/utils/constant.dart';
 import 'package:filmsystem/utils/image.dart';
 import 'package:flutter/material.dart';
@@ -245,6 +246,7 @@ class _HomePageState extends State<HomePage>
                                   Get.to(const LoginPage());
                                   break;
                                 case "account":
+                                  Get.to(const UserInfoPage());
                                   break;
                                 case "help":
                                   Get.to(const HelpPage());
@@ -439,10 +441,10 @@ class _HomePageState extends State<HomePage>
                       // },
                       imageUrl: model?.list?[index]?.posterUrl2 ?? '',
                       errorWidget: (context, url, error) {
-                        return const Center(
-                          child: Text("加载失败",
+                        return  Center(
+                          child: Text('image_loading_error'.tr,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white60,
                                 fontSize: 18,
                               )),

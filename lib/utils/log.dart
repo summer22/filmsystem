@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// @ClassName log
 /// @Description 封装的日志输出方法
-/// @Author liuwang
+/// @Author summer
 /// @Date 2021/11/26 3:42 下午
 /// @Version 1.0.1
 

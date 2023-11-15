@@ -145,10 +145,10 @@ class _DetailPageState extends State<DetailPage> {
                             // },
                             imageUrl: snapshot.data?.data?.posterUrl ?? "",
                             errorWidget: (context, url, error) {
-                              return const Center(
-                                child: Text("加载失败",
+                              return  Center(
+                                child: Text('image_loading_error'.tr,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white60,
                                       fontSize: 18,
                                     )),
@@ -300,10 +300,10 @@ class _DetailPageState extends State<DetailPage> {
                                       .data?.data?.dramaList?.first?.dramaUrl ??
                                       "",
                                   errorWidget: (context, url, error) {
-                                    return const Center(
-                                      child: Text("加载失败",
+                                    return  Center(
+                                      child: Text('image_loading_error'.tr,
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white60,
                                             fontSize: 18,
                                           )),
@@ -550,10 +550,10 @@ class _DetailPageState extends State<DetailPage> {
                                 ?.posterUrl1 ??
                                 '',
                             errorWidget: (context, url, error) {
-                              return const Center(
-                                child: Text("加载失败",
+                              return  Center(
+                                child: Text('image_loading_error'.tr,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white60,
                                       fontSize: 18,
                                     )),

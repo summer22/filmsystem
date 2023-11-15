@@ -1,5 +1,5 @@
 import 'package:filmsystem/data/models/login/login_model.dart';
-import 'package:filmsystem/data/models/login/userinfo_model.dart';
+import 'package:filmsystem/data/models/info/userinfo_model.dart';
 import 'package:filmsystem/data/network/api.dart';
 import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
@@ -173,7 +173,7 @@ class _ForgetPageState extends State<ForgetPage> {
                 });
               },
               icon: Icon(
-                _cipherText ? Icons.visibility_off : Icons.visibility,
+                _cipherTextTwo ? Icons.visibility_off : Icons.visibility,
                 color: Colors.orange,
               )),
           IconButton(
