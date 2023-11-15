@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class StandardSearchBarInner extends StatelessWidget
     implements PreferredSizeWidget {
 
   final Function(String) callback;
 
-  const StandardSearchBarInner({Key? key, required this.callback}) : super(key: key);
+  final String hint;
+  final bool autofocus;
+
+  const StandardSearchBarInner({Key? key, required this.callback, required this.hint, this.autofocus = true}) : super(key: key);
 
   @override
   Size get preferredSize => const Size.fromHeight(35 + 8 * 2);
@@ -23,7 +25,7 @@ class StandardSearchBarInner extends StatelessWidget
                 child: Material(
                   color: Colors.transparent,
                   child: TextField(
-                    autofocus: true,
+                    autofocus: autofocus,
                     enabled: true,
                     cursorColor: Colors.blue,
                     maxLines: 1,
@@ -48,7 +50,7 @@ class StandardSearchBarInner extends StatelessWidget
                           borderRadius:
                               BorderRadius.all(Radius.circular(35 / 2)),
                         ),
-                        hintText: 'search_hint'.tr,
+                        hintText: hint,
                         hintStyle: const TextStyle(fontSize: 14, color: Colors.white70)),
                   ),
                 )),

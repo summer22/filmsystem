@@ -15,6 +15,12 @@ class ApiPath {
   static const String insert = "api/collection/insert"; //点击按钮 - 收藏
   static const String delete = "api/collection/delete"; //点击按钮 - 取消收藏
   static const String likes = "api/video/likes"; //点击按钮 - 点赞和取消点赞
+  static const String login = "api/auth/login"; //登录
+  static const String userInfo = "api/user/info"; //个人信息
+  static const String code = "api/auth/code"; //获取验证码
+  static const String forget = "api/user/userForget"; //修改密码
+  static const String help = "api/question/list"; //帮助中心
+  static const String helpQuery = "api/question/query"; //帮助中心搜索
 }
 
 

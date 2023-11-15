@@ -5,47 +5,49 @@ import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
-import 'package:filmsystem/pages/forget.dart';
 import 'package:filmsystem/pages/widgets/buttons/button.dart';
 import 'package:filmsystem/utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+import 'widgets/buttons/count_down_button.dart';
+
+class ForgetPage extends StatefulWidget {
+  const ForgetPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ForgetPage> createState() => _ForgetPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ForgetPageState extends State<ForgetPage> {
+
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _pwdController = TextEditingController();
+  final TextEditingController _pwdTwoController = TextEditingController();
+  final TextEditingController _codeController = TextEditingController();
 
   bool _showClearButton = false;
   bool _showPwdClearButton = false;
+  bool _showPwdTwoClearButton = false;
+  bool _showCodeClearButton = false;
   bool _cipherText = true;
-  bool _saveAccount = false;
+  bool _cipherTextTwo = true;
 
   final box = GetStorage();
 
   @override
   void initState() {
     super.initState();
-    //如果记住账户了 就自动填充
-    if (box.read(account) != null) {
-      _controller.text = box.read(account);
-    }
-    if (box.read(pwd) != null) {
-      _pwdController.text = box.read(pwd);
-    }
   }
 
   @override
   void dispose() {
     _controller.dispose();
     _pwdController.dispose();
+    _pwdTwoController.dispose();
+    _codeController.dispose();
     super.dispose();
   }
 
@@ -61,24 +63,43 @@ class _LoginPageState extends State<LoginPage> {
       box.write(token, loginModel.data?.token);
       box.remove(account);
       box.remove(pwd);
-      getUserInfoData();
-      if (_saveAccount) {
-        box.write(account, _controller.text);
-        box.write(pwd, _pwdController.text);
-      }
+      // getUserInfoData();
+      // if (_saveAccount) {
+      //   box.write(account, _controller.text);
+      //   box.write(pwd, _pwdController.text);
+      // }
       Get.back();
     } on ApiError catch (e) {
       throw Exception(e.toString());
     }
   }
 
-  void getUserInfoData() async {
+  void getConfirmData() async {
     BaseRequest request = BaseRequest();
-    request.path = ApiPath.userInfo;
+    request.httpMethod = HttpMethod.post;
+    request.path = ApiPath.forget;
+    request.add("code", _codeController.text);
+    request.add("email", _controller.text);
+    request.add("Reconfirmpassword", _pwdTwoController.text);
+    request.add("password", _pwdController.text);
     try {
       ApiResponse response = await Api().fire(request);
-      UserInfoModel model = UserInfoModel.fromJson(response.data);
-      box.write(userInfo, model.data?.toJson());
+      box.remove(account);
+      box.remove(pwd);
+      Get.back();
+    } on ApiError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  void getCodeData(VoidCallback codeCallback) async {
+    BaseRequest request = BaseRequest();
+    request.httpMethod = HttpMethod.post;
+    request.path = ApiPath.code;
+    request.add("email", _controller.text);
+    try {
+      ApiResponse response = await Api().fire(request);
+      codeCallback();
     } on ApiError catch (e) {
       throw Exception(e.toString());
     }
@@ -94,6 +115,13 @@ class _LoginPageState extends State<LoginPage> {
   String? _validatePwdInput(String? value) {
     if (value == null || value.isEmpty) {
       return 'pwd_hint'.tr;
+    }
+    return null;
+  }
+
+  String? _validateCodeInput(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'code_hint'.tr;
     }
     return null;
   }
@@ -132,6 +160,57 @@ class _LoginPageState extends State<LoginPage> {
         : null;
   }
 
+  Widget? _leftTwoIcon() {
+    return _showPwdTwoClearButton
+        ? SizedBox(
+      width: 100,
+      child: Row(
+        children: [
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  _cipherTextTwo = !_cipherTextTwo;
+                });
+              },
+              icon: Icon(
+                _cipherText ? Icons.visibility_off : Icons.visibility,
+                color: Colors.orange,
+              )),
+          IconButton(
+            icon: const Icon(
+              Icons.clear,
+              color: Colors.orange,
+            ),
+            onPressed: () {
+              setState(() {
+                _pwdTwoController.clear();
+                _showPwdTwoClearButton = false;
+              });
+            },
+          )
+        ],
+      ),
+    )
+        : null;
+  }
+
+  Widget? _codeLeftIcon() {
+    return _showCodeClearButton
+        ? IconButton(
+            icon: const Icon(
+              Icons.clear,
+              color: Colors.orange,
+            ),
+            onPressed: () {
+              setState(() {
+                _codeController.clear();
+                _showCodeClearButton = false;
+              });
+            },
+          )
+        : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,8 +236,8 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Text(
-                  'login'.tr,
+                Text(
+                  'forget_pwd'.tr,
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -254,63 +333,122 @@ class _LoginPageState extends State<LoginPage> {
                   // },
                 ),
                 const SizedBox(
+                  height: 30,
+                ),
+                TextField(
+                  cursorColor: Colors.white,
+                  controller: _pwdTwoController,
+                  style: const TextStyle(color: Colors.white),
+                  obscureText: _cipherTextTwo,
+                  decoration: InputDecoration(
+                    hintText: 'pwd_again'.tr,
+                    hintStyle: const TextStyle(color: Colors.white38),
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white30),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.orange),
+                    ),
+                    focusedErrorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.orange),
+                    ),
+                    errorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.orange),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white10,
+                    errorText: _validatePwdInput(_pwdTwoController.text),
+                    errorStyle: const TextStyle(color: Colors.orange),
+                    suffixIcon: _leftTwoIcon(),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _showPwdTwoClearButton = value.isNotEmpty;
+                    });
+                  },
+                  // onSubmitted: (value) {
+                  //   print('Input submitted: $value');
+                  // },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        cursorColor: Colors.white,
+                        controller: _codeController,
+                        style: const TextStyle(color: Colors.white),
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          hintText: 'code'.tr,
+                          hintStyle: const TextStyle(color: Colors.white38),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white30),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.orange),
+                          ),
+                          focusedErrorBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.orange),
+                          ),
+                          errorBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.orange),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white10,
+                          errorText: _validateCodeInput(_codeController.text),
+                          errorStyle: const TextStyle(color: Colors.orange),
+                          suffixIcon: _codeLeftIcon(),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _showCodeClearButton = value.isNotEmpty;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    SizedBox(
+                        height: 64,
+                        child: CountDownButton(
+                          text: 'send_code'.tr,
+                          countDownText: 'count_down'.tr,
+                          onStart: (VoidCallback callback) {
+                            if(_controller.text.isEmpty){
+                              EasyLoading.showToast('email_hint'.tr);
+                              return;
+                            }
+                            getCodeData((){
+                              callback();
+                            });
+                          },
+                        ))
+                  ],
+                ),
+                const SizedBox(
                   height: 50,
                 ),
                 SizedBox(
                   width: Get.width - 40,
                   height: 60,
                   child: Button(
-                    text: 'login'.tr,
+                    text: 'change_pwd'.tr,
                     textColor: Colors.white,
                     backgroundColor: Colors.redAccent,
                     radius: 8,
                     textStyle: const TextStyle(fontSize: 18),
                     click: () {
-                      getData();
+                      getConfirmData();
                     },
                   ),
                 ),
                 const SizedBox(
                   height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _saveAccount = !_saveAccount;
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            _saveAccount
-                                ? Icons.check_box_outlined
-                                : Icons.check_box_outline_blank,
-                            color: Colors.white70,
-                          ),
-                          // Leading icon
-                          const SizedBox(width: 8.0),
-                          // Adjust spacing between icon and text
-                          Text(
-                            'remember'.tr,
-                            style: const TextStyle(color: Colors.white, fontSize: 12),
-                          ),
-                          // Trailing text
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(const ForgetPage());
-                      },
-                      child: Text(
-                        'forget_pwd'.tr,
-                        style: const TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                    )
-                  ],
                 ),
               ],
             ),

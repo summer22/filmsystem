@@ -7,7 +7,6 @@ import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/pages/video.dart';
 import 'package:filmsystem/pages/widgets/standard_search_bar.dart';
-import 'package:filmsystem/utils/image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -52,6 +51,7 @@ class _SearchPageState extends State<SearchPage> {
               onTap: () => Get.back()),
         ),
         title: StandardSearchBarInner(
+          hint: 'search_hint'.tr,
           callback: (text) async {
             if (text.isNotEmpty) {
               input = text;

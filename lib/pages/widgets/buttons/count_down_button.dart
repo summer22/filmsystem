@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'button.dart';
 
 /// *
-/// * author: liuwang
+/// * author: summer
 /// * Date: 2021/6/21
 /// * Describtion: 倒计时按钮
 /// *
@@ -16,15 +16,15 @@ import 'button.dart';
 // ),
 
 class CountDownButton extends StatefulWidget {
-  static const TextStyle defaultDisableTextStyle = TextStyle(fontSize: 13);
+  static const TextStyle defaultDisableTextStyle = TextStyle(fontSize: 14);
   static const TextStyle defaultTextStyle = TextStyle(fontSize: 15);
 
-  CountDownButton({
+  const CountDownButton({
     Key? key,
     required this.onStart,
     this.onFinish,
-    this.text = '获取验证码',
-    this.countDownText = '后\n重新获取',
+    this.text = '',
+    this.countDownText = '',
     this.countDownSecond = 60,
     this.textStyle = defaultTextStyle,
     this.disableTextStyle = defaultDisableTextStyle,
@@ -37,10 +37,10 @@ class CountDownButton extends StatefulWidget {
   final ValueChanged<VoidCallback> onStart;
 
   /// 默认显示文本
-  final String text;
+  final String? text;
 
   /// 倒计时显示文本
-  final String countDownText;
+  final String? countDownText;
 
   /// 文本样式
   final TextStyle textStyle;
@@ -62,6 +62,9 @@ class _CountDownButtonState extends State<CountDownButton> {
   @override
   Widget build(BuildContext context) {
     return Button(
+      radius: 10,
+      backgroundColor: Colors.white24,
+      textColor:  _countdownTime > 0 ? Colors.white70 : Colors.white,
       text: _countdownTime > 0
           ? '$_countdownTime${widget.countDownText}'
           : widget.text,
@@ -82,7 +85,7 @@ class _CountDownButtonState extends State<CountDownButton> {
   void startCountdownTimer() {
     _countdownTime = widget.countDownSecond;
     _timer = Timer.periodic(
-        Duration(seconds: 1),
+        const Duration(seconds: 1),
         (Timer timer) => {
               setState(() {
                 if (_countdownTime < 1) {

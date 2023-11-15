@@ -7,7 +7,7 @@ import 'package:filmsystem/utils/log.dart';
 
 /// @ClassName ApiInterceptors
 /// @Description 全局通信拦截器
-/// @Author liuwang
+/// @Author summer
 /// @Date 2021/11/26 3:42 下午
 /// @Version 1.0.1
 
@@ -39,13 +39,12 @@ class ApiInterceptors {
       if (statusCode == 200) {
         log(res.data);
         BaseModel baseModel = BaseModel.fromJson(res.data);
-        // if (baseModel.code == code_invalid_token) {
-        //
-        //   return handler.next(res); // continue
-        // }
         if (baseModel.code != code_success && request.isIntercept) {
           if (baseModel.message?.isNotEmpty ?? false) {
-            EasyLoading.showToast(baseModel.message ?? '', toastPosition: EasyLoadingToastPosition.bottom);
+            EasyLoading.showToast(baseModel.message ?? '',
+                toastPosition: EasyLoadingToastPosition.bottom);
+            return handler.reject(
+                DioError(response: res, requestOptions: res.requestOptions));
           }
         }
       }

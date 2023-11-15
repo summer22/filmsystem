@@ -13,6 +13,10 @@ const addAssets = 'assets/images/add.png';
 const addedAssets = 'assets/images/added.png';
 const zanAssets = 'assets/images/zan.png';
 const unzanAssets = 'assets/images/unzan.png';
+const searchGlobalAssets = 'assets/images/search_global.png';
+
+
+
 
 
 

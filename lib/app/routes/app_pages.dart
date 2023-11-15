@@ -25,7 +25,7 @@ class AppPages {
           preventDuplicates: true,
           name: _Paths.login,
           page: () => const LoginPage(),
-          transition: Transition.cupertino,
+          // transition: Transition.cupertino,
         ),
         GetPage(
           preventDuplicates: true,

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:filmsystem/app/app_theme.dart';
 import 'package:filmsystem/data/models/home/home_model.dart';
-import 'package:filmsystem/data/models/home/info_model.dart';
 import 'package:filmsystem/data/models/home/lang_model.dart';
 import 'package:filmsystem/data/network/api.dart';
 import 'package:filmsystem/data/network/api_path.dart';
@@ -12,11 +11,11 @@ import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/lang/messages_controller.dart';
 import 'package:filmsystem/pages/detail.dart';
 import 'package:filmsystem/pages/favorite.dart';
+import 'package:filmsystem/pages/help.dart';
 import 'package:filmsystem/pages/login.dart';
 import 'package:filmsystem/pages/news.dart';
 import 'package:filmsystem/pages/search.dart';
 import 'package:filmsystem/pages/subject.dart';
-import 'package:filmsystem/pages/widgets/slide_pop_view.dart';
 import 'package:filmsystem/utils/constant.dart';
 import 'package:filmsystem/utils/image.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +39,7 @@ class _HomePageState extends State<HomePage>
   String type = "0";
 
   late List<LangModel> menuItems;
-  late List<InfoModel> infoItems;
+  late List<String> infoItems;
 
   final box = GetStorage();
 
@@ -57,19 +56,12 @@ class _HomePageState extends State<HomePage>
       LangModel('简体中文', "zh_CN"),
       LangModel('English', "en_US"),
     ];
-
     if (box.read(token) == null) {
-      infoItems = [
-        InfoModel("帮助中心", "help"),
-        InfoModel("立即登录", "login"),
-      ];
+      infoItems = ['help', 'sign_in'];
     } else {
-      infoItems = [
-        InfoModel("账户", "account"),
-        InfoModel("帮助中心", "help"),
-        InfoModel("退出登录", "logout"),
-      ];
+      infoItems = ['account','help','logout'];
     }
+
     super.initState();
 
     selectedModel = menuItems.first;
@@ -83,17 +75,13 @@ class _HomePageState extends State<HomePage>
     });
 
     box.listenKey(token, (value) {
+      type = "0";
+      _onRefresh();
+
       if (value == null) {
-        infoItems = [
-          InfoModel("帮助中心", "help"),
-          InfoModel("立即登录", "login"),
-        ];
+        infoItems = ['help', 'sign_in'];
       } else {
-        infoItems = [
-          InfoModel("账户", "account"),
-          InfoModel("帮助中心", "help"),
-          InfoModel("退出登录", "logout"),
-        ];
+        infoItems = ['account','help','logout'];
       }
     });
 
@@ -128,7 +116,7 @@ class _HomePageState extends State<HomePage>
           builder: (context) => GestureDetector(
             child: const Padding(
               padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.home, color: AppTheme.white),
+              child: Icon(Icons.menu, color: AppTheme.white),
             ),
             onTap: () => Scaffold.of(context).openDrawer(), // 打开抽屉
           ),
@@ -211,10 +199,9 @@ class _HomePageState extends State<HomePage>
               ),
               child: Row(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(right: 10),
-                    child:
-                        Icon(Icons.not_interested_sharp, color: Colors.white70),
+                   Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Image.asset(searchGlobalAssets, color: Colors.white70),
                   ),
                   Text(
                     selectedModel.title,
@@ -252,14 +239,29 @@ class _HomePageState extends State<HomePage>
                           (item) => GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () {
-                              _controller.hideMenu();
+                              _personController.hideMenu();
+                              switch (item) {
+                                case "sign_in":
+                                  Get.to(const LoginPage());
+                                  break;
+                                case "account":
+                                  break;
+                                case "help":
+                                  Get.to(const HelpPage());
+                                  break;
+                                case "logout":
+                                  box.remove(userInfo);
+                                  box.remove(token);
+                                  break;
+                                default:
+                              }
                             },
                             child: Container(
                               alignment: Alignment.center,
                               height: 35,
                               margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                               child: Text(
-                                item.title,
+                                item.tr,
                                 style: const TextStyle(
                                   color: Colors.white70,
                                   fontSize: 12,
@@ -284,60 +286,48 @@ class _HomePageState extends State<HomePage>
         ],
       ),
       drawer: Drawer(
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
         width: 200,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.black87,
+        child: Container(
+          height: Get.height,
+          decoration: const BoxDecoration(
+            color: Colors.white12,
+          ),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: Get.statusBarHeight),
+                height: 190,
+                child: Center(
+                  child: Image.asset(logoAssets),
+                ),
               ),
-              child: Center(
-                child: Image.asset(logoAssets),
-              ),
-            ),
-            DecoratedBox(
-              decoration: const BoxDecoration(
-                color: Colors.black87,
-              ),
-              child: ListTile(
+              ListTile(
                 title: Text(
                   'home'.tr,
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.white70),
                 ),
                 onTap: () {
-                  // type = "0";
-                  // _onRefresh();
-
-                  Navigator.pop(context);
-                  Get.to(MyHomePage());
-                },
-              ),
-            ),
-            DecoratedBox(
-              decoration: const BoxDecoration(
-                color: Colors.black87,
-              ),
-              child: ListTile(
-                title: Text(
-                  'show'.tr,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white70),
-                ),
-                onTap: () {
-                  type = "2";
+                  type = "0";
                   _onRefresh();
                   Navigator.pop(context);
                 },
               ),
+             ListTile(
+            title: Text(
+              'show'.tr,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white70),
             ),
-            DecoratedBox(
-              decoration: const BoxDecoration(
-                color: Colors.black87,
-              ),
-              child: ListTile(
+            onTap: () {
+              type = "2";
+              _onRefresh();
+              Navigator.pop(context);
+            },
+          ),
+              ListTile(
                 title: Text(
                   'movie'.tr,
                   textAlign: TextAlign.center,
@@ -349,12 +339,7 @@ class _HomePageState extends State<HomePage>
                   Navigator.pop(context);
                 },
               ),
-            ),
-            DecoratedBox(
-              decoration: const BoxDecoration(
-                color: Colors.black87,
-              ),
-              child: ListTile(
+              ListTile(
                 title: Text(
                   'hot'.tr,
                   textAlign: TextAlign.center,
@@ -366,12 +351,7 @@ class _HomePageState extends State<HomePage>
                   Navigator.pop(context);
                 },
               ),
-            ),
-            DecoratedBox(
-              decoration: const BoxDecoration(
-                color: Colors.black87,
-              ),
-              child: ListTile(
+              ListTile(
                 title: Text(
                   'favorite'.tr,
                   textAlign: TextAlign.center,
@@ -382,9 +362,10 @@ class _HomePageState extends State<HomePage>
                   Get.to(const FavoritePage());
                 },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+
       ),
       body: _vListView(),
     );
