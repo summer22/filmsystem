@@ -46,8 +46,7 @@ class _VideoPageState extends State<VideoPage> {
     try {
       ApiResponse response = await Api().fire(request);
       videoModel = VideoModel.fromJson(response.data);
-      videoModel?.data?.first?.filmUrl =
-          "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4";
+      videoModel?.data?.first?.filmUrl = "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4";
       initializePlayer();
     } on ApiError catch (e) {
       throw Exception(e.toString());

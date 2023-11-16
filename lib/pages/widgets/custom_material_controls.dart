@@ -263,7 +263,7 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
   }
 
   Widget _buildOptionsButton() {
-    return AnimatedOpacity(
+    return _chewieController?.isFullScreen == true ? const SizedBox() : AnimatedOpacity(
       opacity: notifier.hideStuff ? 0.0 : 1.0,
       duration: const Duration(milliseconds: 250),
       child: IconButton(
