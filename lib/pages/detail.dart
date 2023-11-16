@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:filmsystem/data/models/base_model.dart';
 import 'package:filmsystem/data/models/detail/detail_model.dart';
 import 'package:filmsystem/data/network/api.dart';
 import 'package:filmsystem/data/network/api_path.dart';
@@ -46,13 +45,14 @@ class _DetailPageState extends State<DetailPage> {
     BaseRequest request = BaseRequest();
     request.httpMethod = HttpMethod.post;
     request.isShowLoading = false;
-    request.path = isCollect ? ApiPath.insert : ApiPath.delete;
+    request.path = isCollect ? ApiPath.delete : ApiPath.insert;
     request.add("headNo", headNo);
     try {
-      ApiResponse response = await Api().fire(request);
-      // BaseModel collectModel = BaseModel.fromJson(response.data);
-      recordDetailModel?.data?.isCollect = isCollect;
-      detailModel = Future.value(recordDetailModel);
+      await Api().fire(request);
+      recordDetailModel?.data?.isCollect = !isCollect;
+      setState(() {
+        detailModel = Future.value(recordDetailModel);
+      });
     } on ApiError catch (e) {
       throw Exception(e.toString());
     }
@@ -64,12 +64,13 @@ class _DetailPageState extends State<DetailPage> {
     request.isShowLoading = false;
     request.path = ApiPath.likes;
     request.add("headNo", headNo);
-    request.add("isLike", isLike ? 1 : 0);
+    request.add("isLike", isLike ? 0 : 1);
     try {
-      ApiResponse response = await Api().fire(request);
-      // BaseModel likeModel = BaseModel.fromJson(response.data);
-      recordDetailModel?.data?.isLike = isLike ? 1 : 0;
-      detailModel = Future.value(recordDetailModel);
+      await Api().fire(request);
+      recordDetailModel?.data?.isLike = isLike ? 0 : 1;
+      setState(() {
+        detailModel = Future.value(recordDetailModel);
+      });
     } on ApiError catch (e) {
       throw Exception(e.toString());
     }
@@ -88,7 +89,7 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: Builder(
@@ -150,7 +151,7 @@ class _DetailPageState extends State<DetailPage> {
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: Colors.white60,
-                                      fontSize: 18,
+                                      fontSize: 15,
                                     )),
                               );
                             },
@@ -305,7 +306,7 @@ class _DetailPageState extends State<DetailPage> {
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(
                                             color: Colors.white60,
-                                            fontSize: 18,
+                                            fontSize: 15,
                                           )),
                                     );
                                   },
@@ -416,7 +417,7 @@ class _DetailPageState extends State<DetailPage> {
                               Expanded(
                                 child: Text(
                                   snapshot.data?.data?.cast ?? "",
-                                  maxLines: 1,
+                                  maxLines: 3,
                                   textAlign: TextAlign.end,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
@@ -555,7 +556,7 @@ class _DetailPageState extends State<DetailPage> {
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: Colors.white60,
-                                      fontSize: 18,
+                                      fontSize: 15,
                                     )),
                               );
                             },

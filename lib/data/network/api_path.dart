@@ -1,6 +1,6 @@
 /// @ClassName ApiPath
 /// @Description 接口路径
-/// @Author liuwang
+/// @Author summer
 /// @Date 2021/11/26 3:42 下午
 /// @Version 1.0.1
 
@@ -22,6 +22,7 @@ class ApiPath {
   static const String help = "api/question/list"; //帮助中心
   static const String helpQuery = "api/question/query"; //帮助中心搜索
   static const String avatarList = "api/auth/avatarList"; //头像列表
+  static const String updateUserInfo = "api/user/updateUserInfo"; //更新用户信息
 }
 
 

@@ -5,8 +5,10 @@ import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
+import 'package:filmsystem/pages/login.dart';
 import 'package:filmsystem/pages/widgets/buttons/button.dart';
 import 'package:filmsystem/pages/widgets/buttons/count_down_button.dart';
+import 'package:filmsystem/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -41,6 +43,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   @override
   void initState() {
     super.initState();
+    selectedAvatar = Storage.readUserInfo().data?.avatar ?? "";
     getData();
   }
 
@@ -69,13 +72,32 @@ class _UserInfoPageState extends State<UserInfoPage> {
     }
   }
 
+  void updateInfoData() async {
+    BaseRequest request = BaseRequest();
+    request.httpMethod = HttpMethod.post;
+    request.path = ApiPath.updateUserInfo;
+    request.add("avatar", request.host() + selectedAvatar);
+    request.add("realName", _realNameController.text);
+    request.add("email", _emailController.text);
+    request.add("password", _pwdController.text);
+    request.add("mobile", _mobileController.text);
+    request.add("smsCode", _codeController.text);
+    try {
+      await Api().fire(request);
+      Storage.removeUserInfo();
+     Get.off(const LoginPage());
+    } on ApiError catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
   void getCodeData(VoidCallback codeCallback) async {
     BaseRequest request = BaseRequest();
     request.httpMethod = HttpMethod.post;
     request.path = ApiPath.code;
     request.add("email", _emailController.text);
     try {
-      ApiResponse response = await Api().fire(request);
+      await Api().fire(request);
       codeCallback();
     } on ApiError catch (e) {
       throw Exception(e.toString());
@@ -641,12 +663,21 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Button(text: "清除", backgroundColor: Colors.white, borderWidth: 2, borderColor: Colors.black38,  click: (){
-                          
+                        Button(text: 'update_info_clear'.tr, textColor: Colors.black54, backgroundColor: Colors.white, borderWidth: 2, borderColor: Colors.black38,  click: (){
+                          _mobileController.clear();
+                          _realNameController.clear();
+                          _emailController.clear();
+                          _pwdController.clear();
+                          _codeController.clear();
+                          _showMobileClearButton = false;
+                          _showNameClearButton = false;
+                          _showEmailClearButton = false;
+                          _showPwdClearButton = false;
+                          _showCodeClearButton = false;
                         }),
                         const SizedBox(width: 40,),
-                        Button(text: "提交", textColor: Colors.white, backgroundColor: Colors.black54, click: (){
-
+                        Button(text: 'update_info_submit'.tr, textColor: Colors.white, backgroundColor: Colors.black54, click: (){
+                          updateInfoData();
                         },),
                       ],
                     ),

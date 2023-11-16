@@ -5,7 +5,7 @@ import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
-import 'package:filmsystem/pages/widgets/material_controls.dart';
+import 'package:filmsystem/pages/widgets/custom_material_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
@@ -97,14 +97,15 @@ class _VideoPageState extends State<VideoPage> {
     return Scaffold(
       key: _scaffoldKey, // Assign GlobalKey to the Scaffold
       backgroundColor: Colors.black,
-      // appBar: AppBar(
-      //   title: const Text(""),
-      // ),
       endDrawer: Drawer(
-        backgroundColor: Colors.black38,
+        backgroundColor: Colors.black87,
         width: 220,
-        child: Padding(
+        child: Container(
+          height: Get.height,
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+          decoration: const BoxDecoration(
+            color: Colors.black87,
+          ),
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, // 指定每行的列数
@@ -138,20 +139,20 @@ class _VideoPageState extends State<VideoPage> {
       body: SafeArea(
         child: Center(
           child: _chewieController != null &&
-                  _chewieController!.videoPlayerController.value.isInitialized
+              _chewieController!.videoPlayerController.value.isInitialized
               ? Chewie(
-                  controller: _chewieController!,
-                )
+            controller: _chewieController!,
+          )
               : const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
-                    SizedBox(height: 20),
-                    Text('Loading'),
-                  ],
-                ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(
+                color: Colors.white,
+              ),
+              SizedBox(height: 20),
+              Text('Loading'),
+            ],
+          ),
         ),
       ),
     );

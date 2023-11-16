@@ -7,6 +7,7 @@ import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/pages/widgets/buttons/button.dart';
 import 'package:filmsystem/utils/constant.dart';
+import 'package:filmsystem/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -35,8 +36,6 @@ class _ForgetPageState extends State<ForgetPage> {
   bool _cipherText = true;
   bool _cipherTextTwo = true;
 
-  final box = GetStorage();
-
   @override
   void initState() {
     super.initState();
@@ -60,14 +59,9 @@ class _ForgetPageState extends State<ForgetPage> {
     try {
       ApiResponse response = await Api().fire(request);
       LoginModel loginModel = LoginModel.fromJson(response.data);
-      box.write(token, loginModel.data?.token);
-      box.remove(account);
-      box.remove(pwd);
-      // getUserInfoData();
-      // if (_saveAccount) {
-      //   box.write(account, _controller.text);
-      //   box.write(pwd, _pwdController.text);
-      // }
+      Storage.write(token, loginModel.data?.token);
+      Storage.remove(account);
+      Storage.remove(pwd);
       Get.back();
     } on ApiError catch (e) {
       throw Exception(e.toString());
@@ -84,8 +78,8 @@ class _ForgetPageState extends State<ForgetPage> {
     request.add("password", _pwdController.text);
     try {
       ApiResponse response = await Api().fire(request);
-      box.remove(account);
-      box.remove(pwd);
+      Storage.remove(account);
+      Storage.remove(pwd);
       Get.back();
     } on ApiError catch (e) {
       throw Exception(e.toString());

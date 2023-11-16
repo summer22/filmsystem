@@ -8,9 +8,9 @@ import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/pages/forget.dart';
 import 'package:filmsystem/pages/widgets/buttons/button.dart';
 import 'package:filmsystem/utils/constant.dart';
+import 'package:filmsystem/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,17 +28,15 @@ class _LoginPageState extends State<LoginPage> {
   bool _cipherText = true;
   bool _saveAccount = false;
 
-  final box = GetStorage();
-
   @override
   void initState() {
     super.initState();
     //如果记住账户了 就自动填充
-    if (box.read(account) != null) {
-      _controller.text = box.read(account);
+    if (Storage.read(account) != null) {
+      _controller.text = Storage.read(account);
     }
-    if (box.read(pwd) != null) {
-      _pwdController.text = box.read(pwd);
+    if (Storage.read(pwd) != null) {
+      _pwdController.text = Storage.read(pwd);
     }
   }
 
@@ -58,13 +56,13 @@ class _LoginPageState extends State<LoginPage> {
     try {
       ApiResponse response = await Api().fire(request);
       LoginModel loginModel = LoginModel.fromJson(response.data);
-      box.write(token, loginModel.data?.token);
-      box.remove(account);
-      box.remove(pwd);
+      Storage.write(token, loginModel.data?.token);
+      Storage.remove(account);
+      Storage.remove(pwd);
       getUserInfoData();
       if (_saveAccount) {
-        box.write(account, _controller.text);
-        box.write(pwd, _pwdController.text);
+        Storage.write(account, _controller.text);
+        Storage.write(pwd, _pwdController.text);
       }
       Get.back();
     } on ApiError catch (e) {
@@ -78,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       ApiResponse response = await Api().fire(request);
       UserInfoModel model = UserInfoModel.fromJson(response.data);
-      box.write(userInfo, model.data?.toJson());
+      Storage.write(userInfo, model.data?.toJson());
     } on ApiError catch (e) {
       throw Exception(e.toString());
     }

@@ -1,10 +1,8 @@
 import 'package:filmsystem/pages/favorite.dart';
 import 'package:filmsystem/pages/home.dart';
-import 'package:filmsystem/pages/launch.dart';
 import 'package:filmsystem/pages/login.dart';
 import 'package:filmsystem/pages/news.dart';
 import 'package:filmsystem/pages/video.dart';
-import 'package:filmsystem/pages/widgets/slide_pop_view.dart';
 import 'package:get/get.dart';
 
 part 'app_routes.dart';
@@ -16,7 +14,7 @@ class AppPages {
 
   static final routes = [
     GetPage(
-      name: _Paths.home,//'/',
+      name: '/',
       page: () => const HomePage(),//LaunchPage(),
       participatesInRootNavigator: true,
       preventDuplicates: true,
@@ -45,11 +43,6 @@ class AppPages {
             name: _Paths.video,
             page: () => const VideoPage()
         ),
-        GetPage(
-            name: _Paths.test,
-            page: () =>  MyHomePage()
-        ),
-
       ],
     ),
   ];

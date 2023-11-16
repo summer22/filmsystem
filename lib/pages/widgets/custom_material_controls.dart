@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:chewie/src/center_play_button.dart';
 import 'package:chewie/src/chewie_player.dart';
 import 'package:chewie/src/chewie_progress_colors.dart';
@@ -8,6 +7,8 @@ import 'package:chewie/src/material/material_progress_bar.dart';
 import 'package:chewie/src/material/widgets/playback_speed_dialog.dart';
 import 'package:chewie/src/models/subtitle_model.dart';
 import 'package:chewie/src/notifiers/index.dart';
+import 'package:filmsystem/pages/widgets/speed_list.dart';
+import 'package:filmsystem/pages/widgets/video_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -48,61 +49,17 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
   final barHeight = 48.0 * 1.5;
   final marginSize = 5.0;
 
-  late AnimationController _controller;
-  late Animation<Offset> _offsetAnimation;
+  String selectedSpeed = "1.0";
 
   late VideoPlayerController controller;
   ChewieController? _chewieController;
 
-  // We know that _chewieController is set in didChangeDependencies
   ChewieController get chewieController => _chewieController!;
 
   @override
   void initState() {
     super.initState();
     notifier = Provider.of<PlayerNotifier>(context, listen: false);
-
-    // 创建动画控制器
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-
-    // 创建一个Offset的Tween
-    _offsetAnimation = Tween<Offset>(
-      begin: const Offset(1.0, 0.0),
-      end: Offset.zero,
-    ).animate(_controller);
-
-  }
-
-  // 显示弹框
-  void _showDialog() {
-    showDialog(
-      barrierColor: Colors.transparent,
-      context: context,
-      builder: (context) {
-        return SlideTransition(
-          position: _offsetAnimation,
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: Container(
-              width: 250.0,
-              height: 150.0,
-              color: Colors.white,
-              child: Center(
-                child: Text(
-                  'Slide Dialog',
-                  style: TextStyle(fontSize: 20.0),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-    // 执行弹框动画
-    _controller.forward();
   }
 
   @override
@@ -168,7 +125,6 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
   }
 
   void _dispose() {
-    _controller.dispose();
     controller.removeListener(_updateState);
     _hideTimer?.cancel();
     _initTimer?.cancel();
@@ -264,8 +220,27 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
   Widget _buildActionBar() {
     return GestureDetector(
         onTap: () {
-          // _showDialog();
-          _onSpeedButtonTap();
+          // 弹出带有组合动画的 Dialog
+          showDialog(
+            context: context,
+            builder: (context) {
+              return VideoSetting(speedCallBack: (){
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return SpeedList(callback: (speed){
+                      selectedSpeed = speed;
+                      controller.setPlaybackSpeed(double.parse(selectedSpeed));
+                      if (_latestValue.isPlaying) {
+                        _startHideTimer();
+                      }
+                    }, selectedSpeed: selectedSpeed);
+                  },
+                );
+              },);
+            },
+          );
+          // _onSpeedButtonTap();
         },
         child: AnimatedOpacity(
           opacity: notifier.hideStuff ? 0.0 : 1.0,
@@ -604,7 +579,6 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
   void _onExpandCollapse() {
     setState(() {
       notifier.hideStuff = true;
-
       chewieController.toggleFullScreen();
       _showAfterExpandCollapseTimer =
           Timer(const Duration(milliseconds: 300), () {
@@ -691,7 +665,6 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
           setState(() {
             _dragging = true;
           });
-
           _hideTimer?.cancel();
         },
         onDragUpdate: () {

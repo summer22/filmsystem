@@ -6,7 +6,6 @@ import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/pages/video.dart';
-import 'package:filmsystem/utils/image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -166,7 +165,7 @@ class _SubjectPageState extends State<SubjectPage>
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   color: Colors.white60,
-                                  fontSize: 18,
+                                  fontSize: 15,
                                 )),
                           );
                         },

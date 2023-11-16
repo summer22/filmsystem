@@ -94,7 +94,7 @@ class _FavoritePageState extends State<FavoritePage> {
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         color: Colors.white60,
-                                        fontSize: 18,
+                                        fontSize: 15,
                                       )),
                                 );
                               },

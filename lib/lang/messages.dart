@@ -46,6 +46,9 @@ class Messages extends Translations {
           'update_info_submit': "提交",
           'image_loading_error': " 加载失败",
           'update_info_hint': "不能为空",
+          'download': "下载",
+          'play_speed': "播放速度",
+          'picture_in_picture': "画中画",
         },
         'en_US': {
           'home': 'Home',
@@ -89,6 +92,9 @@ class Messages extends Translations {
           'update_info_submit': "submit",
           'image_loading_error': "FAILED",
           'update_info_hint': "cannot be empty",
+          'download': "download",
+          'play_speed': "play speed",
+          'picture_in_picture': "pip",
         }
       };
 }

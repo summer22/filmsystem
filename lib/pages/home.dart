@@ -19,9 +19,9 @@ import 'package:filmsystem/pages/subject.dart';
 import 'package:filmsystem/pages/userinfo.dart';
 import 'package:filmsystem/utils/constant.dart';
 import 'package:filmsystem/utils/image.dart';
+import 'package:filmsystem/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -42,8 +42,6 @@ class _HomePageState extends State<HomePage>
   late List<LangModel> menuItems;
   late List<String> infoItems;
 
-  final box = GetStorage();
-
   late LangModel selectedModel;
   final CustomPopupMenuController _controller = CustomPopupMenuController();
   final CustomPopupMenuController _personController =
@@ -57,7 +55,7 @@ class _HomePageState extends State<HomePage>
       LangModel('简体中文', "zh_CN"),
       LangModel('English', "en_US"),
     ];
-    if (box.read(token) == null) {
+    if (Storage.read(token) == null) {
       infoItems = ['help', 'sign_in'];
     } else {
       infoItems = ['account','help','logout'];
@@ -66,8 +64,8 @@ class _HomePageState extends State<HomePage>
     super.initState();
 
     selectedModel = menuItems.first;
-    box.write(i18code, selectedModel.code);
-    box.listenKey(i18code, (value) {
+    Storage.write(i18code, selectedModel.code);
+    Storage.box?.listenKey(i18code, (value) {
       if (value == "zh_CN") {
         messagesController.changeLanguage('zh', "CN");
       } else {
@@ -75,7 +73,7 @@ class _HomePageState extends State<HomePage>
       }
     });
 
-    box.listenKey(token, (value) {
+    Storage.box?.listenKey(token, (value) {
       type = "0";
       _onRefresh();
 
@@ -147,7 +145,7 @@ class _HomePageState extends State<HomePage>
                               if (item.code != selectedModel.code) {
                                 setState(() {
                                   selectedModel = item;
-                                  box.write(i18code, selectedModel.code);
+                                  Storage.write(i18code, selectedModel.code);
                                   _onRefresh();
                                 });
                               }
@@ -252,8 +250,7 @@ class _HomePageState extends State<HomePage>
                                   Get.to(const HelpPage());
                                   break;
                                 case "logout":
-                                  box.remove(userInfo);
-                                  box.remove(token);
+                                  Storage.removeUserInfo();
                                   break;
                                 default:
                               }
@@ -280,9 +277,39 @@ class _HomePageState extends State<HomePage>
             pressType: PressType.singleClick,
             verticalMargin: 1,
             controller: _personController,
-            child: const Padding(
-              padding: EdgeInsets.only(right: 15),
-              child: Icon(Icons.person, color: AppTheme.white),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: CachedNetworkImage(
+                width: 30,
+                height: 30,
+                key: ValueKey(Storage.readUserInfo().data?.avatar ?? ""),
+                fit: BoxFit.fitHeight,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    // 设置圆角半径
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) {
+                  return const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                    size: 30,
+                  );
+                },
+                imageUrl: Storage.readUserInfo().data?.avatar ?? "",
+                errorWidget: (context, url, error) {
+                  return const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                    size: 30,
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -446,7 +473,7 @@ class _HomePageState extends State<HomePage>
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.white60,
-                                fontSize: 18,
+                                fontSize: 15,
                               )),
                         );
                       },
