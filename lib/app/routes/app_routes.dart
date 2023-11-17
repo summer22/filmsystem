@@ -13,6 +13,7 @@ abstract class Routes {
   static const detail = _Paths.detail;
   static const video = _Paths.video;
   static const help = _Paths.help;
+  static const test = _Paths.test;
 
   Routes._();
 }
@@ -30,5 +31,6 @@ abstract class _Paths {
   static const detail = '/detail';
   static const video = '/video';
   static const help = '/help';
+  static const test = '/test';
 
 }

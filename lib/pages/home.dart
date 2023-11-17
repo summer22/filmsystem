@@ -17,6 +17,7 @@ import 'package:filmsystem/pages/news.dart';
 import 'package:filmsystem/pages/search.dart';
 import 'package:filmsystem/pages/subject.dart';
 import 'package:filmsystem/pages/userinfo.dart';
+import 'package:filmsystem/pages/widgets/home_section_title.dart';
 import 'package:filmsystem/utils/constant.dart';
 import 'package:filmsystem/utils/image.dart';
 import 'package:filmsystem/utils/storage.dart';
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage>
   late LangModel selectedModel;
   final CustomPopupMenuController _controller = CustomPopupMenuController();
   final CustomPopupMenuController _personController =
-      CustomPopupMenuController();
+  CustomPopupMenuController();
 
   MessagesController messagesController = Get.put(MessagesController());
 
@@ -58,7 +59,7 @@ class _HomePageState extends State<HomePage>
     if (Storage.read(token) == null) {
       infoItems = ['help', 'sign_in'];
     } else {
-      infoItems = ['account','help','logout'];
+      infoItems = ['account', 'help', 'logout'];
     }
 
     super.initState();
@@ -80,7 +81,7 @@ class _HomePageState extends State<HomePage>
       if (value == null) {
         infoItems = ['help', 'sign_in'];
       } else {
-        infoItems = ['account','help','logout'];
+        infoItems = ['account', 'help', 'logout'];
       }
     });
 
@@ -112,13 +113,14 @@ class _HomePageState extends State<HomePage>
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: Builder(
-          builder: (context) => GestureDetector(
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.menu, color: AppTheme.white),
-            ),
-            onTap: () => Scaffold.of(context).openDrawer(), // 打开抽屉
-          ),
+          builder: (context) =>
+              GestureDetector(
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.menu, color: AppTheme.white),
+                ),
+                onTap: () => Scaffold.of(context).openDrawer(), // 打开抽屉
+              ),
         ),
         actions: [
           GestureDetector(
@@ -130,51 +132,54 @@ class _HomePageState extends State<HomePage>
           ),
           CustomPopupMenu(
             arrowColor: Colors.black38,
-            menuBuilder: () => ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Container(
-                color: Colors.black38,
-                child: IntrinsicWidth(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: menuItems
-                        .map(
-                          (item) => GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () {
-                              if (item.code != selectedModel.code) {
-                                setState(() {
-                                  selectedModel = item;
-                                  Storage.write(i18code, selectedModel.code);
-                                  _onRefresh();
-                                });
-                              }
-                              _controller.hideMenu();
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 35,
-                              padding:
+            menuBuilder: () =>
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Container(
+                    color: Colors.black38,
+                    child: IntrinsicWidth(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: menuItems
+                            .map(
+                              (item) =>
+                              GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  if (item.code != selectedModel.code) {
+                                    setState(() {
+                                      selectedModel = item;
+                                      Storage.write(
+                                          i18code, selectedModel.code);
+                                      _onRefresh();
+                                    });
+                                  }
+                                  _controller.hideMenu();
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 35,
+                                  padding:
                                   const EdgeInsets.symmetric(horizontal: 20),
-                              child: Padding(
-                                padding:
+                                  child: Padding(
+                                    padding:
                                     const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  item.title,
-                                  style: const TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 12,
+                                    child: Text(
+                                      item.title,
+                                      style: const TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 12,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
                         )
-                        .toList(),
+                            .toList(),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
             pressType: PressType.singleClick,
             verticalMargin: 1,
             controller: _controller,
@@ -198,9 +203,10 @@ class _HomePageState extends State<HomePage>
               ),
               child: Row(
                 children: [
-                   Padding(
+                  Padding(
                     padding: const EdgeInsets.only(right: 10),
-                    child: Image.asset(searchGlobalAssets, color: Colors.white70),
+                    child:
+                    Image.asset(searchGlobalAssets, color: Colors.white70),
                   ),
                   Text(
                     selectedModel.title,
@@ -226,54 +232,57 @@ class _HomePageState extends State<HomePage>
           ),
           CustomPopupMenu(
             arrowColor: Colors.black38,
-            menuBuilder: () => ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Container(
-                color: Colors.black38,
-                child: IntrinsicWidth(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: infoItems
-                        .map(
-                          (item) => GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () {
-                              _personController.hideMenu();
-                              switch (item) {
-                                case "sign_in":
-                                  Get.to(const LoginPage());
-                                  break;
-                                case "account":
-                                  Get.to(const UserInfoPage());
-                                  break;
-                                case "help":
-                                  Get.to(const HelpPage());
-                                  break;
-                                case "logout":
-                                  Storage.removeUserInfo();
-                                  break;
-                                default:
-                              }
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 35,
-                              margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                              child: Text(
-                                item.tr,
-                                style: const TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 12,
+            menuBuilder: () =>
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Container(
+                    color: Colors.black38,
+                    child: IntrinsicWidth(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: infoItems
+                            .map(
+                              (item) =>
+                              GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  _personController.hideMenu();
+                                  switch (item) {
+                                    case "sign_in":
+                                      Get.to(const LoginPage());
+                                      break;
+                                    case "account":
+                                      Get.to(const UserInfoPage());
+                                      break;
+                                    case "help":
+                                      Get.to(const HelpPage());
+                                      break;
+                                    case "logout":
+                                      Storage.removeUserInfo();
+                                      break;
+                                    default:
+                                  }
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: 35,
+                                  margin: const EdgeInsets.fromLTRB(
+                                      20, 0, 20, 0),
+                                  child: Text(
+                                    item.tr,
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 12,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
                         )
-                        .toList(),
+                            .toList(),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
             pressType: PressType.singleClick,
             verticalMargin: 1,
             controller: _personController,
@@ -282,18 +291,22 @@ class _HomePageState extends State<HomePage>
               child: CachedNetworkImage(
                 width: 30,
                 height: 30,
-                key: ValueKey(Storage.readUserInfo().data?.avatar ?? ""),
+                key: ValueKey(Storage
+                    .readUserInfo()
+                    .data
+                    ?.avatar ?? ""),
                 fit: BoxFit.fitHeight,
-                imageBuilder: (context, imageProvider) => Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    // 设置圆角半径
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
+                imageBuilder: (context, imageProvider) =>
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        // 设置圆角半径
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
                 placeholder: (context, url) {
                   return const Icon(
                     Icons.person,
@@ -301,7 +314,10 @@ class _HomePageState extends State<HomePage>
                     size: 30,
                   );
                 },
-                imageUrl: Storage.readUserInfo().data?.avatar ?? "",
+                imageUrl: Storage
+                    .readUserInfo()
+                    .data
+                    ?.avatar ?? "",
                 errorWidget: (context, url, error) {
                   return const Icon(
                     Icons.person,
@@ -344,18 +360,18 @@ class _HomePageState extends State<HomePage>
                   Navigator.pop(context);
                 },
               ),
-             ListTile(
-            title: Text(
-              'show'.tr,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white70),
-            ),
-            onTap: () {
-              type = "2";
-              _onRefresh();
-              Navigator.pop(context);
-            },
-          ),
+              ListTile(
+                title: Text(
+                  'show'.tr,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white70),
+                ),
+                onTap: () {
+                  type = "2";
+                  _onRefresh();
+                  Navigator.pop(context);
+                },
+              ),
               ListTile(
                 title: Text(
                   'movie'.tr,
@@ -394,7 +410,6 @@ class _HomePageState extends State<HomePage>
             ],
           ),
         ),
-
       ),
       body: _vListView(),
     );
@@ -422,26 +437,15 @@ class _HomePageState extends State<HomePage>
   Widget _hListView(HomeRowModel? model, String? title) {
     return Column(
       children: <Widget>[
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 90,
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.only(left: 10),
-          child: GestureDetector(
-            onTap: () => {
-              Get.to(const SubjectPage(), arguments: {
-                "class": model?.classValue,
-                "type": type,
-                "title": model?.title
-              })
-            },
-            child: Text(title ?? "",
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                )),
-          ),
+        HomeSectionTitle(
+          title: title ?? "",
+          callback: () {
+            Get.to(const SubjectPage(), arguments: {
+              "class": model?.classValue,
+              "type": type,
+              "title": model?.title
+            });
+          },
         ),
         SizedBox(
           height: 200,
@@ -468,7 +472,7 @@ class _HomePageState extends State<HomePage>
                       // },
                       imageUrl: model?.list?[index]?.posterUrl2 ?? '',
                       errorWidget: (context, url, error) {
-                        return  Center(
+                        return Center(
                           child: Text('image_loading_error'.tr,
                               textAlign: TextAlign.center,
                               style: const TextStyle(

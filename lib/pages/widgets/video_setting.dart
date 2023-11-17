@@ -78,16 +78,16 @@ class _VideoSettingState extends State<VideoSetting>
                   color: Colors.white30,
                   child: ListView(
                     children: [
-                      ListTile(
-                        leading: const Icon(Icons.download, color: Colors.white),
-                        title: Text('download'.tr, style: const TextStyle(color: Colors.white, fontSize: 15),),
-                        onTap: () {
-                          if(widget.downloadCallBack != null) {
-                            Navigator.pop(context);
-                            widget.downloadCallBack!();
-                          }
-                        },
-                      ),
+                      // ListTile(
+                      //   leading: const Icon(Icons.download, color: Colors.white),
+                      //   title: Text('download'.tr, style: const TextStyle(color: Colors.white, fontSize: 15),),
+                      //   onTap: () {
+                      //     if(widget.downloadCallBack != null) {
+                      //       Navigator.pop(context);
+                      //       widget.downloadCallBack!();
+                      //     }
+                      //   },
+                      // ),
                       ListTile(
                         leading: const Icon(Icons.speed, color: Colors.white,),
                         title: Text('play_speed'.tr, style: const TextStyle(color: Colors.white, fontSize: 15),),
@@ -96,16 +96,16 @@ class _VideoSettingState extends State<VideoSetting>
                           widget.speedCallBack();
                         },
                       ),
-                      ListTile(
-                        leading: const Icon(Icons.picture_in_picture, color: Colors.white,),
-                        title: Text('picture_in_picture'.tr, style: const TextStyle(color: Colors.white, fontSize: 15),),
-                        onTap: () {
-                          if(widget.pipCallBack != null) {
-                            Navigator.pop(context);
-                            widget.pipCallBack!();
-                          }
-                        },
-                      ),
+                      // ListTile(
+                      //   leading: const Icon(Icons.picture_in_picture, color: Colors.white,),
+                      //   title: Text('picture_in_picture'.tr, style: const TextStyle(color: Colors.white, fontSize: 15),),
+                      //   onTap: () {
+                      //     if(widget.pipCallBack != null) {
+                      //       Navigator.pop(context);
+                      //       widget.pipCallBack!();
+                      //     }
+                      //   },
+                      // ),
                     ],
                   ),
                 ),
