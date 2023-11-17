@@ -6,7 +6,7 @@
 ///
 
 //网络异常提示
-const String networkException = '哇哦，网络离家出走了~';
+const String networkException = 'Network Exception';
 
 //TODO: - 根据业务情况和后台协定状态码
 const int code_success = 0; //成功

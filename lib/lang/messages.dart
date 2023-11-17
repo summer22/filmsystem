@@ -49,6 +49,7 @@ class Messages extends Translations {
           'download': "下载",
           'play_speed': "播放速度",
           'picture_in_picture': "画中画",
+          'net_error': "哇哦，网络离家出走了~",
         },
         'en_US': {
           'home': 'Home',
@@ -95,6 +96,8 @@ class Messages extends Translations {
           'download': "download",
           'play_speed': "play speed",
           'picture_in_picture': "pip",
+          'net_error': "Network Exception",
+
         }
       };
 }

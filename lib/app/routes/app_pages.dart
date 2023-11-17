@@ -1,7 +1,12 @@
+import 'package:filmsystem/pages/detail.dart';
 import 'package:filmsystem/pages/favorite.dart';
+import 'package:filmsystem/pages/forget.dart';
+import 'package:filmsystem/pages/help.dart';
 import 'package:filmsystem/pages/home.dart';
 import 'package:filmsystem/pages/login.dart';
 import 'package:filmsystem/pages/news.dart';
+import 'package:filmsystem/pages/search.dart';
+import 'package:filmsystem/pages/subject.dart';
 import 'package:filmsystem/pages/video.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +20,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: '/',
-      page: () => const HomePage(),//LaunchPage(),
+      page: () => const HomePage(),
       participatesInRootNavigator: true,
       preventDuplicates: true,
       children: [
@@ -42,6 +47,26 @@ class AppPages {
         GetPage(
             name: _Paths.video,
             page: () => const VideoPage()
+        ),
+        GetPage(
+            name: _Paths.forget,
+            page: () => const ForgetPage()
+        ),
+        GetPage(
+            name: _Paths.search,
+            page: () => const SearchPage()
+        ),
+        GetPage(
+            name: _Paths.subject,
+            page: () => const SubjectPage()
+        ),
+        GetPage(
+            name: _Paths.detail,
+            page: () => const DetailPage()
+        ),
+        GetPage(
+            name: _Paths.help,
+            page: () => const HelpPage()
         ),
       ],
     ),
