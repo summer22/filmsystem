@@ -2,6 +2,7 @@ part of 'app_pages.dart';
 
 abstract class Routes {
 
+  static const test = _Paths.test;
   static const launch = _Paths.launch;
   static const home = _Paths.home;
   static const favorite = _Paths.favorite;
@@ -13,13 +14,15 @@ abstract class Routes {
   static const detail = _Paths.detail;
   static const video = _Paths.video;
   static const help = _Paths.help;
-  static const test = _Paths.test;
+  static const webView = _Paths.webView;
 
   Routes._();
+
 }
 
 abstract class _Paths {
 
+  static const test = '/test';
   static const launch = '/launch';
   static const home = '/home';
   static const favorite = '/favorite';
@@ -31,6 +34,6 @@ abstract class _Paths {
   static const detail = '/detail';
   static const video = '/video';
   static const help = '/help';
-  static const test = '/test';
+  static const webView = '/webView';
 
 }

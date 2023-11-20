@@ -58,7 +58,7 @@ dependencies:
   #提示和loading组件
   flutter_easyloading: ^3.0.3
   #权限申请
-  permission_handler: ^9.2.0
+#  permission_handler: ^9.2.0
   #路由
   get: ^4.6.6
   #菜单弹框
@@ -70,7 +70,7 @@ dependencies:
   video_player: ^2.8.1
 #  better_player: ^0.0.83
   #webview
-#  flutter_inappwebview: ^5.8.0
+  flutter_inappwebview: ^5.8.0
   #json <=> model 转换
 #  json_annotation: ^4.6.0
 

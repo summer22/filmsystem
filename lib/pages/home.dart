@@ -17,7 +17,7 @@ import 'package:filmsystem/pages/news.dart';
 import 'package:filmsystem/pages/search.dart';
 import 'package:filmsystem/pages/subject.dart';
 import 'package:filmsystem/pages/userinfo.dart';
-import 'package:filmsystem/pages/widgets/home_section_title.dart';
+import 'package:filmsystem/pages/widgets/video/home_section_title.dart';
 import 'package:filmsystem/utils/constant.dart';
 import 'package:filmsystem/utils/image.dart';
 import 'package:filmsystem/utils/storage.dart';

@@ -6,6 +6,7 @@ import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/pages/video.dart';
+import 'package:filmsystem/pages/webiew.dart';
 import 'package:filmsystem/utils/image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -189,23 +190,25 @@ class _DetailPageState extends State<DetailPage> {
                                   Row(
                                     children: [
                                       SizedBox(
-                                        width: 85,
-                                        height: 45,
+                                        width: 75,
+                                        height: 35,
                                         child: Button(
                                           text: "播放",
                                           textColor: Colors.white,
                                           backgroundColor: Colors.red,
                                           radius: 5,
                                           textStyle: const TextStyle(
-                                              fontSize: 18),
+                                              fontSize: 13),
                                           click: () =>
                                           {
                                             //播放
-                                            Get.to(
-                                                const VideoPage(), arguments: {
-                                              "headNo": snapshot.data?.data
-                                                  ?.headNo
-                                            })
+                                            // Get.to(
+                                            //     const VideoPage(), arguments: {
+                                            //   "headNo": snapshot.data?.data
+                                            //       ?.headNo
+                                            // })
+
+                                            Get.to(const WebViewScreen())
                                           },
                                         ),
                                       ),
@@ -217,8 +220,8 @@ class _DetailPageState extends State<DetailPage> {
                                           padding: const EdgeInsets.only(
                                               left: 5, right: 5),
                                           child: SizedBox(
-                                            width: 50,
-                                            height: 50,
+                                            width: 40,
+                                            height: 40,
                                             child: Image.asset(
                                               snapshot.data?.data?.isCollect ??
                                                   false
@@ -235,8 +238,8 @@ class _DetailPageState extends State<DetailPage> {
                                           _getLikesData(isLike: snapshot.data?.data?.isLike == 1);
                                         },
                                         child: SizedBox(
-                                          width: 50,
-                                          height: 50,
+                                          width: 40,
+                                          height: 40,
                                           child: Image.asset(
                                             snapshot.data?.data?.isLike == 0
                                                 ? unzanAssets

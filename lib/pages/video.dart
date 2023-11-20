@@ -5,7 +5,7 @@ import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
-import 'package:filmsystem/pages/widgets/custom_material_controls.dart';
+import 'package:filmsystem/pages/widgets/video/custom_material_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';

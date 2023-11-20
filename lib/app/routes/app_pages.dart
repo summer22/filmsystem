@@ -8,6 +8,7 @@ import 'package:filmsystem/pages/news.dart';
 import 'package:filmsystem/pages/search.dart';
 import 'package:filmsystem/pages/subject.dart';
 import 'package:filmsystem/pages/video.dart';
+import 'package:filmsystem/pages/webiew.dart';
 import 'package:get/get.dart';
 
 part 'app_routes.dart';
@@ -67,6 +68,10 @@ class AppPages {
         GetPage(
             name: _Paths.help,
             page: () => const HelpPage()
+        ),
+        GetPage(
+            name: _Paths.webView,
+            page: () =>  const WebViewScreen()
         ),
       ],
     ),
