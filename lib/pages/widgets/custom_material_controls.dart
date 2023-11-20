@@ -224,20 +224,27 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
           showDialog(
             context: context,
             builder: (context) {
-              return VideoSetting(speedCallBack: (){
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return SpeedList(callback: (speed){
-                      selectedSpeed = speed;
-                      controller.setPlaybackSpeed(double.parse(selectedSpeed));
-                      if (_latestValue.isPlaying) {
-                        _startHideTimer();
-                      }
-                    }, selectedSpeed: selectedSpeed);
-                  },
-                );
-              },);
+              return SpeedList(callback: (speed){
+                selectedSpeed = speed;
+                controller.setPlaybackSpeed(double.parse(selectedSpeed));
+                if (_latestValue.isPlaying) {
+                  _startHideTimer();
+                }
+              }, selectedSpeed: selectedSpeed);
+              // return VideoSetting(speedCallBack: (){
+              //   showDialog(
+              //     context: context,
+              //     builder: (context) {
+              //       return SpeedList(callback: (speed){
+              //         selectedSpeed = speed;
+              //         controller.setPlaybackSpeed(double.parse(selectedSpeed));
+              //         if (_latestValue.isPlaying) {
+              //           _startHideTimer();
+              //         }
+              //       }, selectedSpeed: selectedSpeed);
+              //     },
+              //   );
+              // },);
             },
           );
           // _onSpeedButtonTap();
