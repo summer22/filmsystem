@@ -15,6 +15,7 @@ abstract class Routes {
   static const video = _Paths.video;
   static const help = _Paths.help;
   static const webView = _Paths.webView;
+  static const download = _Paths.download;
 
   Routes._();
 
@@ -35,5 +36,6 @@ abstract class _Paths {
   static const video = '/video';
   static const help = '/help';
   static const webView = '/webView';
+  static const download = '/download';
 
 }

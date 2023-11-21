@@ -41,7 +41,6 @@ class _DetailPageState extends State<DetailPage> {
     }
   }
 
-
   void _getCollectData({bool isCollect = true}) async {
     BaseRequest request = BaseRequest();
     request.httpMethod = HttpMethod.post;
@@ -94,13 +93,12 @@ class _DetailPageState extends State<DetailPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: Builder(
-          builder: (context) =>
-              GestureDetector(
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(Icons.arrow_back_ios_new, color: Colors.white),
-                  ),
-                  onTap: () => Get.back()),
+          builder: (context) => GestureDetector(
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+              ),
+              onTap: () => Get.back()),
         ),
         title: Text(
           title,
@@ -127,366 +125,357 @@ class _DetailPageState extends State<DetailPage> {
           if (snapshot.hasData) {
             return SliverList(
                 delegate: SliverChildListDelegate(<Widget>[
-                  Container(
-                    padding:
+              Container(
+                padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    height: 150,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          right: 0,
+                height: 150,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      right: 0,
+                      height: 150,
+                      child: CachedNetworkImage(
+                        key: ValueKey(snapshot.data?.data?.posterUrl ?? ""),
+                        fit: BoxFit.fitHeight,
+                        // placeholder: (context, url) {
+                        //   return Image.asset(
+                        //     defaultAssets,
+                        //     fit: BoxFit.cover,
+                        //   );
+                        // },
+                        imageUrl: snapshot.data?.data?.posterUrl ?? "",
+                        errorWidget: (context, url, error) {
+                          return Center(
+                            child: Text('image_loading_error'.tr,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.white60,
+                                  fontSize: 15,
+                                )),
+                          );
+                        },
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      child: Container(
                           height: 150,
-                          child: CachedNetworkImage(
-                            key: ValueKey(snapshot.data?.data?.posterUrl ?? ""),
-                            fit: BoxFit.fitHeight,
-                            // placeholder: (context, url) {
-                            //   return Image.asset(
-                            //     defaultAssets,
-                            //     fit: BoxFit.cover,
-                            //   );
-                            // },
-                            imageUrl: snapshot.data?.data?.posterUrl ?? "",
-                            errorWidget: (context, url, error) {
-                              return  Center(
-                                child: Text('image_loading_error'.tr,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Colors.white60,
-                                      fontSize: 15,
-                                    )),
-                              );
-                            },
+                          decoration: const BoxDecoration(
+                            color: Colors.black87,
+                            gradient: LinearGradient(
+                              stops: [0.6, 0.9],
+                              colors: [Colors.black87, Colors.transparent],
+                            ),
                           ),
-                        ),
-                        Positioned(
-                          left: 0,
-                          top: 0,
-                          child: Container(
-                              height: 150,
-                              decoration: const BoxDecoration(
-                                color: Colors.black87,
-                                gradient: LinearGradient(
-                                  stops: [0.6, 0.9],
-                                  colors: [Colors.black87, Colors.transparent],
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                snapshot.data?.data?.videoName ?? "",
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 24),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5, bottom: 10),
+                                child: Text(
+                                  _subtitle(snapshot.data),
+                                  style: const TextStyle(
+                                      color: Colors.white60, fontSize: 16),
                                 ),
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
                                 children: [
-                                  Text(
-                                    snapshot.data?.data?.videoName ?? "",
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 24),
-                                  ),
-                                  Padding(
-                                    padding:
-                                    const EdgeInsets.only(top: 5, bottom: 10),
-                                    child: Text(
-                                      _subtitle(snapshot.data),
-                                      style: const TextStyle(
-                                          color: Colors.white60, fontSize: 16),
+                                  SizedBox(
+                                    width: 75,
+                                    height: 35,
+                                    child: Button(
+                                      text: "播放",
+                                      textColor: Colors.white,
+                                      backgroundColor: Colors.red,
+                                      radius: 5,
+                                      textStyle: const TextStyle(fontSize: 13),
+                                      click: () => {
+                                        //播放
+                                        Get.to(() => const VideoPage(),
+                                            arguments: {
+                                              "headNo":
+                                                  snapshot.data?.data?.headNo
+                                            })
+                                        // Get.to(() => const WebViewScreen())
+                                      },
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 75,
-                                        height: 35,
-                                        child: Button(
-                                          text: "播放",
-                                          textColor: Colors.white,
-                                          backgroundColor: Colors.red,
-                                          radius: 5,
-                                          textStyle: const TextStyle(
-                                              fontSize: 13),
-                                          click: () =>
-                                          {
-                                            //播放
-                                            // Get.to(
-                                            //     const VideoPage(), arguments: {
-                                            //   "headNo": snapshot.data?.data
-                                            //       ?.headNo
-                                            // })
-
-                                            Get.to(const WebViewScreen())
-                                          },
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: (){
-                                          _getCollectData(isCollect: snapshot.data?.data?.isCollect == true);
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 5, right: 5),
-                                          child: SizedBox(
-                                            width: 40,
-                                            height: 40,
-                                            child: Image.asset(
-                                              snapshot.data?.data?.isCollect ??
+                                  GestureDetector(
+                                    onTap: () {
+                                      _getCollectData(
+                                          isCollect:
+                                              snapshot.data?.data?.isCollect ==
+                                                  true);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 5, right: 5),
+                                      child: SizedBox(
+                                        width: 40,
+                                        height: 40,
+                                        child: Image.asset(
+                                          snapshot.data?.data?.isCollect ??
                                                   false
-                                                  ? addedAssets
-                                                  : addAssets,
-                                              fit: BoxFit.fitHeight,
-                                              color: Colors.white70,
-                                            ),
-                                          ),
+                                              ? addedAssets
+                                              : addAssets,
+                                          fit: BoxFit.fitHeight,
+                                          color: Colors.white70,
                                         ),
                                       ),
-                                      GestureDetector(
-                                        onTap: (){
-                                          _getLikesData(isLike: snapshot.data?.data?.isLike == 1);
-                                        },
-                                        child: SizedBox(
-                                          width: 40,
-                                          height: 40,
-                                          child: Image.asset(
-                                            snapshot.data?.data?.isLike == 0
-                                                ? unzanAssets
-                                                : zanAssets,
-                                            fit: BoxFit.fitHeight,
-                                            color: Colors.white70,
-                                          ),
-                                        ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      _getLikesData(
+                                          isLike:
+                                              snapshot.data?.data?.isLike == 1);
+                                    },
+                                    child: SizedBox(
+                                      width: 40,
+                                      height: 40,
+                                      child: Image.asset(
+                                        snapshot.data?.data?.isLike == 0
+                                            ? unzanAssets
+                                            : zanAssets,
+                                        fit: BoxFit.fitHeight,
+                                        color: Colors.white70,
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ],
-                              )),
-                        ),
-                      ],
+                              ),
+                            ],
+                          )),
                     ),
-                  ),
-                  Padding(
-                    padding:
+                  ],
+                ),
+              ),
+              Padding(
+                padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-                    child: Text(
-                      snapshot.data?.data?.intro ?? "",
-                      maxLines: 7,
+                child: Text(
+                  snapshot.data?.data?.intro ?? "",
+                  maxLines: 7,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: Colors.white70, fontSize: 18),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      snapshot.data?.data?.videoName ?? "",
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: Colors.white70, fontSize: 18),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          snapshot.data?.data?.videoName ?? "",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style:
+                      style:
                           const TextStyle(color: Colors.white70, fontSize: 24),
-                        ),
-                        GestureDetector(
-                          child: Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.only(
-                                    top: 10, right: 20),
-                                width: 120,
-                                height: 80,
-                                child: CachedNetworkImage(
-                                  key: ValueKey(snapshot
-                                      .data?.data?.dramaList?.first?.dramaUrl ??
-                                      ""),
-                                  fit: BoxFit.fitHeight,
-                                  // placeholder: (context, url) {
-                                  //   return Image.asset(
-                                  //     defaultAssets,
-                                  //     fit: BoxFit.cover,
-                                  //   );
-                                  // },
-                                  imageUrl: snapshot
-                                      .data?.data?.dramaList?.first?.dramaUrl ??
-                                      "",
-                                  errorWidget: (context, url, error) {
-                                    return  Center(
-                                      child: Text('image_loading_error'.tr,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            color: Colors.white60,
-                                            fontSize: 15,
-                                          )),
-                                    );
-                                  },
-                                ),
-                              ),
-                              Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            snapshot.data?.data?.dramaList
-                                                ?.first
-                                                ?.dramaTitle ??
-                                                "",
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                                color: Colors.white70,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                            snapshot.data?.data?.duration ?? "",
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                                color: Colors.white70,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        snapshot.data?.data?.dramaList?.first
-                                            ?.intro ??
-                                            "",
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 15),
-                                      ),
-                                    ],
-                                  )),
-                            ],
-                          ),
-                          onTap: () =>
-                          {
-                            //播放
-                            Get.to(
-                                const VideoPage(), arguments: {
-                              "headNo": snapshot.data?.data
-                                  ?.headNo
-                            })
-                          },
-                        )
-                      ],
                     ),
-                  ),
-                  Padding(
-                    padding:
+                    GestureDetector(
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(top: 10, right: 20),
+                            width: 120,
+                            height: 80,
+                            child: CachedNetworkImage(
+                              key: ValueKey(snapshot
+                                      .data?.data?.dramaList?.first?.dramaUrl ??
+                                  ""),
+                              fit: BoxFit.fitHeight,
+                              // placeholder: (context, url) {
+                              //   return Image.asset(
+                              //     defaultAssets,
+                              //     fit: BoxFit.cover,
+                              //   );
+                              // },
+                              imageUrl: snapshot
+                                      .data?.data?.dramaList?.first?.dramaUrl ??
+                                  "",
+                              errorWidget: (context, url, error) {
+                                return Center(
+                                  child: Text('image_loading_error'.tr,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        color: Colors.white60,
+                                        fontSize: 15,
+                                      )),
+                                );
+                              },
+                            ),
+                          ),
+                          Expanded(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    snapshot.data?.data?.dramaList?.first
+                                            ?.dramaTitle ??
+                                        "",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    snapshot.data?.data?.duration ?? "",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                snapshot.data?.data?.dramaList?.first?.intro ??
+                                    "",
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    color: Colors.white70, fontSize: 15),
+                              ),
+                            ],
+                          )),
+                        ],
+                      ),
+                      onTap: () => {
+                        //播放
+                        Get.to(() => const VideoPage(),
+                            arguments: {"headNo": snapshot.data?.data?.headNo})
+                      },
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "影片详情",
-                          style: TextStyle(color: Colors.white70, fontSize: 24),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "导演",
-                                style:
-                                TextStyle(color: Colors.white70, fontSize: 15),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  snapshot.data?.data?.director ?? "",
-                                  maxLines: 1,
-                                  textAlign: TextAlign.end,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "主演",
-                                style:
-                                TextStyle(color: Colors.white70, fontSize: 15),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  snapshot.data?.data?.cast ?? "",
-                                  maxLines: 3,
-                                  textAlign: TextAlign.end,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "标签",
-                                style:
-                                TextStyle(color: Colors.white70, fontSize: 15),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  snapshot.data?.data?.videoTag?.join(",") ??
-                                      "",
-                                  maxLines: 1,
-                                  textAlign: TextAlign.end,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "类型",
-                                style:
-                                TextStyle(color: Colors.white70, fontSize: 15),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  snapshot.data?.data?.videoType ?? "",
-                                  maxLines: 1,
-                                  textAlign: TextAlign.end,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "影片详情",
+                      style: TextStyle(color: Colors.white70, fontSize: 24),
                     ),
-                  ),
-                  _similarTitleView(snapshot.data)
-                ]));
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "导演",
+                            style:
+                                TextStyle(color: Colors.white70, fontSize: 15),
+                          ),
+                          Expanded(
+                            child: Text(
+                              snapshot.data?.data?.director ?? "",
+                              maxLines: 1,
+                              textAlign: TextAlign.end,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 15),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "主演",
+                            style:
+                                TextStyle(color: Colors.white70, fontSize: 15),
+                          ),
+                          Expanded(
+                            child: Text(
+                              snapshot.data?.data?.cast ?? "",
+                              maxLines: 3,
+                              textAlign: TextAlign.end,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 15),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "标签",
+                            style:
+                                TextStyle(color: Colors.white70, fontSize: 15),
+                          ),
+                          Expanded(
+                            child: Text(
+                              snapshot.data?.data?.videoTag?.join(",") ?? "",
+                              maxLines: 1,
+                              textAlign: TextAlign.end,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 15),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "类型",
+                            style:
+                                TextStyle(color: Colors.white70, fontSize: 15),
+                          ),
+                          Expanded(
+                            child: Text(
+                              snapshot.data?.data?.videoType ?? "",
+                              maxLines: 1,
+                              textAlign: TextAlign.end,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 15),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              _similarTitleView(snapshot.data)
+            ]));
           } else {
             return SliverList(
                 delegate: SliverChildListDelegate(<Widget>[
-                  // const SizedBox(),
-                ]));
+              // const SizedBox(),
+            ]));
           }
         });
   }
@@ -509,11 +498,8 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   String _subtitle(DetailModel? model) {
-    String year = model?.data?.videoDate
-        ?.split("-")
-        .first ?? "";
-    return "$year ${model?.data?.maturity ?? ""} 共 ${model?.data?.setsNumber ??
-        1} 集";
+    String year = model?.data?.videoDate?.split("-").first ?? "";
+    return "$year ${model?.data?.maturity ?? ""} 共 ${model?.data?.setsNumber ?? 1} 集";
   }
 
   Widget _gridView() {
@@ -530,7 +516,7 @@ class _DetailPageState extends State<DetailPage> {
                     crossAxisSpacing: 10,
                     childAspectRatio: 2),
                 delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
+                  (BuildContext context, int index) {
                     return Container(
                       decoration: const BoxDecoration(
                         color: Colors.white10,
@@ -541,7 +527,7 @@ class _DetailPageState extends State<DetailPage> {
                         child: InkWell(
                           child: CachedNetworkImage(
                             key: ValueKey(snapshot.data?.data
-                                ?.similarList?[index]?.posterUrl1 ??
+                                    ?.similarList?[index]?.posterUrl1 ??
                                 ''),
                             fit: BoxFit.fitHeight,
                             // placeholder: (context, url) {
@@ -551,10 +537,10 @@ class _DetailPageState extends State<DetailPage> {
                             //   );
                             // },
                             imageUrl: snapshot.data?.data?.similarList?[index]
-                                ?.posterUrl1 ??
+                                    ?.posterUrl1 ??
                                 '',
                             errorWidget: (context, url, error) {
-                              return  Center(
+                              return Center(
                                 child: Text('image_loading_error'.tr,
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
@@ -566,9 +552,10 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                           onTap: () {
                             //播放
-                            Get.to(
-                                const VideoPage(), arguments: {
-                              "headNo": snapshot.data?.data?.similarList?[index]?.headNo ?? ""
+                            Get.to(() => const VideoPage(), arguments: {
+                              "headNo": snapshot.data?.data?.similarList?[index]
+                                      ?.headNo ??
+                                  ""
                             });
                           },
                         ),
@@ -581,8 +568,8 @@ class _DetailPageState extends State<DetailPage> {
         } else {
           return SliverList(
               delegate: SliverChildListDelegate(<Widget>[
-                const SizedBox(),
-              ]));
+            const SizedBox(),
+          ]));
         }
       },
     );

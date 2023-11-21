@@ -1,4 +1,5 @@
 import 'package:filmsystem/pages/detail.dart';
+import 'package:filmsystem/pages/download.dart';
 import 'package:filmsystem/pages/favorite.dart';
 import 'package:filmsystem/pages/forget.dart';
 import 'package:filmsystem/pages/help.dart';
@@ -72,6 +73,10 @@ class AppPages {
         GetPage(
             name: _Paths.webView,
             page: () =>  const WebViewScreen()
+        ),
+        GetPage(
+            name: _Paths.download,
+            page: () =>  const DownloadPage()
         ),
       ],
     ),

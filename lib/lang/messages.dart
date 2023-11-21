@@ -50,7 +50,8 @@ class Messages extends Translations {
           'play_speed': "播放速度",
           'picture_in_picture': "画中画",
           'net_error': "哇哦，网络离家出走了~",
-          'home_section_title': "浏览全部"
+          'home_section_title': "浏览全部",
+          'my_download': "我的下载"
         },
         'en_US': {
           'home': 'Home',
@@ -98,7 +99,8 @@ class Messages extends Translations {
           'play_speed': "play speed",
           'picture_in_picture': "pip",
           'net_error': "Network Exception",
-          'home_section_title': "Browse all"
+          'home_section_title': "Browse all",
+          'my_download': "My Download"
         }
       };
 }

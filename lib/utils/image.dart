@@ -6,7 +6,6 @@
 
 const launchAssets = 'assets/images/launch.png';
 const logoAssets = 'assets/images/logo.png';
-const msgAssets = 'assets/images/msg.png';
 const searchAssets = 'assets/images/search.png';
 const defaultAssets = 'assets/images/default.png';
 const addAssets = 'assets/images/add.png';

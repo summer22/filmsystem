@@ -78,16 +78,16 @@ class _VideoSettingState extends State<VideoSetting>
                   color: Colors.white30,
                   child: ListView(
                     children: [
-                      // ListTile(
-                      //   leading: const Icon(Icons.download, color: Colors.white),
-                      //   title: Text('download'.tr, style: const TextStyle(color: Colors.white, fontSize: 15),),
-                      //   onTap: () {
-                      //     if(widget.downloadCallBack != null) {
-                      //       Navigator.pop(context);
-                      //       widget.downloadCallBack!();
-                      //     }
-                      //   },
-                      // ),
+                      ListTile(
+                        leading: const Icon(Icons.download, color: Colors.white),
+                        title: Text('download'.tr, style: const TextStyle(color: Colors.white, fontSize: 15),),
+                        onTap: () {
+                          if(widget.downloadCallBack != null) {
+                            Navigator.pop(context);
+                            widget.downloadCallBack!();
+                          }
+                        },
+                      ),
                       ListTile(
                         leading: const Icon(Icons.speed, color: Colors.white,),
                         title: Text('play_speed'.tr, style: const TextStyle(color: Colors.white, fontSize: 15),),

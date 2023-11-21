@@ -10,6 +10,7 @@ import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/lang/messages_controller.dart';
 import 'package:filmsystem/pages/detail.dart';
+import 'package:filmsystem/pages/download.dart';
 import 'package:filmsystem/pages/favorite.dart';
 import 'package:filmsystem/pages/help.dart';
 import 'package:filmsystem/pages/login.dart';
@@ -128,7 +129,9 @@ class _HomePageState extends State<HomePage>
               padding: EdgeInsets.only(right: 35),
               child: Icon(Icons.search_rounded, color: AppTheme.white),
             ),
-            onTap: () => {Get.to(const SearchPage())},
+            onTap: () => {
+              Get.to(() => const SearchPage())
+            },
           ),
           CustomPopupMenu(
             arrowColor: Colors.black38,
@@ -249,13 +252,13 @@ class _HomePageState extends State<HomePage>
                                   _personController.hideMenu();
                                   switch (item) {
                                     case "sign_in":
-                                      Get.to(const LoginPage());
+                                      Get.to(() => const LoginPage());
                                       break;
                                     case "account":
-                                      Get.to(const UserInfoPage());
+                                      Get.to(() => const UserInfoPage());
                                       break;
                                     case "help":
-                                      Get.to(const HelpPage());
+                                      Get.to(() => const HelpPage());
                                       break;
                                     case "logout":
                                       Storage.removeUserInfo();
@@ -404,7 +407,18 @@ class _HomePageState extends State<HomePage>
                 ),
                 onTap: () {
                   Navigator.pop(context);
-                  Get.to(const FavoritePage());
+                  Get.to(() => const FavoritePage());
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'my_download'.tr,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white70),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Get.to(() => const DownloadPage());
                 },
               ),
             ],
@@ -440,10 +454,10 @@ class _HomePageState extends State<HomePage>
         HomeSectionTitle(
           title: title ?? "",
           callback: () {
-            Get.to(const SubjectPage(), arguments: {
-              "class": model?.classValue,
-              "type": type,
-              "title": model?.title
+            Get.to(() => const SubjectPage(), arguments: {
+            "class": model?.classValue,
+            "type": type,
+            "title": model?.title
             });
           },
         ),
@@ -483,7 +497,7 @@ class _HomePageState extends State<HomePage>
                       },
                     ),
                     onTap: () {
-                      Get.to(const DetailPage(), arguments: {
+                      Get.to(() => const DetailPage(), arguments: {
                         "title": model?.list?[index]?.videoName,
                         "headNo": model?.list?[index]?.headNo
                       });

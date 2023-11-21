@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:chewie/chewie.dart';
+import 'package:filmsystem/data/dao/download/download_dao.dart';
+import 'package:filmsystem/data/dao/download/download_info_model.dart';
 import 'package:filmsystem/data/models/video/video_model.dart';
 import 'package:filmsystem/data/network/api.dart';
 import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
+import 'package:filmsystem/data/network/video_downloader.dart';
 import 'package:filmsystem/pages/widgets/video/custom_material_controls.dart';
+import 'package:filmsystem/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
@@ -23,6 +29,7 @@ class _VideoPageState extends State<VideoPage> {
   late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final VideoDownloader downloader = VideoDownloader();
 
   @override
   void initState() {
@@ -54,8 +61,9 @@ class _VideoPageState extends State<VideoPage> {
   }
 
   Future<void> initializePlayer() async {
-    _videoPlayerController = VideoPlayerController.networkUrl(
-        Uri.parse(videoModel?.data?.first?.filmUrl ?? ""));
+    // List<DownloadInfoModel> list = await DownloadDao.searchDatas();
+    // _videoPlayerController = VideoPlayerController.file(File(list.first.filePath ?? ""));
+    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoModel?.data?.first?.filmUrl ?? ""));
     await Future.wait([
       _videoPlayerController.initialize(),
     ]);
@@ -73,6 +81,25 @@ class _VideoPageState extends State<VideoPage> {
       customControls: CustomMaterialControls(
         callback: () {
           _scaffoldKey.currentState?.openEndDrawer();
+        },
+        downloadCallBack: () {
+          String email = Storage.readUserInfo().data?.email ?? "";
+          DownloadInfoModel model = DownloadInfoModel(
+            id:videoModel?.data?.first?.id,
+            email: email,
+            headNo:videoModel?.data?.first?.headNo,
+            dramaNumber:videoModel?.data?.first?.dramaNumber,
+            dramaUrl:videoModel?.data?.first?.dramaUrl,
+            dramaUrl1:videoModel?.data?.first?.dramaUrl1,
+            dramaUrl2:videoModel?.data?.first?.dramaUrl2,
+            dramaTitle:videoModel?.data?.first?.dramaTitle,
+            intro:videoModel?.data?.first?.intro,
+            filmUrl:videoModel?.data?.first?.filmUrl,
+            duration:videoModel?.data?.first?.duration,
+            createDate:videoModel?.data?.first?.createDate,
+            updateDate:videoModel?.data?.first?.updateDate,
+          );
+          downloader.downloadVideo(model);
         },
       ),
       hideControlsTimer: const Duration(seconds: 1),

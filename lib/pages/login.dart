@@ -301,7 +301,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Get.to(const ForgetPage());
+                        Get.to(() => const ForgetPage());
                       },
                       child: Text(
                         'forget_pwd'.tr,

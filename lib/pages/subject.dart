@@ -172,10 +172,9 @@ class _SubjectPageState extends State<SubjectPage>
                       ),
                       onTap: () {
                         //播放
-                        Get.to(
-                            const VideoPage(), arguments: {
+                        Get.to(() => const VideoPage(), arguments: {
                           "headNo": snapshot.data?.data?.row?.first?.list?[index]
-                            ?.headNo ?? ""
+                              ?.headNo ?? ""
                         });
                       },
                     ),

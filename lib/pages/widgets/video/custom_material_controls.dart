@@ -8,6 +8,7 @@ import 'package:chewie/src/material/widgets/playback_speed_dialog.dart';
 import 'package:chewie/src/models/subtitle_model.dart';
 import 'package:chewie/src/notifiers/index.dart';
 import 'package:filmsystem/pages/widgets/video/speed_list.dart';
+import 'package:filmsystem/pages/widgets/video/video_setting.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -17,12 +18,14 @@ import 'package:video_player/video_player.dart';
 class CustomMaterialControls extends StatefulWidget {
   const CustomMaterialControls({
     this.showPlayButton = true,
+    this.downloadCallBack,
     required this.callback,
     Key? key,
   }) : super(key: key);
 
   final bool showPlayButton;
   final VoidCallback callback;
+  final VoidCallback? downloadCallBack;
 
   @override
   State<StatefulWidget> createState() {
@@ -189,9 +192,9 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
   Widget _playActionBar() {
     return GestureDetector(
         onTap: () {
-          if(chewieController.isPlaying){
+          if (chewieController.isPlaying) {
             chewieController.pause();
-          }else{
+          } else {
             chewieController.play();
           }
         },
@@ -205,10 +208,9 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
               left: 8.0,
               right: 8.0,
             ),
-            child:  Center(
+            child: Center(
               child: Icon(
-                chewieController.isPlaying ?
-                Icons.pause : Icons.play_arrow,
+                chewieController.isPlaying ? Icons.pause : Icons.play_arrow,
                 color: Colors.white,
               ),
             ),
@@ -223,27 +225,37 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
           showDialog(
             context: context,
             builder: (context) {
-              return SpeedList(callback: (speed){
-                selectedSpeed = speed;
-                controller.setPlaybackSpeed(double.parse(selectedSpeed));
-                if (_latestValue.isPlaying) {
-                  _startHideTimer();
-                }
-              }, selectedSpeed: selectedSpeed);
-              // return VideoSetting(speedCallBack: (){
-              //   showDialog(
-              //     context: context,
-              //     builder: (context) {
-              //       return SpeedList(callback: (speed){
-              //         selectedSpeed = speed;
-              //         controller.setPlaybackSpeed(double.parse(selectedSpeed));
-              //         if (_latestValue.isPlaying) {
-              //           _startHideTimer();
-              //         }
-              //       }, selectedSpeed: selectedSpeed);
-              //     },
-              //   );
-              // },);
+              // return SpeedList(callback: (speed){
+              //   selectedSpeed = speed;
+              //   controller.setPlaybackSpeed(double.parse(selectedSpeed));
+              //   if (_latestValue.isPlaying) {
+              //     _startHideTimer();
+              //   }
+              // }, selectedSpeed: selectedSpeed);
+              return VideoSetting(
+                downloadCallBack: (){
+                  if(widget.downloadCallBack != null){
+                    widget.downloadCallBack!();
+                  }
+                },
+                speedCallBack: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return SpeedList(
+                          callback: (speed) {
+                            selectedSpeed = speed;
+                            controller
+                                .setPlaybackSpeed(double.parse(selectedSpeed));
+                            if (_latestValue.isPlaying) {
+                              _startHideTimer();
+                            }
+                          },
+                          selectedSpeed: selectedSpeed);
+                    },
+                  );
+                },
+              );
             },
           );
           // _onSpeedButtonTap();
@@ -269,19 +281,21 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
   }
 
   Widget _buildOptionsButton() {
-    return _chewieController?.isFullScreen == true ? const SizedBox() : AnimatedOpacity(
-      opacity: notifier.hideStuff ? 0.0 : 1.0,
-      duration: const Duration(milliseconds: 250),
-      child: IconButton(
-        onPressed: () async {
-          widget.callback();
-        },
-        icon: const Icon(
-          Icons.flag,
-          color: Colors.white,
-        ),
-      ),
-    );
+    return _chewieController?.isFullScreen == true
+        ? const SizedBox()
+        : AnimatedOpacity(
+            opacity: notifier.hideStuff ? 0.0 : 1.0,
+            duration: const Duration(milliseconds: 250),
+            child: IconButton(
+              onPressed: () async {
+                widget.callback();
+              },
+              icon: const Icon(
+                Icons.flag,
+                color: Colors.white,
+              ),
+            ),
+          );
   }
 
   Widget _buildSubtitles(BuildContext context, Subtitles subtitles) {
@@ -348,7 +362,7 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
                       const Expanded(child: Text('LIVE'))
                     else
                       _playActionBar(),
-                      _buildPosition(iconColor),
+                    _buildPosition(iconColor),
                     const Spacer(),
                     if (chewieController.allowMuting)
                       _buildMuteButton(controller),
@@ -400,10 +414,7 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
           child: Container(
             height: barHeight,
             margin: const EdgeInsets.only(right: 12.0),
-            padding: const EdgeInsets.only(
-              left: 8.0,
-              right: 8.0
-            ),
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
             child: Icon(
               _latestValue.volume > 0 ? Icons.volume_up : Icons.volume_off,
               color: Colors.white,
@@ -665,7 +676,7 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
 
   Widget _buildProgressBar() {
     return Expanded(
-      child:  MaterialVideoProgressBar(
+      child: MaterialVideoProgressBar(
         controller,
         onDragStart: () {
           setState(() {

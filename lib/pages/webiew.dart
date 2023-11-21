@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({super.key});
@@ -18,7 +19,7 @@ class WebViewScreenState extends State<WebViewScreen> {
       crossPlatform: InAppWebViewOptions(
         useShouldOverrideUrlLoading: true,
         mediaPlaybackRequiresUserGesture: false,
-        transparentBackground: true
+        transparentBackground: true,
       ),
       android: AndroidInAppWebViewOptions(
         useHybridComposition: true,
@@ -72,22 +73,22 @@ class WebViewScreenState extends State<WebViewScreen> {
                 pullToRefreshController: pullToRefreshController,
                 onWebViewCreated: (controller) {
                   webViewController = controller;
-                  // controller.addJavaScriptHandler(
-                  //     handlerName: 'handlerFoo',
-                  //     callback: (args) {
-                  //       // return data to the JavaScript side!
-                  //       print("handlerFoo:");
-                  //       print(args[0]);
-                  //       return {'bar': 'bar_value', 'baz': 'baz_value'};
-                  //     });
-                  //
-                  // controller.addJavaScriptHandler(
-                  //     handlerName: 'handlerFooWithArgs',
-                  //     callback: (args) {
-                  //       print("handlerFooWithArgs:");
-                  //       print(args);
-                  //       // it will print: [1, true, [bar, 5], {foo: baz}, {bar: bar_value, baz: baz_value}]
-                  //     });
+                  controller.addJavaScriptHandler(
+                      handlerName: 'handlerFoo',
+                      callback: (args) {
+                        // return data to the JavaScript side!
+                        print("handlerFoo:");
+                        print(args[0]);
+                        return {'bar': 'bar_value', 'baz': 'baz_value'};
+                      });
+
+                  controller.addJavaScriptHandler(
+                      handlerName: 'handlerFooWithArgs',
+                      callback: (args) {
+                        print("handlerFooWithArgs:");
+                        print(args);
+                        // it will print: [1, true, [bar, 5], {foo: baz}, {bar: bar_value, baz: baz_value}]
+                      });
                 },
                 onLoadStart: (controller, url) {},
                 androidOnPermissionRequest:
@@ -97,19 +98,19 @@ class WebViewScreenState extends State<WebViewScreen> {
                       action: PermissionRequestResponseAction.GRANT);
                 },
                 shouldOverrideUrlLoading: (controller, navigationAction) async {
-                  // var uri = navigationAction.request.url!;
+                  var uri = navigationAction.request.url!;
 
-                  // if (![ "http", "https", "file", "chrome",
-                  //   "data", "javascript", "about"].contains(uri.scheme)) {
-                  //   if (await canLaunch(url)) {
-                  //     // Launch the App
-                  //     await launch(
-                  //       url,
-                  //     );
-                  //     // and cancel the request
-                  //     return NavigationActionPolicy.CANCEL;
-                  //   }
-                  // }
+                  if (![ "http", "https", "file", "chrome",
+                    "data", "javascript", "about"].contains(uri.scheme)) {
+                    if (await canLaunchUrl(uri)) {
+                      // Launch the App
+                      await launchUrl(
+                        uri,
+                      );
+                      // and cancel the request
+                      return NavigationActionPolicy.CANCEL;
+                    }
+                  }
 
                   return NavigationActionPolicy.ALLOW;
                 },
@@ -142,7 +143,6 @@ class WebViewScreenState extends State<WebViewScreen> {
                   });
                 },
                 onConsoleMessage: (controller, consoleMessage) {
-                  print("onConsoleMessage:");
                   print(consoleMessage);
                 },
               ),

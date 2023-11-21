@@ -132,8 +132,7 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                             onTap: () {
                               //播放
-                              Get.to(
-                                  const VideoPage(), arguments: {
+                              Get.to(() => const VideoPage(), arguments: {
                                 "headNo": snapshot.data?.data?[index]?.headNo ?? ""
                               });
                             },

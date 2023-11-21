@@ -1,19 +1,19 @@
 import 'dart:io';
+import 'package:filmsystem/data/dao/download/download_dao.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:filmsystem/utils/log.dart';
 
-import 'sql_test/task_dao.dart';
-
 /// *
-/// * author: edz
+/// * author: summer
 /// * Date: 2021/5/25
 /// * Describtion: sqflite 数据库
 /// *
 
 class Sqllite {
+
   static const _version = 1; //数据库版本号
-  static const _name = "wanka.db"; //数据库名称
+  static const _name = "filmsystem.db"; //数据库名称
 
   Database? _database;
 
@@ -32,7 +32,7 @@ class Sqllite {
 
   /// create database
   Future<Database> initDatabase() async {
-    log("init database");
+    log("init database start");
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, _name);
     _database = await openDatabase(
@@ -74,11 +74,11 @@ class Sqllite {
   }
 
   createTable(Batch batch) {
-    TaskDao.createTable(batch);
+    DownloadDao.createTable(batch);
   }
 
   updateTable(Batch batch) {
-    TaskDao.updateTable(batch);
+    DownloadDao.updateTable(batch);
   }
 
   ///打开
