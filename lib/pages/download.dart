@@ -7,9 +7,12 @@ import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
+import 'package:filmsystem/pages/video.dart';
 import 'package:filmsystem/utils/image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class DownloadPage extends StatefulWidget {
   const DownloadPage({super.key});
@@ -69,7 +72,7 @@ class _DownloadPageState extends State<DownloadPage>
       future: modelList,
       builder: (BuildContext context,
           AsyncSnapshot<List<DownloadInfoModel>?> snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && (snapshot.data?.length ?? 0) > 0) {
           return ListView.builder(
             itemCount: snapshot.data?.length ?? 0,
             itemBuilder: (BuildContext context, int index) {
@@ -89,21 +92,55 @@ class _DownloadPageState extends State<DownloadPage>
   }
 
   Widget _item(DownloadInfoModel? model) {
-    return GestureDetector(
-      onTap: () {
-        DownloadDao.delete(model?.id ?? 0);
-        setState(() {});
-      },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(15),
-        height: 130,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AspectRatio(
-              aspectRatio: 3 / 2,
-              child: InkWell(
+    return Slidable(
+      key:  ValueKey(model?.id ?? 0),
+      endActionPane: ActionPane(
+        motion: ScrollMotion(),
+        children: [
+          SlidableAction(
+            // An action can be bigger than the others.
+            flex: 2,
+            onPressed: (_) {
+              // 删除项时的回调
+              DownloadDao.delete(model?.id ?? 0).then(
+                      (value) => {
+                    DownloadDao.deleteLocalFile(model?.filePath ?? "")
+                  }
+              );
+              // 弹出一个提示
+              ScaffoldMessenger.of(context).showSnackBar(
+                 SnackBar(
+                  content: Text('delete_success'.tr, textAlign: TextAlign.center,),
+                ),
+              );
+              setState(() {
+                modelList = getData();
+              });
+            },
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            icon: Icons.delete,
+            label: 'delete'.tr,
+          ),
+        ],
+      ),
+      child: GestureDetector(
+        onTap: () {
+          Get.to(() => const VideoPage(),
+              arguments: {
+                "headNo":
+                model?.headNo
+              });
+        },
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.all(15),
+          height: 130,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AspectRatio(
+                aspectRatio: 3 / 2,
                 child: CachedNetworkImage(
                   key: ValueKey(model?.dramaUrl ?? ''),
                   fit: BoxFit.fitWidth,
@@ -121,34 +158,124 @@ class _DownloadPageState extends State<DownloadPage>
                     );
                   },
                 ),
-                onTap: () {},
               ),
-            ),
-            Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Text(model?.intro ?? "",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: const TextStyle(color: Colors.white)),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Text(model?.updateDate ?? "",
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(color: Colors.white)),
-                ),
-              ],
-            )),
-          ],
+              Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        child: Text(model?.intro ?? "",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: const TextStyle(color: Colors.white)),
+                      ),
+                      Padding(
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        child: Text(model?.updateDate ?? "",
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(color: Colors.white)),
+                      ),
+                    ],
+                  )),
+            ],
+          ),
         ),
       ),
     );
+
+    // return Dismissible(
+    //   key: Key((model?.id ?? 0).toString()),
+    //   onDismissed: (direction) {
+    //     // 删除项时的回调
+    //     // DownloadDao.delete(model?.id ?? 0).then(
+    //     //         (value) => {
+    //     //       DownloadDao.deleteLocalFile(model?.filePath ?? "")
+    //     //     }
+    //     // );
+    //     // 弹出一个提示
+    //     ScaffoldMessenger.of(context).showSnackBar(
+    //       const SnackBar(
+    //         content: Text('删除成功', textAlign: TextAlign.center,),
+    //       ),
+    //     );
+    //     // setState(() {
+    //     //   modelList = getData();
+    //     // });
+    //   },
+    //   background: Container(
+    //     color: Colors.red,
+    //     alignment: Alignment.centerRight,
+    //     padding: const EdgeInsets.only(right: 16.0),
+    //     child: const Icon(
+    //       Icons.delete,
+    //       color: Colors.white,
+    //     ),
+    //   ),
+    //   child: GestureDetector(
+    //     onTap: () {
+    //       Get.to(() => const VideoPage(),
+    //           arguments: {
+    //             "headNo":
+    //             model?.headNo
+    //           });
+    //     },
+    //     child: Container(
+    //       margin: const EdgeInsets.only(bottom: 10),
+    //       padding: const EdgeInsets.all(15),
+    //       height: 130,
+    //       child: Row(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [
+    //           AspectRatio(
+    //             aspectRatio: 3 / 2,
+    //             child: CachedNetworkImage(
+    //               key: ValueKey(model?.dramaUrl ?? ''),
+    //               fit: BoxFit.fitWidth,
+    //               placeholder: (context, url) {
+    //                 return Image.asset(
+    //                   defaultAssets,
+    //                   fit: BoxFit.cover,
+    //                 );
+    //               },
+    //               imageUrl: model?.dramaUrl ?? '',
+    //               errorWidget: (context, url, error) {
+    //                 return Image.asset(
+    //                   defaultAssets,
+    //                   fit: BoxFit.cover,
+    //                 );
+    //               },
+    //             ),
+    //           ),
+    //           Expanded(
+    //               child: Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.start,
+    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                 children: [
+    //                   Padding(
+    //                     padding:
+    //                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    //                     child: Text(model?.intro ?? "",
+    //                         overflow: TextOverflow.ellipsis,
+    //                         maxLines: 2,
+    //                         style: const TextStyle(color: Colors.white)),
+    //                   ),
+    //                   Padding(
+    //                     padding:
+    //                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    //                     child: Text(model?.updateDate ?? "",
+    //                         overflow: TextOverflow.ellipsis,
+    //                         style: const TextStyle(color: Colors.white)),
+    //                   ),
+    //                 ],
+    //               )),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }

@@ -24,8 +24,8 @@ void main() async {
 
   runApp(GetMaterialApp(
     title: "filmsystem",
-    theme: ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+    darkTheme: ThemeData(
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.black87),
       useMaterial3: true,
     ),
     debugShowCheckedModeBanner: false,

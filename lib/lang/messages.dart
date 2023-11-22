@@ -51,8 +51,11 @@ class Messages extends Translations {
           'picture_in_picture': "画中画",
           'net_error': "哇哦，网络离家出走了~",
           'home_section_title': "浏览全部",
-          'my_download': "我的下载"
-        },
+          'my_download': "我的下载",
+          'delete_success': "删除成功",
+          'delete': "删除"
+
+},
         'en_US': {
           'home': 'Home',
           'show': 'TV Shows',
@@ -100,7 +103,9 @@ class Messages extends Translations {
           'picture_in_picture': "pip",
           'net_error': "Network Exception",
           'home_section_title': "Browse all",
-          'my_download': "My Download"
+          'my_download': "My Download",
+          'delete_success': "Delete Success",
+          'delete': "delete"
         }
       };
 }

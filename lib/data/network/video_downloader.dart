@@ -24,11 +24,10 @@ class VideoDownloader {
   }
 
   Future<void> _resumeDownload(DownloadInfoModel download) async {
-    final String filePath = await _getLocalFilePath(download.filmUrl ?? "");
     try {
       await _dio.download(
         download.filmUrl ?? "",
-        filePath,
+        download.filePath,
         options: Options(
           headers: {'range': 'bytes=${download.receivedBytes}-'},
         ),

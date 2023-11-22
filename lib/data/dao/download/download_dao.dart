@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:filmsystem/data/dao/download/download_info_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:filmsystem/data/dao/Sqllite.dart';
 import 'package:filmsystem/utils/log.dart';
@@ -50,6 +53,24 @@ class DownloadDao {
     await db.batch().commit();
     // await db.close();
   }
+
+  static deleteLocalFile(String filePath) async {
+    try {
+      File file = File(filePath);
+
+      // 检查文件是否存在
+      if (await file.exists()) {
+        // 删除文件
+        await file.delete();
+        debugPrint('文件删除成功: $filePath');
+      } else {
+        debugPrint('文件不存在: $filePath');
+      }
+    } catch (e) {
+      debugPrint('删除文件时出现错误: $e');
+    }
+  }
+
 
   ///查询单条数据
   static Future<DownloadInfoModel?> search(int id) async {
