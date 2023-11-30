@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:filmsystem/app/routes/app_pages.dart';
+import 'package:filmsystem/routes/app_pages.dart';
 import 'package:filmsystem/lang/messages.dart';
 import 'package:filmsystem/utils/storage.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +25,12 @@ void main() async {
   runApp(GetMaterialApp(
     title: "filmsystem",
     darkTheme: ThemeData(
+      primaryColor: Colors.black87,
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.black87),
       useMaterial3: true,
     ),
     debugShowCheckedModeBanner: false,
-    themeMode: ThemeMode.dark,
+    // themeMode: ThemeMode.dark,
     translations: Messages(),
     localizationsDelegates: const [
       RefreshLocalizations.delegate,

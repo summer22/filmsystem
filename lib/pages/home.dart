@@ -334,7 +334,7 @@ class _HomePageState extends State<HomePage>
         ],
       ),
       drawer: Drawer(
-        backgroundColor: Colors.black87,
+        backgroundColor: Colors.black,
         width: 200,
         child: Container(
           height: Get.height,
