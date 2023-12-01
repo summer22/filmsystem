@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class StandardSearchBarInner extends StatelessWidget
@@ -39,6 +40,8 @@ class StandardSearchBarInner extends StatelessWidget
                       callback(str);
                     },
                     decoration: InputDecoration(
+                        isCollapsed: true,
+                        contentPadding: const EdgeInsets.only(top: kIsWeb ? 8 : 5),
                         filled: true,
                         fillColor: const Color(0xff292929),
                         prefixIcon: const Icon(

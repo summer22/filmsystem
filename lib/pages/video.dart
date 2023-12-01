@@ -53,7 +53,7 @@ class _VideoPageState extends State<VideoPage> {
     try {
       ApiResponse response = await Api().fire(request);
       videoModel = VideoModel.fromJson(response.data);
-      videoModel?.data?.first?.filmUrl = "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4";
+      // videoModel?.data?.first?.filmUrl = "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4";
       initializePlayer();
     } on ApiError catch (e) {
       throw Exception(e.toString());
@@ -63,7 +63,10 @@ class _VideoPageState extends State<VideoPage> {
   Future<void> initializePlayer() async {
     // List<DownloadInfoModel> list = await DownloadDao.searchDatas();
     // _videoPlayerController = VideoPlayerController.file(File(list.first.filePath ?? ""));
-    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoModel?.data?.first?.filmUrl ?? ""));
+    // _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoModel?.data?.first?.filmUrl ?? ""));
+    const url = "https://cvws.icloud-content.com.cn/B/Adbqg7D0lwYIcFH_bQBH23GNG4acAVyuy5TcqMB3GPCEwKm3Pwrov61K/public.mp4?o=Avkx3RN3FhvzK-HODDGSLcWZ6DgUYNmeGpjxFcXaQGFq&v=1&x=3&a=CAog8dTilniQ8zOsKx921bbLMFH8puXwMFo-6fIMRxyeoAUSbRDX05-dwjEY17D7nsIxIgEAUgSNG4acWgTov61Kaia-Cvp24-EpuCmlOFHgF6sk4GFD3zdrLzODhWq5RsitFk77K4A283Im-L04V_Z4QrJgF0aMU8imErlPzoNVWVLjzRuIndWNwNkr1Sn_9Pg&e=1701408856&fl=&r=6496fb65-fe67-48ff-8dd9-2252f73ec757-1&k=Sx5HNDlAfe8bqQCHV30ifw&ckc=com.apple.photos.cloud&ckz=PrimarySync&y=1&p=211&s=JAZtLWW8SnLF1yDiRlJA3DEtFGQ";
+    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(url));
+
     await Future.wait([
       _videoPlayerController.initialize(),
     ]);

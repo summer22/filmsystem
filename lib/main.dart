@@ -7,6 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+// import 'package:shelf_cors_headers/shelf_cors_headers.dart';
+// import 'package:shelf/shelf.dart';
+// import 'package:shelf/shelf_io.dart';
+// import 'package:shelf/src/response.dart' as ShelfResponse;
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -14,13 +18,29 @@ class MyHttpOverrides extends HttpOverrides {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
+
   }
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  HttpOverrides.global = MyHttpOverrides();
+  // HttpOverrides.global = MyHttpOverrides();
   await Storage.init();
+
+  // final overrideHeaders = {
+  //   ACCESS_CONTROL_ALLOW_ORIGIN: 'https://192.168.2.200',
+  //   'Content-Type': 'application/json;charset=utf-8'
+  // };
+  //
+  // var handler = const Pipeline()
+  //     .addMiddleware(corsHeaders(headers: overrideHeaders))
+  //     .addHandler(_echoRequest);
+  //
+  // var server = await serve(handler, 'localhost', 8080);
+  //
+  // // Enable content compression
+  // server.autoCompress = true;
+  // print('Serving at http://${server.address.host}:${server.port}');
 
   runApp(GetMaterialApp(
     title: "filmsystem",
@@ -44,6 +64,10 @@ void main() async {
   ));
   configLoading();
 }
+
+// ShelfResponse.Response _echoRequest(Request request) {
+//   return ShelfResponse.Response.ok('Request for "${request.url}"');
+// }
 
 void configLoading() {
   EasyLoading.instance

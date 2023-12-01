@@ -77,7 +77,9 @@ dependencies:
   #左右侧滑的操作按钮
   flutter_slidable: ^3.0.1
   #json <=> model 转换
-#  json_annotation: ^4.6.0
+  #json_annotation: ^4.6.0
+  shelf_proxy: ^1.0.4
+#  shelf_cors_headers: ^0.1.5
 
 dev_dependencies:
   flutter_test:

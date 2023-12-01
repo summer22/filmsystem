@@ -32,12 +32,6 @@ class AppPages {
           page: () => const LoginPage(),
           // transition: Transition.cupertino,
         ),
-        // GetPage(
-        //   preventDuplicates: true,
-        //   name: _Paths.home,
-        //   page: () => const HomePage(),
-        //   title: null,
-        // ),
         GetPage(
           name: _Paths.favorite,
           page: () => const FavoritePage(),
