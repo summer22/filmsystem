@@ -41,7 +41,7 @@ dependencies:
   connectivity: ^3.0.3
   # 格式日期
   intl: ^0.17.0
-  # 数据库
+  # mobile 数据库
   sqflite: ^2.3.0
   # 屏幕适配
 #  flutter_screenutil: ^5.0.1

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:chewie/chewie.dart';
 import 'package:filmsystem/data/dao/download/download_dao.dart';
 import 'package:filmsystem/data/dao/download/download_info_model.dart';
@@ -11,10 +9,12 @@ import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/data/network/video_downloader.dart';
 import 'package:filmsystem/pages/widgets/video/custom_material_controls.dart';
-import 'package:filmsystem/utils/storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
+
+import '../utils/storage.dart';
 
 class VideoPage extends StatefulWidget {
   const VideoPage({super.key});
@@ -63,10 +63,8 @@ class _VideoPageState extends State<VideoPage> {
   Future<void> initializePlayer() async {
     // List<DownloadInfoModel> list = await DownloadDao.searchDatas();
     // _videoPlayerController = VideoPlayerController.file(File(list.first.filePath ?? ""));
-    // _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoModel?.data?.first?.filmUrl ?? ""));
-    const url = "https://cvws.icloud-content.com.cn/B/Adbqg7D0lwYIcFH_bQBH23GNG4acAVyuy5TcqMB3GPCEwKm3Pwrov61K/public.mp4?o=Avkx3RN3FhvzK-HODDGSLcWZ6DgUYNmeGpjxFcXaQGFq&v=1&x=3&a=CAog8dTilniQ8zOsKx921bbLMFH8puXwMFo-6fIMRxyeoAUSbRDX05-dwjEY17D7nsIxIgEAUgSNG4acWgTov61Kaia-Cvp24-EpuCmlOFHgF6sk4GFD3zdrLzODhWq5RsitFk77K4A283Im-L04V_Z4QrJgF0aMU8imErlPzoNVWVLjzRuIndWNwNkr1Sn_9Pg&e=1701408856&fl=&r=6496fb65-fe67-48ff-8dd9-2252f73ec757-1&k=Sx5HNDlAfe8bqQCHV30ifw&ckc=com.apple.photos.cloud&ckz=PrimarySync&y=1&p=211&s=JAZtLWW8SnLF1yDiRlJA3DEtFGQ";
-    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(url));
-
+    _videoPlayerController = VideoPlayerController.networkUrl(
+        Uri.parse(videoModel?.data?.first?.filmUrl ?? ""));
     await Future.wait([
       _videoPlayerController.initialize(),
     ]);
@@ -80,12 +78,15 @@ class _VideoPageState extends State<VideoPage> {
       autoPlay: true,
       looping: false,
       zoomAndPan: true,
+      aspectRatio: 16 / 9,
       progressIndicatorDelay: null,
+      systemOverlaysAfterFullScreen: [SystemUiOverlay.bottom],
+      deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
       customControls: CustomMaterialControls(
-        callback: () {
+        callback: () async {
           _scaffoldKey.currentState?.openEndDrawer();
         },
-        downloadCallBack: () {
+        downloadCallBack: () async {
           String email = Storage.readUserInfo().data?.email ?? "";
           DownloadInfoModel model = DownloadInfoModel(
             id:videoModel?.data?.first?.id,
@@ -168,20 +169,23 @@ class _VideoPageState extends State<VideoPage> {
       body: SafeArea(
         child: Center(
           child: _chewieController != null &&
-              _chewieController!.videoPlayerController.value.isInitialized
+                  _chewieController!.videoPlayerController.value.isInitialized
               ? Chewie(
-            controller: _chewieController!,
-          )
+                  controller: _chewieController!,
+                )
               : const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(
-                color: Colors.white,
-              ),
-              SizedBox(height: 20),
-              Text('Loading'),
-            ],
-          ),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      'Loading',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
         ),
       ),
     );

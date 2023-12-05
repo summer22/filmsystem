@@ -5,14 +5,13 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 class VideoDownloader {
-
   final Dio _dio = Dio();
 
   Future<void> downloadVideo(DownloadInfoModel info) async {
     final searchObj = await DownloadDao.search(info.id!);
     if (searchObj != null) {
       // Resume downloaseard
-      if(searchObj.statue == 1) {
+      if (searchObj.statue == 1) {
         debugPrint('本地已存在下载完成的资源');
         return;
       }
@@ -47,7 +46,8 @@ class VideoDownloader {
       Response response = await _dio.head(download.filmUrl ?? "");
 
       final String filePath = await _getLocalFilePath(download.filmUrl ?? "");
-      final String? contentLengthHeader = response.headers.value('content-length');
+      final String? contentLengthHeader =
+          response.headers.value('content-length');
       final int totalBytes = int.tryParse(contentLengthHeader ?? "") ?? 0;
 
       download.filePath = filePath;
@@ -78,9 +78,11 @@ class VideoDownloader {
   Future<String> _getLocalFilePath(String url) async {
     Uri videoUri = Uri.parse(url);
     String videoFileName = videoUri.pathSegments.last;
-
+    if (kIsWeb) {
+      final directory = await getDownloadsDirectory();
+      return '${directory?.path}/$videoFileName';
+    }
     final directory = await getApplicationDocumentsDirectory();
     return '${directory.path}/$videoFileName';
   }
-
 }

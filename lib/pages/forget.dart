@@ -1,5 +1,4 @@
 import 'package:filmsystem/data/models/login/login_model.dart';
-import 'package:filmsystem/data/models/info/userinfo_model.dart';
 import 'package:filmsystem/data/network/api.dart';
 import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
@@ -11,7 +10,6 @@ import 'package:filmsystem/utils/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import 'widgets/buttons/count_down_button.dart';
 
@@ -77,7 +75,7 @@ class _ForgetPageState extends State<ForgetPage> {
     request.add("Reconfirmpassword", _pwdTwoController.text);
     request.add("password", _pwdController.text);
     try {
-      ApiResponse response = await Api().fire(request);
+      await Api().fire(request);
       Storage.remove(account);
       Storage.remove(pwd);
       Get.back();
@@ -92,7 +90,7 @@ class _ForgetPageState extends State<ForgetPage> {
     request.path = ApiPath.code;
     request.add("email", _controller.text);
     try {
-      ApiResponse response = await Api().fire(request);
+      await Api().fire(request);
       codeCallback();
     } on ApiError catch (e) {
       throw Exception(e.toString());

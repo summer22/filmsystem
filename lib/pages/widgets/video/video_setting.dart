@@ -39,7 +39,7 @@ class _VideoSettingState extends State<VideoSetting>
         final Size biggest = constraints.biggest;
 
         const childHeight = 60.0;
-        const childWidth = 60.0;
+        const childWidth = 70.0;
 
         const targetChildHeight = childHeight * 3;
         const targetChildWidth = childWidth * 3;

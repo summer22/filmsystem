@@ -11,7 +11,6 @@ import 'package:filmsystem/utils/log.dart';
 /// *
 
 class Sqllite {
-
   static const _version = 1; //数据库版本号
   static const _name = "filmsystem.db"; //数据库名称
 
