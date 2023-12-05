@@ -1,6 +1,8 @@
+import 'dart:io';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:filmsystem/data/network/core/api_Interceptors.dart';
+import 'package:filmsystem/network/core/api_Interceptors.dart';
 import 'package:filmsystem/utils/constant.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_storage/get_storage.dart';
@@ -64,9 +66,18 @@ class DioAdapter extends ApiAdapter {
       EasyLoading.showToast(networkException, toastPosition: EasyLoadingToastPosition.center);
       throw Exception(networkException);
     }
+    // // 代理服务器的地址和端口
+    // String proxyAddress = 'localhost';
+    // int proxyPort = 8080;
 
     Dio dio = Dio(baseOptions);
     dio.interceptors.add(ApiInterceptors.interceptors(request));
+    // (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
+    //   // client.findProxy = (uri) {
+    //   //   return 'PROXY $proxyAddress:$proxyPort';
+    //   // };
+    //   client.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    // };
 
     try {
       CancelToken? cancelToken;

@@ -2,12 +2,12 @@ import 'package:chewie/chewie.dart';
 import 'package:filmsystem/data/dao/download/download_dao.dart';
 import 'package:filmsystem/data/dao/download/download_info_model.dart';
 import 'package:filmsystem/data/models/video/video_model.dart';
-import 'package:filmsystem/data/network/api.dart';
-import 'package:filmsystem/data/network/api_path.dart';
-import 'package:filmsystem/data/network/core/api_adapter.dart';
-import 'package:filmsystem/data/network/core/api_error.dart';
-import 'package:filmsystem/data/network/core/base_request.dart';
-import 'package:filmsystem/data/network/video_downloader.dart';
+import 'package:filmsystem/network/api.dart';
+import 'package:filmsystem/network/api_path.dart';
+import 'package:filmsystem/network/core/api_adapter.dart';
+import 'package:filmsystem/network/core/api_error.dart';
+import 'package:filmsystem/network/core/base_request.dart';
+import 'package:filmsystem/network/video_downloader.dart';
 import 'package:filmsystem/pages/widgets/video/custom_material_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +25,7 @@ class VideoPage extends StatefulWidget {
 
 class _VideoPageState extends State<VideoPage> {
   VideoModel? videoModel;
-  final String headNo = Get.arguments["headNo"];
+  final String headNo = "";//Get.arguments["headNo"];
   late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -34,7 +34,9 @@ class _VideoPageState extends State<VideoPage> {
   @override
   void initState() {
     super.initState();
-    _getData();
+    // _getData();
+    const url = "http://localhost/320.mp4";
+    initialize(url);
   }
 
   @override
@@ -72,38 +74,51 @@ class _VideoPageState extends State<VideoPage> {
     setState(() {});
   }
 
+  Future<void> initialize(String url) async {
+    // List<DownloadInfoModel> list = await DownloadDao.searchDatas();
+    // _videoPlayerController = VideoPlayerController.file(File(list.first.filePath ?? ""));
+    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(url));
+    await Future.wait([
+      _videoPlayerController.initialize(),
+    ]);
+    _createChewieController();
+    setState(() {});
+  }
+
   void _createChewieController() {
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController,
       autoPlay: true,
       looping: false,
       zoomAndPan: true,
-      aspectRatio: 16 / 9,
+      // aspectRatio: 16 / 9,
       progressIndicatorDelay: null,
-      systemOverlaysAfterFullScreen: [SystemUiOverlay.bottom],
-      deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
       customControls: CustomMaterialControls(
         callback: () async {
-          _scaffoldKey.currentState?.openEndDrawer();
+          const url = "https://cvws.icloud-content.com.cn/B/Adbqg7D0lwYIcFH_bQBH23GNG4acAVyuy5TcqMB3GPCEwKm3Pwrov61K/public.mp4?o=Ajz5TDvTbLfRSy4Oopo5u-ZI-1MYzE7Xr6pDeAAwKNh9&v=1&x=3&a=CAogsM06OqsukfxByewHlw6hANJmWMbU5Fm1frIe7_6qUrASbRCQ9M3EwzEYkNGpxsMxIgEAUgSNG4acWgTov61Kaia4KLDTAYZrOIdP3GrtzDlYst0lqQK0J2vd8ZwbTA6rXnEuE6u6pXImjSKuCv5Qmmi_6FBPGDLe0kLucS6qbWRbH3INaP3dmR8V0DYG64Q&e=1701759838&fl=&r=a8e0c9e2-4391-4a65-b72c-61353baae131-1&k=Sx5HNDlAfe8bqQCHV30ifw&ckc=com.apple.photos.cloud&ckz=PrimarySync&y=1&p=211&s=1eLVaYyeT03voXtVXKbRpNp4y18";
+          initialize(url);
+          // _scaffoldKey.currentState?.openEndDrawer();
         },
         downloadCallBack: () async {
-          String email = Storage.readUserInfo().data?.email ?? "";
-          DownloadInfoModel model = DownloadInfoModel(
-            id:videoModel?.data?.first?.id,
-            email: email,
-            headNo:videoModel?.data?.first?.headNo,
-            dramaNumber:videoModel?.data?.first?.dramaNumber,
-            dramaUrl:videoModel?.data?.first?.dramaUrl,
-            dramaUrl1:videoModel?.data?.first?.dramaUrl1,
-            dramaUrl2:videoModel?.data?.first?.dramaUrl2,
-            dramaTitle:videoModel?.data?.first?.dramaTitle,
-            intro:videoModel?.data?.first?.intro,
-            filmUrl:videoModel?.data?.first?.filmUrl,
-            duration:videoModel?.data?.first?.duration,
-            createDate:videoModel?.data?.first?.createDate,
-            updateDate:videoModel?.data?.first?.updateDate,
-          );
-          downloader.downloadVideo(model);
+          const url = "http://localhost/320.mp4";
+          initialize(url);
+          // String email = Storage.readUserInfo().data?.email ?? "";
+          // DownloadInfoModel model = DownloadInfoModel(
+          //   id:videoModel?.data?.first?.id,
+          //   email: email,
+          //   headNo:videoModel?.data?.first?.headNo,
+          //   dramaNumber:videoModel?.data?.first?.dramaNumber,
+          //   dramaUrl:videoModel?.data?.first?.dramaUrl,
+          //   dramaUrl1:videoModel?.data?.first?.dramaUrl1,
+          //   dramaUrl2:videoModel?.data?.first?.dramaUrl2,
+          //   dramaTitle:videoModel?.data?.first?.dramaTitle,
+          //   intro:videoModel?.data?.first?.intro,
+          //   filmUrl:videoModel?.data?.first?.filmUrl,
+          //   duration:videoModel?.data?.first?.duration,
+          //   createDate:videoModel?.data?.first?.createDate,
+          //   updateDate:videoModel?.data?.first?.updateDate,
+          // );
+          // downloader.downloadVideo(model);
         },
       ),
       hideControlsTimer: const Duration(seconds: 1),

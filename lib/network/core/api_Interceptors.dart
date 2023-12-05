@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:filmsystem/data/models/base_model.dart';
-import 'package:filmsystem/data/network/core/api_string.dart';
-import 'package:filmsystem/data/network/core/base_request.dart';
+import 'package:filmsystem/network/core/api_string.dart';
+import 'package:filmsystem/network/core/base_request.dart';
 import 'package:filmsystem/utils/log.dart';
 
 /// @ClassName ApiInterceptors

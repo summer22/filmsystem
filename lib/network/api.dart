@@ -1,8 +1,8 @@
 import 'package:filmsystem/utils/log.dart';
-import './core/dio_adapter.dart';
+import 'core/dio_adapter.dart';
 import './core/api_error.dart';
-import './core/api_adapter.dart';
-import './core/base_request.dart';
+import 'core/api_adapter.dart';
+import 'core/base_request.dart';
 
 /// @ClassName Api
 /// @Description 请求工具类

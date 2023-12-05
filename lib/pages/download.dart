@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:filmsystem/data/dao/download/download_dao.dart';
 import 'package:filmsystem/data/dao/download/download_info_model.dart';
-import 'package:filmsystem/data/network/core/api_error.dart';
+import 'package:filmsystem/network/core/api_error.dart';
 import 'package:filmsystem/pages/video.dart';
 import 'package:filmsystem/utils/image.dart';
 import 'package:flutter/material.dart';

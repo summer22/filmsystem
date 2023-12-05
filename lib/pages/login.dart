@@ -1,10 +1,10 @@
 import 'package:filmsystem/data/models/login/login_model.dart';
 import 'package:filmsystem/data/models/info/userinfo_model.dart';
-import 'package:filmsystem/data/network/api.dart';
-import 'package:filmsystem/data/network/api_path.dart';
-import 'package:filmsystem/data/network/core/api_adapter.dart';
-import 'package:filmsystem/data/network/core/api_error.dart';
-import 'package:filmsystem/data/network/core/base_request.dart';
+import 'package:filmsystem/network/api.dart';
+import 'package:filmsystem/network/api_path.dart';
+import 'package:filmsystem/network/core/api_adapter.dart';
+import 'package:filmsystem/network/core/api_error.dart';
+import 'package:filmsystem/network/core/base_request.dart';
 import 'package:filmsystem/pages/forget.dart';
 import 'package:filmsystem/pages/widgets/buttons/button.dart';
 import 'package:filmsystem/utils/constant.dart';

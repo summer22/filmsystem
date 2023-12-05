@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:filmsystem/data/models/news/news_model.dart';
-import 'package:filmsystem/data/network/api.dart';
-import 'package:filmsystem/data/network/api_path.dart';
-import 'package:filmsystem/data/network/core/api_adapter.dart';
-import 'package:filmsystem/data/network/core/api_error.dart';
-import 'package:filmsystem/data/network/core/base_request.dart';
+import 'package:filmsystem/network/api.dart';
+import 'package:filmsystem/network/api_path.dart';
+import 'package:filmsystem/network/core/api_adapter.dart';
+import 'package:filmsystem/network/core/api_error.dart';
+import 'package:filmsystem/network/core/base_request.dart';
 import 'package:filmsystem/utils/image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
