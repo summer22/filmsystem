@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'dart:html' as html;
 import 'package:chewie/src/center_play_button.dart';
 import 'package:chewie/src/chewie_player.dart';
@@ -235,8 +236,8 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
               //   }
               // }, selectedSpeed: selectedSpeed);
               return VideoSetting(
-                downloadCallBack: (){
-                  if(widget.downloadCallBack != null){
+                downloadCallBack: () {
+                  if (widget.downloadCallBack != null) {
                     widget.downloadCallBack!();
                   }
                 },
@@ -598,14 +599,15 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
   void _onExpandCollapse() {
     setState(() {
       notifier.hideStuff = true;
-      if(kIsWeb){
+      if (kIsWeb) {
         if (html.document.fullscreenElement == null) {
-          html.document.documentElement?.requestFullscreen().then((value) => {
-          });
+          html.document.documentElement
+              ?.requestFullscreen()
+              .then((value) => {});
         } else {
           html.document.exitFullscreen();
         }
-      }else{
+      } else {
         chewieController.toggleFullScreen();
       }
 
