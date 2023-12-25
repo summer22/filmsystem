@@ -394,17 +394,17 @@ class _HomePageState extends State<HomePage>
                   Get.to(() => const FavoritePage());
                 },
               ),
-              ListTile(
-                title: Text(
-                  'my_download'.tr,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white70),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Get.to(() => const DownloadPage());
-                },
-              ),
+              // ListTile(
+              //   title: Text(
+              //     'my_download'.tr,
+              //     textAlign: TextAlign.center,
+              //     style: const TextStyle(color: Colors.white70),
+              //   ),
+              //   onTap: () {
+              //     Navigator.pop(context);
+              //     Get.to(() => const DownloadPage());
+              //   },
+              // ),
             ],
           ),
         ),

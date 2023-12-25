@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'dart:html' as html;
+// import 'dart:html' as html;
 import 'package:chewie/src/center_play_button.dart';
 import 'package:chewie/src/chewie_player.dart';
 import 'package:chewie/src/chewie_progress_colors.dart';
@@ -599,17 +599,17 @@ class _CustomMaterialControlsState extends State<CustomMaterialControls>
   void _onExpandCollapse() {
     setState(() {
       notifier.hideStuff = true;
-      if (kIsWeb) {
-        if (html.document.fullscreenElement == null) {
-          html.document.documentElement
-              ?.requestFullscreen()
-              .then((value) => {});
-        } else {
-          html.document.exitFullscreen();
-        }
-      } else {
+      // if (kIsWeb) {
+      //   if (html.document.fullscreenElement == null) {
+      //     html.document.documentElement
+      //         ?.requestFullscreen()
+      //         .then((value) => {});
+      //   } else {
+      //     html.document.exitFullscreen();
+      //   }
+      // } else {
         chewieController.toggleFullScreen();
-      }
+      // }
 
       _showAfterExpandCollapseTimer =
           Timer(const Duration(milliseconds: 300), () {

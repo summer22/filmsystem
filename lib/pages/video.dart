@@ -25,7 +25,7 @@ class VideoPage extends StatefulWidget {
 
 class _VideoPageState extends State<VideoPage> {
   VideoModel? videoModel;
-  final String headNo = "";//Get.arguments["headNo"];
+  final String headNo = Get.arguments["headNo"];
   late VideoPlayerController _videoPlayerController;
   ChewieController? _chewieController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -95,13 +95,13 @@ class _VideoPageState extends State<VideoPage> {
       progressIndicatorDelay: null,
       customControls: CustomMaterialControls(
         callback: () async {
-          const url = "https://cvws.icloud-content.com.cn/B/Adbqg7D0lwYIcFH_bQBH23GNG4acAVyuy5TcqMB3GPCEwKm3Pwrov61K/public.mp4?o=Ajz5TDvTbLfRSy4Oopo5u-ZI-1MYzE7Xr6pDeAAwKNh9&v=1&x=3&a=CAogsM06OqsukfxByewHlw6hANJmWMbU5Fm1frIe7_6qUrASbRCQ9M3EwzEYkNGpxsMxIgEAUgSNG4acWgTov61Kaia4KLDTAYZrOIdP3GrtzDlYst0lqQK0J2vd8ZwbTA6rXnEuE6u6pXImjSKuCv5Qmmi_6FBPGDLe0kLucS6qbWRbH3INaP3dmR8V0DYG64Q&e=1701759838&fl=&r=a8e0c9e2-4391-4a65-b72c-61353baae131-1&k=Sx5HNDlAfe8bqQCHV30ifw&ckc=com.apple.photos.cloud&ckz=PrimarySync&y=1&p=211&s=1eLVaYyeT03voXtVXKbRpNp4y18";
-          initialize(url);
-          // _scaffoldKey.currentState?.openEndDrawer();
+          // const url = "https://cvws.icloud-content.com.cn/B/Adbqg7D0lwYIcFH_bQBH23GNG4acAVyuy5TcqMB3GPCEwKm3Pwrov61K/public.mp4?o=Ajz5TDvTbLfRSy4Oopo5u-ZI-1MYzE7Xr6pDeAAwKNh9&v=1&x=3&a=CAogsM06OqsukfxByewHlw6hANJmWMbU5Fm1frIe7_6qUrASbRCQ9M3EwzEYkNGpxsMxIgEAUgSNG4acWgTov61Kaia4KLDTAYZrOIdP3GrtzDlYst0lqQK0J2vd8ZwbTA6rXnEuE6u6pXImjSKuCv5Qmmi_6FBPGDLe0kLucS6qbWRbH3INaP3dmR8V0DYG64Q&e=1701759838&fl=&r=a8e0c9e2-4391-4a65-b72c-61353baae131-1&k=Sx5HNDlAfe8bqQCHV30ifw&ckc=com.apple.photos.cloud&ckz=PrimarySync&y=1&p=211&s=1eLVaYyeT03voXtVXKbRpNp4y18";
+          // initialize(url);
+          _scaffoldKey.currentState?.openEndDrawer();
         },
         downloadCallBack: () async {
-          const url = "http://localhost/320.mp4";
-          initialize(url);
+          // const url = "http://localhost/320.mp4";
+          // initialize(url);
           // String email = Storage.readUserInfo().data?.email ?? "";
           // DownloadInfoModel model = DownloadInfoModel(
           //   id:videoModel?.data?.first?.id,

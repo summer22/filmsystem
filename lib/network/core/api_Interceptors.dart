@@ -4,6 +4,7 @@ import 'package:filmsystem/data/models/base_model.dart';
 import 'package:filmsystem/network/core/api_string.dart';
 import 'package:filmsystem/network/core/base_request.dart';
 import 'package:filmsystem/utils/log.dart';
+import '../../utils/constant.dart';
 
 /// @ClassName ApiInterceptors
 /// @Description 全局通信拦截器
@@ -12,6 +13,7 @@ import 'package:filmsystem/utils/log.dart';
 /// @Version 1.0.1
 
 class ApiInterceptors {
+
   static interceptors(BaseRequest request) {
     return InterceptorsWrapper(onRequest: (options, handler) {
       if (request.isShowLoading) {
@@ -32,6 +34,7 @@ class ApiInterceptors {
       // 这样请求将被中止并触发异常，上层catchError会被调用。
     }, onResponse: (res, handler) async {
       // Do something with response data
+
       if (request.isShowLoading) {
         EasyLoading.dismiss();
       }
@@ -52,8 +55,15 @@ class ApiInterceptors {
       // 如果你想终止请求并触发一个错误,你可以 reject 一个`DioError`对象,如`handler.reject(error)`，
       // 这样请求将被中止并触发异常，上层catchError会被调用。
     }, onError: (DioError e, handler) {
+      const bool isProduction = bool.fromEnvironment('dart.vm.product');
+
       if (request.isShowLoading) {
         EasyLoading.dismiss();
+      }
+      if(e.message.isNotEmpty){
+        String msg = !isProduction ? e.message : errorTip;
+        EasyLoading.showToast(msg,
+            toastPosition: EasyLoadingToastPosition.bottom);
       }
       // Do something with response error
       return handler.next(e); //continue

@@ -11,3 +11,4 @@ const String account = "account"; //用户账户
 const String pwd = "pwd"; //用户密码
 const String userInfo = "userInfo"; //用户信息
 
+const String errorTip = "服务出小差了哦~"; //生产环境网络异常提示
