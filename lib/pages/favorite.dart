@@ -5,7 +5,6 @@ import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
-import 'package:filmsystem/pages/widgets/standard_search_bar.dart';
 import 'package:filmsystem/utils/image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,9 +20,7 @@ class _FavoritePageState extends State<FavoritePage> {
 
   Future<SearchModel?>? searchModel;
 
-  late String input;
-
-  Future<SearchModel?> getData(String text) async {
+  Future<SearchModel?> getData() async {
     BaseRequest request = BaseRequest();
     request.path = ApiPath.favoriteList;
     try {
@@ -32,6 +29,12 @@ class _FavoritePageState extends State<FavoritePage> {
     } on ApiError catch (e) {
       throw Exception(e.toString());
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    searchModel = getData();
   }
 
   @override
