@@ -15,7 +15,7 @@ enum EnvironmentType { dev, pre, product } //环境
 
 ///基础请求
 class BaseRequest {
-  EnvironmentType envType = EnvironmentType.dev;
+  EnvironmentType envType = EnvironmentType.product;
 
   ///请求头
   Map<String, String> header = {};
@@ -50,7 +50,7 @@ class BaseRequest {
       case EnvironmentType.pre:
         return 'https://p-api.castcards.com/';
       case EnvironmentType.product:
-        return 'https://api.castcards.com/';
+        return 'https://www.nbflix.com/';
       default:
         return 'https://api.castcards.com/';
     }
@@ -63,7 +63,7 @@ class BaseRequest {
       case EnvironmentType.pre:
         return 'https://p-h5.castcards.com/';
       case EnvironmentType.product:
-        return 'https://h5.castcards.com/';
+        return 'https://www.nbflix.com/';
       default:
         return 'https://h5.castcards.com/';
     }

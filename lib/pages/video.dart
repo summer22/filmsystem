@@ -11,7 +11,7 @@ import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/data/network/video_downloader.dart';
 import 'package:filmsystem/pages/widgets/video/custom_material_controls.dart';
-import 'package:filmsystem/utils/storage.dart';
+import 'package:filmsystem/utils/simple_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
@@ -53,7 +53,7 @@ class _VideoPageState extends State<VideoPage> {
     try {
       ApiResponse response = await Api().fire(request);
       videoModel = VideoModel.fromJson(response.data);
-      videoModel?.data?.first?.filmUrl = "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4";
+      // videoModel?.data?.first?.filmUrl = "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4";
       initializePlayer();
     } on ApiError catch (e) {
       throw Exception(e.toString());
@@ -83,7 +83,7 @@ class _VideoPageState extends State<VideoPage> {
           _scaffoldKey.currentState?.openEndDrawer();
         },
         downloadCallBack: () {
-          String email = Storage.readUserInfo().data?.email ?? "";
+          String email = SimpleStorage.readUserInfo().data?.email ?? "";
           DownloadInfoModel model = DownloadInfoModel(
             id:videoModel?.data?.first?.id,
             email: email,

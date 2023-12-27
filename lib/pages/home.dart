@@ -18,10 +18,11 @@ import 'package:filmsystem/pages/news.dart';
 import 'package:filmsystem/pages/search.dart';
 import 'package:filmsystem/pages/subject.dart';
 import 'package:filmsystem/pages/userinfo.dart';
+import 'package:filmsystem/pages/webiew.dart';
 import 'package:filmsystem/pages/widgets/video/home_section_title.dart';
 import 'package:filmsystem/utils/constant.dart';
 import 'package:filmsystem/utils/image.dart';
-import 'package:filmsystem/utils/storage.dart';
+import 'package:filmsystem/utils/simple_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage>
       LangModel('简体中文', "zh_CN"),
       LangModel('English', "en_US"),
     ];
-    if (Storage.read(token) == null) {
+    if (SimpleStorage.read(token) == null) {
       infoItems = ['help', 'sign_in'];
     } else {
       infoItems = ['account', 'help', 'logout'];
@@ -66,8 +67,8 @@ class _HomePageState extends State<HomePage>
     super.initState();
 
     selectedModel = menuItems.first;
-    Storage.write(i18code, selectedModel.code);
-    Storage.box?.listenKey(i18code, (value) {
+    SimpleStorage.write(i18code, selectedModel.code);
+    SimpleStorage.box?.listenKey(i18code, (value) {
       if (value == "zh_CN") {
         messagesController.changeLanguage('zh', "CN");
       } else {
@@ -75,7 +76,7 @@ class _HomePageState extends State<HomePage>
       }
     });
 
-    Storage.box?.listenKey(token, (value) {
+    SimpleStorage.box?.listenKey(token, (value) {
       type = "0";
       _onRefresh();
 
@@ -152,7 +153,7 @@ class _HomePageState extends State<HomePage>
                                   if (item.code != selectedModel.code) {
                                     setState(() {
                                       selectedModel = item;
-                                      Storage.write(
+                                      SimpleStorage.write(
                                           i18code, selectedModel.code);
                                       _onRefresh();
                                     });
@@ -261,7 +262,7 @@ class _HomePageState extends State<HomePage>
                                       Get.to(() => const HelpPage());
                                       break;
                                     case "logout":
-                                      Storage.removeUserInfo();
+                                      SimpleStorage.removeUserInfo();
                                       break;
                                     default:
                                   }
@@ -294,7 +295,7 @@ class _HomePageState extends State<HomePage>
               child: CachedNetworkImage(
                 width: 30,
                 height: 30,
-                key: ValueKey(Storage
+                key: ValueKey(SimpleStorage
                     .readUserInfo()
                     .data
                     ?.avatar ?? ""),
@@ -317,7 +318,7 @@ class _HomePageState extends State<HomePage>
                     size: 30,
                   );
                 },
-                imageUrl: Storage
+                imageUrl: SimpleStorage
                     .readUserInfo()
                     .data
                     ?.avatar ?? "",
@@ -407,7 +408,7 @@ class _HomePageState extends State<HomePage>
                 ),
                 onTap: () {
                   Navigator.pop(context);
-                  Get.to(() => const FavoritePage());
+                  Get.to(() => const WebViewScreen()); //FavoritePage());
                 },
               ),
               // ListTile(

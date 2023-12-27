@@ -8,7 +8,7 @@ import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/pages/login.dart';
 import 'package:filmsystem/pages/widgets/buttons/button.dart';
 import 'package:filmsystem/pages/widgets/buttons/count_down_button.dart';
-import 'package:filmsystem/utils/storage.dart';
+import 'package:filmsystem/utils/simple_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -43,7 +43,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   @override
   void initState() {
     super.initState();
-    selectedAvatar = Storage.readUserInfo().data?.avatar ?? "";
+    selectedAvatar = SimpleStorage.readUserInfo().data?.avatar ?? "";
     getData();
   }
 
@@ -84,7 +84,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
     request.add("smsCode", _codeController.text);
     try {
       await Api().fire(request);
-      Storage.removeUserInfo();
+      SimpleStorage.removeUserInfo();
      Get.off(const LoginPage());
     } on ApiError catch (e) {
       throw Exception(e.toString());

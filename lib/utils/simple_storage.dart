@@ -2,15 +2,15 @@ import 'package:filmsystem/data/models/info/userinfo_model.dart';
 import 'package:filmsystem/utils/constant.dart';
 import 'package:get_storage/get_storage.dart';
 
-class Storage {
-  static final Storage _instance = Storage._internal();
+class SimpleStorage {
+  static final SimpleStorage _instance = SimpleStorage._internal();
   static GetStorage? box;
 
-  factory Storage() {
+  factory SimpleStorage() {
     return _instance;
   }
 
-  Storage._internal();
+  SimpleStorage._internal();
 
   static Future<void> init() async {
     await GetStorage.init();

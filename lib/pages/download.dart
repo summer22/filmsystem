@@ -95,7 +95,7 @@ class _DownloadPageState extends State<DownloadPage>
     return Slidable(
       key:  ValueKey(model?.id ?? 0),
       endActionPane: ActionPane(
-        motion: ScrollMotion(),
+        motion: const ScrollMotion(),
         children: [
           SlidableAction(
             // An action can be bigger than the others.

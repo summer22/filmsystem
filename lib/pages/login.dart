@@ -8,7 +8,7 @@ import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/pages/forget.dart';
 import 'package:filmsystem/pages/widgets/buttons/button.dart';
 import 'package:filmsystem/utils/constant.dart';
-import 'package:filmsystem/utils/storage.dart';
+import 'package:filmsystem/utils/simple_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,11 +32,11 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     //如果记住账户了 就自动填充
-    if (Storage.read(account) != null) {
-      _controller.text = Storage.read(account);
+    if (SimpleStorage.read(account) != null) {
+      _controller.text = SimpleStorage.read(account);
     }
-    if (Storage.read(pwd) != null) {
-      _pwdController.text = Storage.read(pwd);
+    if (SimpleStorage.read(pwd) != null) {
+      _pwdController.text = SimpleStorage.read(pwd);
     }
   }
 
@@ -56,13 +56,13 @@ class _LoginPageState extends State<LoginPage> {
     try {
       ApiResponse response = await Api().fire(request);
       LoginModel loginModel = LoginModel.fromJson(response.data);
-      Storage.write(token, loginModel.data?.token);
-      Storage.remove(account);
-      Storage.remove(pwd);
+      SimpleStorage.write(token, loginModel.data?.token);
+      SimpleStorage.remove(account);
+      SimpleStorage.remove(pwd);
       getUserInfoData();
       if (_saveAccount) {
-        Storage.write(account, _controller.text);
-        Storage.write(pwd, _pwdController.text);
+        SimpleStorage.write(account, _controller.text);
+        SimpleStorage.write(pwd, _pwdController.text);
       }
       Get.back();
     } on ApiError catch (e) {
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       ApiResponse response = await Api().fire(request);
       UserInfoModel model = UserInfoModel.fromJson(response.data);
-      Storage.write(userInfo, model.data?.toJson());
+      SimpleStorage.write(userInfo, model.data?.toJson());
     } on ApiError catch (e) {
       throw Exception(e.toString());
     }

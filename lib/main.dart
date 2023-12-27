@@ -1,8 +1,7 @@
 import 'dart:io';
-
 import 'package:filmsystem/routes/app_pages.dart';
 import 'package:filmsystem/lang/messages.dart';
-import 'package:filmsystem/utils/storage.dart';
+import 'package:filmsystem/utils/simple_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -20,7 +19,7 @@ class MyHttpOverrides extends HttpOverrides {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-  await Storage.init();
+  await SimpleStorage.init();
 
   runApp(GetMaterialApp(
     title: "filmsystem",

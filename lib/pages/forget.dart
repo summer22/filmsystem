@@ -7,7 +7,7 @@ import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/pages/widgets/buttons/button.dart';
 import 'package:filmsystem/utils/constant.dart';
-import 'package:filmsystem/utils/storage.dart';
+import 'package:filmsystem/utils/simple_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -59,9 +59,9 @@ class _ForgetPageState extends State<ForgetPage> {
     try {
       ApiResponse response = await Api().fire(request);
       LoginModel loginModel = LoginModel.fromJson(response.data);
-      Storage.write(token, loginModel.data?.token);
-      Storage.remove(account);
-      Storage.remove(pwd);
+      SimpleStorage.write(token, loginModel.data?.token);
+      SimpleStorage.remove(account);
+      SimpleStorage.remove(pwd);
       Get.back();
     } on ApiError catch (e) {
       throw Exception(e.toString());
@@ -78,8 +78,8 @@ class _ForgetPageState extends State<ForgetPage> {
     request.add("password", _pwdController.text);
     try {
       ApiResponse response = await Api().fire(request);
-      Storage.remove(account);
-      Storage.remove(pwd);
+      SimpleStorage.remove(account);
+      SimpleStorage.remove(pwd);
       Get.back();
     } on ApiError catch (e) {
       throw Exception(e.toString());
