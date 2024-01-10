@@ -44,6 +44,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
   void initState() {
     super.initState();
     selectedAvatar = SimpleStorage.readUserInfo().data?.avatar ?? "";
+    _mobileController.text = SimpleStorage.readUserInfo().data?.mobile ?? "";
+    _realNameController.text = SimpleStorage.readUserInfo().data?.realName ?? "";
+    _emailController.text = SimpleStorage.readUserInfo().data?.email ?? "";
     getData();
   }
 
@@ -677,6 +680,31 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         }),
                         const SizedBox(width: 40,),
                         Button(text: 'update_info_submit'.tr, textColor: Colors.white, backgroundColor: Colors.black54, click: (){
+                          if(_mobileController.text.isEmpty){
+                            EasyLoading.showToast('mobile_hint'.tr,
+                                toastPosition: EasyLoadingToastPosition.bottom);
+                            return;
+                          }
+                          if(_realNameController.text.isEmpty){
+                            EasyLoading.showToast('name_hint'.tr,
+                                toastPosition: EasyLoadingToastPosition.bottom);
+                            return;
+                          }
+                          if(_emailController.text.isEmpty){
+                            EasyLoading.showToast('email_hint'.tr,
+                                toastPosition: EasyLoadingToastPosition.bottom);
+                            return;
+                          }
+                          if(_pwdController.text.isEmpty){
+                            EasyLoading.showToast('pwd_hint'.tr,
+                                toastPosition: EasyLoadingToastPosition.bottom);
+                            return;
+                          }
+                          if(_codeController.text.isEmpty){
+                            EasyLoading.showToast('code_hint'.tr,
+                                toastPosition: EasyLoadingToastPosition.bottom);
+                            return;
+                          }
                           updateInfoData();
                         },),
                       ],

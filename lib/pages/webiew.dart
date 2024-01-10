@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -8,7 +9,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 class WebViewScreen extends StatefulWidget {
-  const WebViewScreen({super.key});
+  String? url;
+
+  WebViewScreen({super.key, this.url});
 
   @override
   WebViewScreenState createState() => WebViewScreenState();
@@ -29,9 +32,10 @@ class WebViewScreenState extends State<WebViewScreen> {
         useHybridComposition: true,
       ),
       ios: IOSInAppWebViewOptions(
-        allowsInlineMediaPlayback: true,
-          limitsNavigationsToAppBoundDomains: true // adds Service Worker API on iOS 14.0+
-      ));
+          allowsInlineMediaPlayback: true,
+          limitsNavigationsToAppBoundDomains:
+              true // adds Service Worker API on iOS 14.0+
+          ));
 
   late PullToRefreshController pullToRefreshController;
   String url = "";
@@ -39,15 +43,20 @@ class WebViewScreenState extends State<WebViewScreen> {
 
   void serviceWorker() async {
     if (Platform.isAndroid) {
-      await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
+      await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(
+          kDebugMode);
 
-      var swAvailable = await AndroidWebViewFeature.isFeatureSupported(AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
-      var swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
+      var swAvailable = await AndroidWebViewFeature.isFeatureSupported(
+          AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
+      var swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(
+          AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
 
       if (swAvailable && swInterceptAvailable) {
-        AndroidServiceWorkerController serviceWorkerController = AndroidServiceWorkerController.instance();
+        AndroidServiceWorkerController serviceWorkerController =
+            AndroidServiceWorkerController.instance();
 
-        serviceWorkerController.serviceWorkerClient = AndroidServiceWorkerClient(
+        serviceWorkerController.serviceWorkerClient =
+            AndroidServiceWorkerClient(
           shouldInterceptRequest: (request) async {
             print(request);
             return null;
@@ -99,42 +108,27 @@ class WebViewScreenState extends State<WebViewScreen> {
                 onWebViewCreated: (controller) {
                   webViewController = controller;
                   controller.addJavaScriptHandler(
-                      handlerName: 'handlerFoo',
-                      callback: (args) {
-                        // return data to the JavaScript side!
-                        debugPrint("handlerFoo:");
-                        debugPrint(args[0]);
-                        return {'bar': 'bar_value', 'baz': 'baz_value'};
-                      });
-
-                  controller.addJavaScriptHandler(
                       handlerName: 'xmlHttpRequest',
                       callback: (args) async {
                         debugPrint("xmlHttpRequest:");
                         debugPrint(args[0]);
-                        var xmlHttpRequestResponse = {
-                          'status': 200,
-                          'statusText': "成功了",
-                          'response': "",
-                        };
-                        return {'response': xmlHttpRequestResponse};
-                        // try {
-                        //   var response = await dio.get(
-                        //     args[0] ?? "",
-                        //     options: Options(
-                        //       responseType: ResponseType.json,
-                        //     ),
-                        //   );
-                        //   debugPrint('Response data: $response');
-                        //   var xmlHttpRequestResponse = {
-                        //     'status': response.statusCode,
-                        //     'statusText': response.statusMessage,
-                        //     'response': response.data,
-                        //   };
-                        //   return {'response': xmlHttpRequestResponse};
-                        // } catch (error) {
-                        //   debugPrint('Error: $error');
-                        // }
+                        try {
+                          var response = await dio.get(
+                            args[0] ?? "",
+                            options: Options(
+                              responseType: ResponseType.json,
+                            ),
+                          );
+                          debugPrint('Response data: $response');
+                          var xmlHttpRequestResponse = {
+                            'status': response.statusCode,
+                            'statusText': response.statusMessage,
+                            'response': response.data,
+                          };
+                          return {'response': xmlHttpRequestResponse};
+                        } catch (error) {
+                          debugPrint('Error: $error');
+                        }
                       });
 
                   controller.addJavaScriptHandler(
@@ -151,6 +145,7 @@ class WebViewScreenState extends State<WebViewScreen> {
                             ),
                           );
                           debugPrint('Response data: $response');
+                          String jsonString = jsonEncode(response.data);
                           var xmlHttpRequestResponse = {
                             'status': response.statusCode,
                             'statusText': response.statusMessage,
@@ -160,14 +155,6 @@ class WebViewScreenState extends State<WebViewScreen> {
                         } catch (error) {
                           debugPrint('Error: $error');
                         }
-                      });
-
-                  controller.addJavaScriptHandler(
-                      handlerName: 'handlerFooWithArgs',
-                      callback: (args) {
-                        debugPrint("handlerFooWithArgs:");
-                        debugPrint(args.toString());
-                        // it will print: [1, true, [bar, 5], {foo: baz}, {bar: bar_value, baz: baz_value}]
                       });
                 },
                 androidOnPermissionRequest:
@@ -179,8 +166,15 @@ class WebViewScreenState extends State<WebViewScreen> {
                 shouldOverrideUrlLoading: (controller, navigationAction) async {
                   var uri = navigationAction.request.url!;
 
-                  if (![ "http", "https", "file", "chrome",
-                    "data", "javascript", "about"].contains(uri.scheme)) {
+                  if (![
+                    "http",
+                    "https",
+                    "file",
+                    "chrome",
+                    "data",
+                    "javascript",
+                    "about"
+                  ].contains(uri.scheme)) {
                     if (await canLaunchUrl(uri)) {
                       // Launch the App
                       await launchUrl(
@@ -194,16 +188,24 @@ class WebViewScreenState extends State<WebViewScreen> {
                   return NavigationActionPolicy.ALLOW;
                 },
                 onLoadStart: (controller, url) async {
-                  // String jsContent = await rootBundle.loadString('assets/user.js');
-                  // controller.evaluateJavascript(source: jsContent);
+                  // if(url?.path.toString() == "detail"){
+                  // String severJsContent =
+                  //     await rootBundle.loadString('assets/service.js');
+                  // controller.evaluateJavascript(source: severJsContent);
+                  String jsContent =
+                      await rootBundle.loadString('assets/user.js');
+                  controller.evaluateJavascript(source: jsContent);
+                  // }
                 },
                 onLoadStop: (controller, url) async {
                   pullToRefreshController.endRefreshing();
                   setState(() {
                     this.url = url.toString();
                   });
-                  String jsContent = await rootBundle.loadString('assets/user.js');
-                  controller.evaluateJavascript(source: jsContent);
+                  // if(url?.path.toString() == "detail"){
+                  //   String jsContent = await rootBundle.loadString('assets/user.js');
+                  //   controller.evaluateJavascript(source: jsContent);
+                  // }
                 },
                 onLoadError: (controller, url, code, message) {
                   pullToRefreshController.endRefreshing();
@@ -232,7 +234,8 @@ class WebViewScreenState extends State<WebViewScreen> {
                 },
               ),
               progress < 1.0
-                  ? LinearProgressIndicator(value: progress, backgroundColor: Colors.black)
+                  ? LinearProgressIndicator(
+                      value: progress, backgroundColor: Colors.black)
                   : Container(),
             ],
           ),

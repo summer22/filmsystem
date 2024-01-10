@@ -72,7 +72,7 @@ class AppPages {
         ),
         GetPage(
             name: _Paths.webView,
-            page: () =>  const WebViewScreen()
+            page: () =>  WebViewScreen()
         ),
         GetPage(
             name: _Paths.download,

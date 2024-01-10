@@ -10,6 +10,7 @@ import 'package:filmsystem/pages/widgets/buttons/button.dart';
 import 'package:filmsystem/utils/constant.dart';
 import 'package:filmsystem/utils/simple_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
@@ -209,9 +210,6 @@ class _LoginPageState extends State<LoginPage> {
                       _showClearButton = value.isNotEmpty;
                     });
                   },
-                  // onSubmitted: (value) {
-                  //   print('Input submitted: $value');
-                  // },
                 ),
                 const SizedBox(
                   height: 30,
@@ -247,9 +245,6 @@ class _LoginPageState extends State<LoginPage> {
                       _showPwdClearButton = value.isNotEmpty;
                     });
                   },
-                  // onSubmitted: (value) {
-                  //   print('Input submitted: $value');
-                  // },
                 ),
                 const SizedBox(
                   height: 50,
@@ -264,6 +259,16 @@ class _LoginPageState extends State<LoginPage> {
                     radius: 8,
                     textStyle: const TextStyle(fontSize: 18),
                     click: () {
+                      if(_controller.text.isEmpty){
+                        EasyLoading.showToast('email_hint'.tr,
+                            toastPosition: EasyLoadingToastPosition.bottom);
+                        return;
+                      }
+                      if(_pwdController.text.isEmpty){
+                        EasyLoading.showToast('pwd_hint'.tr,
+                            toastPosition: EasyLoadingToastPosition.bottom);
+                        return;
+                      }
                       getData();
                     },
                   ),

@@ -280,87 +280,106 @@ class _DetailPageState extends State<DetailPage> {
                       style:
                           const TextStyle(color: Colors.white70, fontSize: 24),
                     ),
-                    GestureDetector(
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(top: 10, right: 20),
-                            width: 120,
-                            height: 80,
-                            child: CachedNetworkImage(
-                              key: ValueKey(snapshot
-                                      .data?.data?.dramaList?.first?.dramaUrl ??
-                                  ""),
-                              fit: BoxFit.fitHeight,
-                              // placeholder: (context, url) {
-                              //   return Image.asset(
-                              //     defaultAssets,
-                              //     fit: BoxFit.cover,
-                              //   );
-                              // },
-                              imageUrl: snapshot
-                                      .data?.data?.dramaList?.first?.dramaUrl ??
-                                  "",
-                              errorWidget: (context, url, error) {
-                                return Center(
-                                  child: Text('image_loading_error'.tr,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        color: Colors.white60,
-                                        fontSize: 15,
-                                      )),
-                                );
-                              },
-                            ),
-                          ),
-                          Expanded(
-                              child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    snapshot.data?.data?.dramaList?.first
-                                            ?.dramaTitle ??
+                    for (int index = 0; index < (snapshot.data?.data?.dramaList?.length ?? 0); index++)
+                      GestureDetector(
+                        child: Row(
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Text(
+                                    "${snapshot.data?.data?.dramaList?[index]?.dramaNumber}",
+                                    style: const TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(
+                                      top: 10, right: 20),
+                                  width: 120,
+                                  height: 80,
+                                  child: CachedNetworkImage(
+                                    key: ValueKey(snapshot.data?.data
+                                        ?.dramaList?[index]?.dramaUrl ??
+                                        ""),
+                                    fit: BoxFit.cover,
+                                    // placeholder: (context, url) {
+                                    //   return Image.asset(
+                                    //     defaultAssets,
+                                    //     fit: BoxFit.cover,
+                                    //   );
+                                    // },
+                                    imageUrl: snapshot.data?.data?.dramaList
+                                    ?[index]?.dramaUrl ??
                                         "",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
+                                    errorWidget: (context, url, error) {
+                                      return Center(
+                                        child: Text('image_loading_error'.tr,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              color: Colors.white60,
+                                              fontSize: 15,
+                                            )),
+                                      );
+                                    },
                                   ),
-                                  Text(
-                                    snapshot.data?.data?.duration ?? "",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                snapshot.data?.data?.dramaList?.first?.intro ??
-                                    "",
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    color: Colors.white70, fontSize: 15),
-                              ),
-                            ],
-                          )),
-                        ],
+                                ),
+                              ],
+                            ),
+                            Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(child: Text(
+                                          snapshot.data?.data?.dramaList?[index]
+                                              ?.dramaTitle ??
+                                              "",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),),
+                                        Text("${snapshot.data?.data?.dramaList?[index]
+                                            ?.duration}分钟",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      snapshot.data?.data?.dramaList?[index]
+                                          ?.intro ??
+                                          "",
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          color: Colors.white70, fontSize: 15),
+                                    ),
+                                  ],
+                                )),
+                          ],
+                        ),
+                        onTap: () => {
+                          //播放
+                          Get.to(() => const VideoPage(), arguments: {
+                            "headNo": snapshot.data?.data?.dramaList?[index]
+                                ?.headNo
+                          })
+                        },
                       ),
-                      onTap: () => {
-                        //播放
-                        Get.to(() => const VideoPage(),
-                            arguments: {"headNo": snapshot.data?.data?.headNo})
-                      },
-                    )
                   ],
                 ),
               ),

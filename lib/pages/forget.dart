@@ -11,7 +11,6 @@ import 'package:filmsystem/utils/simple_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import 'widgets/buttons/count_down_button.dart';
 
@@ -437,6 +436,26 @@ class _ForgetPageState extends State<ForgetPage> {
                     radius: 8,
                     textStyle: const TextStyle(fontSize: 18),
                     click: () {
+                      if(_controller.text.isEmpty){
+                        EasyLoading.showToast('email_hint'.tr,
+                            toastPosition: EasyLoadingToastPosition.bottom);
+                        return;
+                      }
+                      if(_pwdController.text.isEmpty){
+                        EasyLoading.showToast('pwd_empty_tip'.tr,
+                            toastPosition: EasyLoadingToastPosition.bottom);
+                        return;
+                      }
+                      if(_pwdTwoController.text != _pwdController.text){
+                        EasyLoading.showToast('pwd_diff_tip'.tr,
+                            toastPosition: EasyLoadingToastPosition.bottom);
+                        return;
+                      }
+                      if(_codeController.text.isEmpty){
+                        EasyLoading.showToast('code_hint'.tr,
+                            toastPosition: EasyLoadingToastPosition.bottom);
+                        return;
+                      }
                       getConfirmData();
                     },
                   ),

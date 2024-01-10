@@ -408,7 +408,7 @@ class _HomePageState extends State<HomePage>
                 ),
                 onTap: () {
                   Navigator.pop(context);
-                  Get.to(() => const WebViewScreen()); //FavoritePage());
+                  Get.to(() =>  WebViewScreen()); //FavoritePage());
                 },
               ),
               // ListTile(
@@ -478,7 +478,7 @@ class _HomePageState extends State<HomePage>
                   child: InkWell(
                     child: CachedNetworkImage(
                       key: ValueKey(model?.list?[index]?.posterUrl2 ?? ''),
-                      fit: BoxFit.fitHeight,
+                      fit: BoxFit.cover,
                       // placeholder: (context, url) {
                       //   return Image.asset(
                       //     defaultAssets,
