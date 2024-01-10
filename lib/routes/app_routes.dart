@@ -16,6 +16,10 @@ abstract class Routes {
   static const help = _Paths.help;
   static const webView = _Paths.webView;
   static const download = _Paths.download;
+  static const signUpOne = _Paths.signUpOne;
+  static const signUpTwo = _Paths.signUpTwo;
+  static const signUpThree = _Paths.signUpThree;
+  static const signUpFour = _Paths.signUpFour;
 
   Routes._();
 
@@ -37,5 +41,9 @@ abstract class _Paths {
   static const help = '/help';
   static const webView = '/webView';
   static const download = '/download';
+  static const signUpOne = '/signUpOne';
+  static const signUpTwo = '/signUpTwo';
+  static const signUpThree = '/signUpThree';
+  static const signUpFour = '/signUpFour';
 
 }

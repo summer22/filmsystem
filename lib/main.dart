@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:filmsystem/pages/sign_up/sign_up_binding.dart';
 import 'package:filmsystem/routes/app_pages.dart';
 import 'package:filmsystem/lang/messages.dart';
 import 'package:filmsystem/utils/simple_storage.dart';
@@ -37,6 +38,7 @@ void main() async {
     locale: const Locale('zh', 'CN'), //设置默认语言
     fallbackLocale: const Locale("zh", "CN"), // 在配置错误的情况下,使用的语言
     getPages: AppPages.routes,
+    initialBinding: SignUpBinding(), // 设置全局绑定,
     initialRoute: AppPages.initial,
     builder: EasyLoading.init(),
 

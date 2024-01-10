@@ -6,6 +6,7 @@ import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/pages/forget.dart';
+import 'package:filmsystem/pages/sign_up/sign_up_one.dart';
 import 'package:filmsystem/pages/widgets/buttons/button.dart';
 import 'package:filmsystem/utils/constant.dart';
 import 'package:filmsystem/utils/simple_storage.dart';
@@ -315,6 +316,29 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ],
                 ),
+                const SizedBox(height: 30,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'sign_in_tip'.tr,
+                      style: const TextStyle(
+                          color: Colors.white30,
+                          fontSize: 20,),
+                    ),
+                    const SizedBox(width: 15,),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => const SignUpOne());
+                      },
+                      child: Text(
+                        'sign_in_btn_title'.tr,
+                        style: const TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    )
+                  ],
+                )
               ],
             ),
           ),

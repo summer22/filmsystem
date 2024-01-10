@@ -7,6 +7,11 @@ import 'package:filmsystem/pages/home.dart';
 import 'package:filmsystem/pages/login.dart';
 import 'package:filmsystem/pages/news.dart';
 import 'package:filmsystem/pages/search.dart';
+import 'package:filmsystem/pages/sign_up/sign_up_binding.dart';
+import 'package:filmsystem/pages/sign_up/sign_up_four.dart';
+import 'package:filmsystem/pages/sign_up/sign_up_one.dart';
+import 'package:filmsystem/pages/sign_up/sign_up_three.dart';
+import 'package:filmsystem/pages/sign_up/sign_up_two.dart';
 import 'package:filmsystem/pages/subject.dart';
 import 'package:filmsystem/pages/video.dart';
 import 'package:filmsystem/pages/webiew.dart';
@@ -32,12 +37,6 @@ class AppPages {
           page: () => const LoginPage(),
           // transition: Transition.cupertino,
         ),
-        // GetPage(
-        //   preventDuplicates: true,
-        //   name: _Paths.home,
-        //   page: () => const HomePage(),
-        //   title: null,
-        // ),
         GetPage(
           name: _Paths.favorite,
           page: () => const FavoritePage(),
@@ -77,6 +76,22 @@ class AppPages {
         GetPage(
             name: _Paths.download,
             page: () =>  const DownloadPage()
+        ),
+        GetPage(
+            name: _Paths.signUpOne,
+            page: () =>  const SignUpOne(),
+        ),
+        GetPage(
+            name: _Paths.signUpTwo,
+            page: () =>  const SignUpTwo()
+        ),
+        GetPage(
+            name: _Paths.signUpThree,
+            page: () =>  const SignUpThree()
+        ),
+        GetPage(
+            name: _Paths.signUpFour,
+            page: () =>  const SignUpFour()
         ),
       ],
     ),

@@ -57,8 +57,9 @@ class Messages extends Translations {
           'home_section_title': "浏览全部",
           'my_download': "我的下载",
           'delete_success': "删除成功",
-          'delete': "删除"
-
+          'delete': "删除",
+          'sign_in_tip': "Netflix 的新用户?",
+          'sign_in_btn_title': "立即注册",
 },
         'en_US': {
           'home': 'Home',
@@ -113,7 +114,9 @@ class Messages extends Translations {
           'home_section_title': "Browse all",
           'my_download': "My Download",
           'delete_success': "Delete Success",
-          'delete': "delete"
+          'delete': "delete",
+          'sign_in_tip': "New to Netflix?",
+          'sign_in_btn_title': "Sign up now",
         }
       };
 }
