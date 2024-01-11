@@ -39,12 +39,12 @@ class SimpleStorage {
   }
 
   // 获取用户信息
-  static UserInfoModel readUserInfo() {
+  static UserInfoDataModel readUserInfo() {
     dynamic value = box?.read(userInfo);
     if(value == null) {
-      return UserInfoModel();
+      return UserInfoDataModel();
     }
-    return UserInfoModel.fromJson(value);
+    return UserInfoDataModel.fromJson(value);
   }
 
   // 清空所有数据

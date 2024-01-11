@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage>
   bool get wantKeepAlive => true;
 
   Future<HomeModel?>? homeModel;
+  late String baseUrl;
 
   String type = "0";
 
@@ -99,6 +100,7 @@ class _HomePageState extends State<HomePage>
   Future<HomeModel?> getData() async {
     BaseRequest request = BaseRequest();
     request.path = ApiPath.homeList + type;
+    baseUrl = request.host();
     try {
       ApiResponse response = await Api().fire(request);
       return Future.value(HomeModel.fromJson(response.data));
@@ -171,7 +173,7 @@ class _HomePageState extends State<HomePage>
                                     child: Text(
                                       item.title,
                                       style: const TextStyle(
-                                        color: Colors.white70,
+                                        color: Colors.white,
                                         fontSize: 12,
                                       ),
                                     ),
@@ -275,7 +277,7 @@ class _HomePageState extends State<HomePage>
                                   child: Text(
                                     item.tr,
                                     style: const TextStyle(
-                                      color: Colors.white70,
+                                      color: Colors.white,
                                       fontSize: 12,
                                     ),
                                   ),
@@ -295,10 +297,8 @@ class _HomePageState extends State<HomePage>
               child: CachedNetworkImage(
                 width: 30,
                 height: 30,
-                key: ValueKey(SimpleStorage
-                    .readUserInfo()
-                    .data
-                    ?.avatar ?? ""),
+                key: ValueKey(baseUrl + (SimpleStorage
+                    .readUserInfo().avatar ?? "")),
                 fit: BoxFit.fitHeight,
                 imageBuilder: (context, imageProvider) =>
                     Container(
@@ -318,10 +318,8 @@ class _HomePageState extends State<HomePage>
                     size: 30,
                   );
                 },
-                imageUrl: SimpleStorage
-                    .readUserInfo()
-                    .data
-                    ?.avatar ?? "",
+                imageUrl: baseUrl + (SimpleStorage
+                    .readUserInfo().avatar ?? ""),
                 errorWidget: (context, url, error) {
                   return const Icon(
                     Icons.person,

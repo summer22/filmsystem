@@ -42,11 +42,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   @override
   void initState() {
-    super.initState();
-    selectedAvatar = SimpleStorage.readUserInfo().data?.avatar ?? "";
-    _mobileController.text = SimpleStorage.readUserInfo().data?.mobile ?? "";
-    _realNameController.text = SimpleStorage.readUserInfo().data?.realName ?? "";
-    _emailController.text = SimpleStorage.readUserInfo().data?.email ?? "";
+    super.initState(); //BaseRequest
+    selectedAvatar = SimpleStorage.readUserInfo().avatar ?? "";
+    _mobileController.text = SimpleStorage.readUserInfo().mobile ?? "";
+    _realNameController.text = SimpleStorage.readUserInfo().realName ?? "";
+    _emailController.text = SimpleStorage.readUserInfo().email ?? "";
     getData();
   }
 
@@ -156,7 +156,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     CachedNetworkImage(
                       width: 80,
                       height: 80,
-                      key: ValueKey(selectedAvatar),
+                      key: ValueKey(baseUrl + selectedAvatar),
                       fit: BoxFit.fitHeight,
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
@@ -183,7 +183,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           ),
                         );
                       },
-                      imageUrl: selectedAvatar,
+                      imageUrl: baseUrl + selectedAvatar,
                       errorWidget: (context, url, error) {
                         return Container(
                           // width: 80,

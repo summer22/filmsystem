@@ -27,7 +27,7 @@ class UserInfoDataModel {
   String? updateDate;
   int? isDel;
 
-  UserInfoDataModel(
+  UserInfoDataModel({
       this.id,
       this.userNo,
       this.username,
@@ -38,7 +38,7 @@ class UserInfoDataModel {
       this.email,
       this.createDate,
       this.updateDate,
-      this.isDel);
+      this.isDel});
 
   UserInfoDataModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

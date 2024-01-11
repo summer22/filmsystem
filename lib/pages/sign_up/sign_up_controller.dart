@@ -1,3 +1,4 @@
+import 'package:filmsystem/data/models/sign_in/hobby_list_model.dart';
 import 'package:get/get.dart';
 
 class SignUpController extends GetxController {
@@ -7,6 +8,7 @@ class SignUpController extends GetxController {
   String rePwd = "";
   String mobile = "";
   String avatar = "";
+  List<HobbyModel> selectedHobbyModel = [];
 
   void clear() {
     name = "";
@@ -14,5 +16,6 @@ class SignUpController extends GetxController {
     rePwd = "";
     mobile = "";
     avatar = "";
+    selectedHobbyModel = [];
   }
 }

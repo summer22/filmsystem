@@ -83,7 +83,7 @@ class _VideoPageState extends State<VideoPage> {
           _scaffoldKey.currentState?.openEndDrawer();
         },
         downloadCallBack: () {
-          String email = SimpleStorage.readUserInfo().data?.email ?? "";
+          String email = SimpleStorage.readUserInfo().email ?? "";
           DownloadInfoModel model = DownloadInfoModel(
             id:videoModel?.data?.first?.id,
             email: email,

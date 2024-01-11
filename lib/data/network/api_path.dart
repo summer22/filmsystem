@@ -23,6 +23,9 @@ class ApiPath {
   static const String helpQuery = "api/question/query"; //帮助中心搜索
   static const String avatarList = "api/auth/avatarList"; //头像列表
   static const String updateUserInfo = "api/user/updateUserInfo"; //更新用户信息
+  static const String hobby = "api/auth/hobby"; //爱好
+  static const String register = "api/auth/register"; //注册
+
 }
 
 
