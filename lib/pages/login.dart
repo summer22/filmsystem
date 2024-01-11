@@ -183,13 +183,13 @@ class _LoginPageState extends State<LoginPage> {
                     focusedErrorBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange),
                     ),
-                    errorBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
+                    // errorBorder: const OutlineInputBorder(
+                    //   borderSide: BorderSide(color: Colors.orange),
+                    // ),
                     filled: true,
                     fillColor: Colors.white10,
-                    errorText: _validateInput(_controller.text),
-                    errorStyle: const TextStyle(color: Colors.orange),
+                    // errorText: _validateInput(_controller.text),
+                    // errorStyle: const TextStyle(color: Colors.orange),
                     suffixIcon: _showClearButton
                         ? IconButton(
                             icon: const Icon(
@@ -232,13 +232,13 @@ class _LoginPageState extends State<LoginPage> {
                     focusedErrorBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange),
                     ),
-                    errorBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
+                    // errorBorder: const OutlineInputBorder(
+                    //   borderSide: BorderSide(color: Colors.orange),
+                    // ),
                     filled: true,
                     fillColor: Colors.white10,
-                    errorText: _validatePwdInput(_pwdController.text),
-                    errorStyle: const TextStyle(color: Colors.orange),
+                    // errorText: _validatePwdInput(_pwdController.text),
+                    // errorStyle: const TextStyle(color: Colors.orange),
                     suffixIcon: _leftIcon(),
                   ),
                   onChanged: (value) {
@@ -252,7 +252,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(
                   width: Get.width - 40,
-                  height: 60,
+                  height: 50,
                   child: Button(
                     text: 'login'.tr,
                     textColor: Colors.white,

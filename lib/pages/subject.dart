@@ -103,7 +103,7 @@ class _SubjectPageState extends State<SubjectPage>
         ),
         title: Text(
           title,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
         ),
         centerTitle: true,
       ),

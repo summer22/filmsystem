@@ -53,7 +53,7 @@ class _FavoritePageState extends State<FavoritePage> {
         ),
         title: Text(
           'favorite'.tr,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
         ),
         centerTitle: true,
       ),

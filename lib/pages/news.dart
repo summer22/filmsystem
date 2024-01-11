@@ -22,6 +22,7 @@ class _NewsPageState extends State<NewsPage>
   bool get wantKeepAlive => true;
 
   Future<NewsModel?>? newsModel;
+  late String baseUrl;
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _NewsPageState extends State<NewsPage>
   Future<NewsModel?> getData() async {
     BaseRequest request = BaseRequest();
     request.path = ApiPath.newsList;
+    baseUrl = request.host();
     try {
       ApiResponse response = await Api().fire(request);
       return Future.value(NewsModel.fromJson(response.data));
@@ -61,7 +63,7 @@ class _NewsPageState extends State<NewsPage>
         ),
         title: Text(
           'news'.tr,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
         ),
         centerTitle: true,
       ),
@@ -104,7 +106,7 @@ class _NewsPageState extends State<NewsPage>
             aspectRatio: 3/2,
             child: InkWell(
               child: CachedNetworkImage(
-                key: ValueKey(model?.cover ?? ''),
+                key: ValueKey(baseUrl + (model?.cover ?? '')),
                 fit: BoxFit.fitWidth,
                 placeholder: (context, url) {
                   return Image.asset(
@@ -112,7 +114,7 @@ class _NewsPageState extends State<NewsPage>
                     fit: BoxFit.cover,
                   );
                 },
-                imageUrl: model?.cover ?? '',
+                imageUrl: baseUrl + (model?.cover ?? ''),
                 errorWidget: (context, url, error) {
                   return Image.asset(
                     defaultAssets,

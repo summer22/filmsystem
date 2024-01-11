@@ -59,7 +59,7 @@ class _DownloadPageState extends State<DownloadPage>
         ),
         title: Text(
           'my_download'.tr,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
         ),
         centerTitle: true,
       ),

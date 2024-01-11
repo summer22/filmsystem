@@ -88,6 +88,10 @@ class _HomePageState extends State<HomePage>
       }
     });
 
+    SimpleStorage.box?.listenKey(userInfo, (value) {
+      setState(() {});
+    });
+
     _onRefresh();
   }
 

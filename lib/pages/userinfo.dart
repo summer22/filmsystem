@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:filmsystem/data/models/code_model.dart';
 import 'package:filmsystem/data/models/info/avatar_list_model.dart';
 import 'package:filmsystem/data/network/api.dart';
 import 'package:filmsystem/data/network/api_path.dart';
@@ -39,6 +40,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   String selectedAvatar = "";
   late String baseUrl;
   int selectedIndex = -1;
+  String smsToken = "";
 
   @override
   void initState() {
@@ -79,16 +81,17 @@ class _UserInfoPageState extends State<UserInfoPage> {
     BaseRequest request = BaseRequest();
     request.httpMethod = HttpMethod.post;
     request.path = ApiPath.updateUserInfo;
-    request.add("avatar", request.host() + selectedAvatar);
+    request.add("avatar", selectedAvatar);
     request.add("realName", _realNameController.text);
     request.add("email", _emailController.text);
     request.add("password", _pwdController.text);
     request.add("mobile", _mobileController.text);
     request.add("smsCode", _codeController.text);
+    request.add("smsToken", smsToken);
     try {
       await Api().fire(request);
       SimpleStorage.removeUserInfo();
-     Get.off(const LoginPage());
+      Get.off(const LoginPage());
     } on ApiError catch (e) {
       throw Exception(e.toString());
     }
@@ -100,7 +103,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
     request.path = ApiPath.code;
     request.add("email", _emailController.text);
     try {
-      await Api().fire(request);
+      ApiResponse response = await Api().fire(request);
+      CodeModel codeModel = CodeModel.fromJson(response.data);
+      smsToken = codeModel.data?.token ?? "";
       codeCallback();
     } on ApiError catch (e) {
       throw Exception(e.toString());
@@ -123,7 +128,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
         ),
         title: Text(
           'update_info_title'.tr,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
         ),
         centerTitle: true,
       ),
@@ -133,7 +138,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
@@ -229,8 +234,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       onTap: () {
                         setState(() {
                           selectedIndex = index;
-                          selectedAvatar = baseUrl +
-                              (avatarListModel?.data?[index]?.url ?? "");
+                          selectedAvatar = avatarListModel?.data?[index]?.url ?? "";
                         });
                       },
                       child: Container(
@@ -321,11 +325,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 100,
-                          padding: const EdgeInsets.only(top: 12),
+                          width: 90,
+                          padding: const EdgeInsets.only(top: 12, right: 15),
                           child: Text(
                             'update_info_mobile'.tr,
-                            textAlign: TextAlign.start,
+                            textAlign: TextAlign.end,
                             style: const TextStyle(
                                 color: Colors.black, fontSize: 16),
                           ),
@@ -349,12 +353,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             focusedErrorBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black),
                             ),
-                            errorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            errorText: _validateInput(_mobileController.text),
-                            errorStyle:
-                                const TextStyle(color: Colors.redAccent),
+                            // errorBorder: const OutlineInputBorder(
+                            //   borderSide: BorderSide(color: Colors.black),
+                            // ),
+                            // errorText: _validateInput(_mobileController.text),
+                            // errorStyle:
+                            //     const TextStyle(color: Colors.redAccent),
                             suffixIcon: _showMobileClearButton
                                 ? IconButton(
                                     icon: const Icon(
@@ -387,11 +391,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 100,
-                          padding: const EdgeInsets.only(top: 12),
+                          width: 90,
+                          padding: const EdgeInsets.only(top: 12, right: 15),
                           child: Text(
                             'update_info_real_name'.tr,
-                            textAlign: TextAlign.start,
+                            textAlign: TextAlign.end,
                             style: const TextStyle(
                                 color: Colors.black, fontSize: 16),
                           ),
@@ -415,12 +419,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                 focusedErrorBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
                                 ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                errorText: _validateInput(_realNameController.text),
-                                errorStyle:
-                                const TextStyle(color: Colors.redAccent),
+                                // errorBorder: const OutlineInputBorder(
+                                //   borderSide: BorderSide(color: Colors.black),
+                                // ),
+                                // errorText: _validateInput(_realNameController.text),
+                                // errorStyle:
+                                // const TextStyle(color: Colors.redAccent),
                                 suffixIcon: _showNameClearButton
                                     ? IconButton(
                                   icon: const Icon(
@@ -452,11 +456,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 100,
-                          padding: const EdgeInsets.only(top: 12),
+                          width: 90,
+                          padding: const EdgeInsets.only(top: 12, right: 15),
                           child: Text(
                             'update_info_email'.tr,
-                            textAlign: TextAlign.start,
+                            textAlign: TextAlign.end,
                             style: const TextStyle(
                                 color: Colors.black, fontSize: 16),
                           ),
@@ -480,12 +484,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                 focusedErrorBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
                                 ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                errorText: _validateInput(_emailController.text),
-                                errorStyle:
-                                const TextStyle(color: Colors.redAccent),
+                                // errorBorder: const OutlineInputBorder(
+                                //   borderSide: BorderSide(color: Colors.black),
+                                // ),
+                                // errorText: _validateInput(_emailController.text),
+                                // errorStyle:
+                                // const TextStyle(color: Colors.redAccent),
                                 suffixIcon: _showEmailClearButton
                                     ? IconButton(
                                   icon: const Icon(
@@ -518,11 +522,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 100,
-                          padding: const EdgeInsets.only(top: 12),
+                          width: 90,
+                          padding: const EdgeInsets.only(top: 12, right: 15),
                           child: Text(
                             'update_info_password'.tr,
-                            textAlign: TextAlign.start,
+                            textAlign: TextAlign.end,
                             style: const TextStyle(
                                 color: Colors.black, fontSize: 16),
                           ),
@@ -547,12 +551,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                 focusedErrorBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
                                 ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                errorText: _validateInput(_pwdController.text),
-                                errorStyle:
-                                const TextStyle(color: Colors.redAccent),
+                                // errorBorder: const OutlineInputBorder(
+                                //   borderSide: BorderSide(color: Colors.black),
+                                // ),
+                                // errorText: _validateInput(_pwdController.text),
+                                // errorStyle:
+                                // const TextStyle(color: Colors.redAccent),
                                 suffixIcon: _leftIcon(),
                               ),
                               onChanged: (value) {
@@ -571,11 +575,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 100,
-                          padding: const EdgeInsets.only(top: 12),
+                          width: 90,
+                          padding: const EdgeInsets.only(top: 12, right: 15),
                           child: Text(
                             'update_info_sms_code'.tr,
-                            textAlign: TextAlign.start,
+                            textAlign: TextAlign.end,
                             style: const TextStyle(
                                 color: Colors.black, fontSize: 16),
                           ),
@@ -602,12 +606,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                     focusedErrorBorder: const OutlineInputBorder(
                                       borderSide: BorderSide(color: Colors.black),
                                     ),
-                                    errorBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.black),
-                                    ),
-                                    errorText: _validateInput(_codeController.text),
-                                    errorStyle:
-                                    const TextStyle(color: Colors.redAccent),
+                                    // errorBorder: const OutlineInputBorder(
+                                    //   borderSide: BorderSide(color: Colors.black),
+                                    // ),
+                                    // errorText: _validateInput(_codeController.text),
+                                    // errorStyle:
+                                    // const TextStyle(color: Colors.redAccent),
                                     suffixIcon: _showCodeClearButton
                                         ? IconButton(
                                       icon: const Icon(

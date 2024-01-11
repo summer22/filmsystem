@@ -102,7 +102,7 @@ class _DetailPageState extends State<DetailPage> {
         ),
         title: Text(
           title,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
         ),
         centerTitle: true,
       ),

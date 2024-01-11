@@ -255,13 +255,13 @@ class _ForgetPageState extends State<ForgetPage> {
                     focusedErrorBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange),
                     ),
-                    errorBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
+                    // errorBorder: const OutlineInputBorder(
+                    //   borderSide: BorderSide(color: Colors.orange),
+                    // ),
                     filled: true,
                     fillColor: Colors.white10,
-                    errorText: _validateInput(_controller.text),
-                    errorStyle: const TextStyle(color: Colors.orange),
+                    // errorText: _validateInput(_controller.text),
+                    // errorStyle: const TextStyle(color: Colors.orange),
                     suffixIcon: _showClearButton
                         ? IconButton(
                             icon: const Icon(
@@ -307,13 +307,13 @@ class _ForgetPageState extends State<ForgetPage> {
                     focusedErrorBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange),
                     ),
-                    errorBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
+                    // errorBorder: const OutlineInputBorder(
+                    //   borderSide: BorderSide(color: Colors.orange),
+                    // ),
                     filled: true,
                     fillColor: Colors.white10,
-                    errorText: _validatePwdInput(_pwdController.text),
-                    errorStyle: const TextStyle(color: Colors.orange),
+                    // errorText: _validatePwdInput(_pwdController.text),
+                    // errorStyle: const TextStyle(color: Colors.orange),
                     suffixIcon: _leftIcon(),
                   ),
                   onChanged: (value) {
@@ -345,13 +345,13 @@ class _ForgetPageState extends State<ForgetPage> {
                     focusedErrorBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.orange),
                     ),
-                    errorBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
+                    // errorBorder: const OutlineInputBorder(
+                    //   borderSide: BorderSide(color: Colors.orange),
+                    // ),
                     filled: true,
                     fillColor: Colors.white10,
-                    errorText: _validatePwdInput(_pwdTwoController.text),
-                    errorStyle: const TextStyle(color: Colors.orange),
+                    // errorText: _validatePwdInput(_pwdTwoController.text),
+                    // errorStyle: const TextStyle(color: Colors.orange),
                     suffixIcon: _leftTwoIcon(),
                   ),
                   onChanged: (value) {
@@ -387,13 +387,13 @@ class _ForgetPageState extends State<ForgetPage> {
                           focusedErrorBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.orange),
                           ),
-                          errorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.orange),
-                          ),
+                          // errorBorder: const OutlineInputBorder(
+                          //   borderSide: BorderSide(color: Colors.orange),
+                          // ),
                           filled: true,
                           fillColor: Colors.white10,
-                          errorText: _validateCodeInput(_codeController.text),
-                          errorStyle: const TextStyle(color: Colors.orange),
+                          // errorText: _validateCodeInput(_codeController.text),
+                          // errorStyle: const TextStyle(color: Colors.orange),
                           suffixIcon: _codeLeftIcon(),
                         ),
                         onChanged: (value) {
@@ -428,7 +428,7 @@ class _ForgetPageState extends State<ForgetPage> {
                 ),
                 SizedBox(
                   width: Get.width - 40,
-                  height: 60,
+                  height: 50,
                   child: Button(
                     text: 'change_pwd'.tr,
                     textColor: Colors.white,
