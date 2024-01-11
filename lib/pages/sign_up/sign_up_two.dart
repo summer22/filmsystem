@@ -55,14 +55,14 @@ class _SignUpTwoState extends State<SignUpTwo> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '第2步(共4步)',
+            'step_two'.tr,
             style: const TextStyle(color: Colors.black, fontSize: 16),
           ),
           const SizedBox(
             height: 20,
           ),
           Text(
-            '${_controller.name}，请选择一个您喜欢的头像',
+            '${_controller.name}，${'step_two_subtitle'.tr}',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -73,13 +73,13 @@ class _SignUpTwoState extends State<SignUpTwo> {
             height: 20,
           ),
           RichText(
-            text: const TextSpan(
-              text: '这有助于我们找到您会喜爱的节目与电影,',
-              style: TextStyle(color: Colors.black),
+            text: TextSpan(
+              text: 'step_two_desc1'.tr,
+              style: const TextStyle(color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
-                  text: '请选择一个您喜欢的头像',
-                  style: TextStyle(
+                  text: 'step_two_desc2'.tr,
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.black),
                 ),
               ],
@@ -198,7 +198,7 @@ class _SignUpTwoState extends State<SignUpTwo> {
                 SizedBox(
                   height: 50,
                   child: Button(
-                    text: '上一步',
+                    text: 'step_two_btn_left'.tr,
                     textColor: Colors.black87,
                     backgroundColor: Colors.white70,
                     radius: 8,
@@ -215,7 +215,7 @@ class _SignUpTwoState extends State<SignUpTwo> {
                   child: SizedBox(
                     height: 50,
                     child: Button(
-                      text: selectedAvatar.isEmpty ? "请选择一个您喜欢的头像" : '下一步' ,
+                      text: selectedAvatar.isEmpty ? "step_two_btn_right1".tr : 'step_two_btn_right2'.tr ,
                       textColor: selectedAvatar.isEmpty ? Colors.black87 : Colors.white,
                       backgroundColor: selectedAvatar.isEmpty ? Colors.white70 : Colors.redAccent,
                       radius: 8,

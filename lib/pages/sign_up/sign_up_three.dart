@@ -51,15 +51,15 @@ class _SignUpThreeState extends State<SignUpThree> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '第3步(共4步)',
-            style: TextStyle(color: Colors.black, fontSize: 16),
+          Text(
+            'step_three'.tr,
+            style: const TextStyle(color: Colors.black, fontSize: 16),
           ),
           const SizedBox(
             height: 20,
           ),
           Text(
-            '${_controller.name}，请选择三部您喜欢的影片',
+            '${_controller.name}，${"step_three_subtitle".tr}',
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -70,13 +70,13 @@ class _SignUpThreeState extends State<SignUpThree> {
             height: 20,
           ),
           RichText(
-            text: const TextSpan(
-              text: '这有助于我们找到您会喜爱的节目与电影,',
-              style: TextStyle(color: Colors.black),
+            text: TextSpan(
+              text: 'step_three_desc1'.tr,
+              style: const TextStyle(color: Colors.black),
               children: <TextSpan>[
                 TextSpan(
-                  text: '请选择您喜欢的影片',
-                  style: TextStyle(
+                  text: 'step_three_desc2'.tr,
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.black),
                 ),
               ],
@@ -103,7 +103,7 @@ class _SignUpThreeState extends State<SignUpThree> {
               SizedBox(
                 height: 50,
                 child: Button(
-                  text: '上一步',
+                  text: 'step_two_btn_left'.tr,
                   textColor: Colors.black87,
                   backgroundColor: Colors.white70,
                   radius: 8,
@@ -120,7 +120,7 @@ class _SignUpThreeState extends State<SignUpThree> {
                 child: SizedBox(
                   height: 50,
                   child: Button(
-                    text: selectedHobbyModel.length < 3 ? selectCountText() : '下一步' ,
+                    text: selectedHobbyModel.length < 3 ? selectCountText() : 'step_two_btn_right2'.tr ,
                     textColor: selectedHobbyModel.length < 3 ? Colors.black87 : Colors.white,
                     backgroundColor: selectedHobbyModel.length < 3 ? Colors.white70 : Colors.redAccent,
                     radius: 8,
@@ -143,7 +143,7 @@ class _SignUpThreeState extends State<SignUpThree> {
   }
 
   String selectCountText() {
-    return "选择" + "${3 - (selectedHobbyModel.length ?? 0)}" + "部影片以继续";
+    return "${"step_three_desc3".tr}${3 - (selectedHobbyModel.length ?? 0)}${"step_three_desc4".tr}";
   }
 
   SliverGrid _sliverGrid() {

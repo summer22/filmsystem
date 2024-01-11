@@ -116,6 +116,7 @@ class _SignUpOneState extends State<SignUpOne> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         leading: Builder(
           builder: (context) => GestureDetector(
               child: const Padding(
@@ -136,7 +137,7 @@ class _SignUpOneState extends State<SignUpOne> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '第1步(共4步)',
+                  'step_one'.tr,
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16),
@@ -145,7 +146,7 @@ class _SignUpOneState extends State<SignUpOne> {
                   height: 20,
                 ),
                 Text(
-                  '我们依照每个的喜好和语言偏好为您精心推荐影片，您家中的每个成员都能拥有自己的专属片单，还有儿童专区',
+                  'step_one_desc'.tr,
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16),
@@ -158,11 +159,11 @@ class _SignUpOneState extends State<SignUpOne> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 80,
-                      padding: const EdgeInsets.only(top: 12),
+                      width: 90,
+                      padding: const EdgeInsets.only(top: 12, right: 15),
                       child: Text(
-                        '真实姓名',
-                        textAlign: TextAlign.start,
+                        'update_info_real_name'.tr,
+                        textAlign: TextAlign.end,
                         style: const TextStyle(
                             color: Colors.black, fontSize: 16),
                       ),
@@ -175,7 +176,7 @@ class _SignUpOneState extends State<SignUpOne> {
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 10),
-                            hintText: '真实姓名',
+                            hintText: 'update_info_real_name'.tr,
                             hintStyle: const TextStyle(color: Colors.black45),
                             border: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black),
@@ -217,10 +218,10 @@ class _SignUpOneState extends State<SignUpOne> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 80,
+                      width: 90,
                       padding: const EdgeInsets.only(top: 12, right: 15),
                       child: Text(
-                        '密码',
+                        'update_info_password'.tr,
                         textAlign: TextAlign.end,
                         style: const TextStyle(
                             color: Colors.black, fontSize: 16),
@@ -235,7 +236,7 @@ class _SignUpOneState extends State<SignUpOne> {
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 10),
-                            hintText: '请输入您的密码',
+                            hintText: 'pwd_empty_tip'.tr,
                             hintStyle: const TextStyle(color: Colors.black45),
                             border: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black),
@@ -264,11 +265,11 @@ class _SignUpOneState extends State<SignUpOne> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 80,
-                      padding: const EdgeInsets.only(top: 12),
+                      width: 90,
+                      padding: const EdgeInsets.only(top: 12, right: 15),
                       child: Text(
-                        '确认密码',
-                        textAlign: TextAlign.start,
+                        'pwd_confirm'.tr,
+                        textAlign: TextAlign.end,
                         style: const TextStyle(
                             color: Colors.black, fontSize: 16),
                       ),
@@ -282,7 +283,7 @@ class _SignUpOneState extends State<SignUpOne> {
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 10),
-                            hintText: '请再次输入您的密码',
+                            hintText: 'pwd_confirm_tip'.tr,
                             hintStyle: const TextStyle(color: Colors.black45),
                             border: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black),
@@ -311,11 +312,11 @@ class _SignUpOneState extends State<SignUpOne> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: 80,
-                      padding: const EdgeInsets.only(top: 12),
+                      width: 90,
+                      padding: const EdgeInsets.only(top: 12, right: 15),
                       child: Text(
-                        '电话号码',
-                        textAlign: TextAlign.start,
+                        'update_info_mobile'.tr,
+                        textAlign: TextAlign.end,
                         style: const TextStyle(
                             color: Colors.black, fontSize: 16),
                       ),
@@ -328,7 +329,7 @@ class _SignUpOneState extends State<SignUpOne> {
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 8.0, horizontal: 10),
-                            hintText: '请输入有效的电话号码',
+                            hintText: 'mobile_hint'.tr,
                             hintStyle: const TextStyle(color: Colors.black45),
                             border: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black),
@@ -369,34 +370,34 @@ class _SignUpOneState extends State<SignUpOne> {
                   width: Get.width - 40,
                   height: 50,
                   child: Button(
-                    text: '下一步',
+                    text: 'step_one_btn'.tr,
                     textColor: Colors.white,
                     backgroundColor: Colors.redAccent,
                     radius: 8,
                     textStyle: const TextStyle(fontSize: 18),
                     click: () {
                       if(_nameController.text.isEmpty){
-                        EasyLoading.showToast('请输入名字',
+                        EasyLoading.showToast('name_hint'.tr,
                             toastPosition: EasyLoadingToastPosition.bottom);
                         return;
                       }
                       if(_pwdController.text.isEmpty || _pwdController.text.length < 4 || _pwdController.text.length > 20){
-                        EasyLoading.showToast('您的密码必须包含4到20个字符',
+                        EasyLoading.showToast('pwd_hint'.tr,
                             toastPosition: EasyLoadingToastPosition.bottom);
                         return;
                       }
                       if(_repwdController.text.isEmpty || _pwdController.text.length < 4 || _pwdController.text.length > 20){
-                        EasyLoading.showToast('您的密码必须包含4到20个字符',
+                        EasyLoading.showToast('pwd_hint'.tr,
                             toastPosition: EasyLoadingToastPosition.bottom);
                         return;
                       }
                       if(_pwdController.text != _repwdController.text){
-                        EasyLoading.showToast('两次输入密码不一致',
+                        EasyLoading.showToast('pwd_diff_tip'.tr,
                             toastPosition: EasyLoadingToastPosition.bottom);
                         return;
                       }
                       if(_mobileController.text.isEmpty){
-                        EasyLoading.showToast('请输入有效的电话号码',
+                        EasyLoading.showToast('mobile_hint'.tr,
                             toastPosition: EasyLoadingToastPosition.bottom);
                         return;
                       }

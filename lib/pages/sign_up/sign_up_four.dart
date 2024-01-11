@@ -69,7 +69,8 @@ class _SignUpFourState extends State<SignUpFour> {
     request.add("comfimPwd", _controller.rePwd);
     request.add("mobile", _controller.mobile);
     request.add("avatarUrl", _controller.avatar);
-    request.add("like", _controller.selectedHobbyModel.map((e) => e.headNo).toList());
+    request.add(
+        "like", _controller.selectedHobbyModel.map((e) => e.headNo).toList());
     request.add("email", _emailController.text);
     request.add("smsCode", _codeController.text);
     request.add("smsToken", smsToken);
@@ -118,15 +119,15 @@ class _SignUpFourState extends State<SignUpFour> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '第4步(共4步)',
-            style: TextStyle(color: Colors.black, fontSize: 16),
+          Text(
+            'step_four'.tr,
+            style: const TextStyle(color: Colors.black, fontSize: 16),
           ),
           const SizedBox(
             height: 20,
           ),
           Text(
-            '我们依照每个的喜好和语言偏好为您精心推荐影片，您家中的每个成员都能拥有自己的专属片单，还有儿童专区',
+            'step_four_desc'.tr,
             style: const TextStyle(color: Colors.black, fontSize: 16),
           ),
           const SizedBox(
@@ -151,55 +152,54 @@ class _SignUpFourState extends State<SignUpFour> {
             children: [
               Container(
                 width: 80,
-                padding: const EdgeInsets.only(top: 12),
+                padding: const EdgeInsets.only(top: 12, right: 15),
                 child: Text(
                   'email'.tr,
-                  textAlign: TextAlign.start,
-                  style: const TextStyle(
-                      color: Colors.black, fontSize: 16),
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
               Expanded(
                   child: TextField(
-                    cursorColor: Colors.black,
-                    controller: _emailController,
-                    style: const TextStyle(color: Colors.black),
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 10),
-                      hintText: 'email_hint'.tr,
-                      hintStyle: const TextStyle(color: Colors.black45),
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      focusedErrorBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      suffixIcon: _showEmailClearButton
-                          ? IconButton(
-                        icon: const Icon(
-                          Icons.clear,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _emailController.clear();
-                            _showEmailClearButton = false;
-                          });
-                        },
-                      )
-                          : null,
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) {
-                      setState(() {
-                        _showEmailClearButton = value.isNotEmpty;
-                      });
-                    },
-                  )),
+                cursorColor: Colors.black,
+                controller: _emailController,
+                style: const TextStyle(color: Colors.black),
+                decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
+                  hintText: 'email_hint'.tr,
+                  hintStyle: const TextStyle(color: Colors.black45),
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  focusedErrorBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                  ),
+                  suffixIcon: _showEmailClearButton
+                      ? IconButton(
+                          icon: const Icon(
+                            Icons.clear,
+                            color: Colors.black,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _emailController.clear();
+                              _showEmailClearButton = false;
+                            });
+                          },
+                        )
+                      : null,
+                ),
+                keyboardType: TextInputType.emailAddress,
+                onChanged: (value) {
+                  setState(() {
+                    _showEmailClearButton = value.isNotEmpty;
+                  });
+                },
+              )),
             ],
           ),
           const SizedBox(
@@ -215,84 +215,86 @@ class _SignUpFourState extends State<SignUpFour> {
                 child: Text(
                   'code'.tr,
                   textAlign: TextAlign.end,
-                  style: const TextStyle(
-                      color: Colors.black, fontSize: 16),
+                  style: const TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
-              Expanded(child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                      child: TextField(
-                        cursorColor: Colors.black,
-                        controller: _codeController,
-                        style: const TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 10),
-                          hintText: 'code'.tr,
-                          hintStyle: const TextStyle(color: Colors.black45),
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                          focusedErrorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                          errorBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                          suffixIcon: _showCodeClearButton
-                              ? IconButton(
-                            icon: const Icon(
-                              Icons.clear,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _codeController.clear();
-                                _showCodeClearButton = false;
-                              });
-                            },
-                          )
-                              : null,
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                        child: TextField(
+                      cursorColor: Colors.black,
+                      controller: _codeController,
+                      style: const TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 10),
+                        hintText: 'code'.tr,
+                        hintStyle: const TextStyle(color: Colors.black45),
+                        border: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
                         ),
-                        keyboardType: TextInputType.number,
-                        onChanged: (value) {
-                          setState(() {
-                            _showCodeClearButton = value.isNotEmpty;
-                          });
-                        },
-                      )),
-                  const SizedBox(width: 5,),
-                  SizedBox(
-                      height: 48,
-                      width: 130,
-                      child: CountDownButton(
-                        backgroundColor: Colors.black38,
-                        radius: 0,
-                        text: 'send_code'.tr,
-                        countDownText: 'count_down'.tr,
-                        onStart: (VoidCallback callback) {
-                          if(_emailController.text.isEmpty){
-                            EasyLoading.showToast('email_hint'.tr);
-                            return;
-                          }
-                          getCodeData((){
-                            callback();
-                          });
-                        },
-                      ))
-                ],
-              ),),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        focusedErrorBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        errorBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        suffixIcon: _showCodeClearButton
+                            ? IconButton(
+                                icon: const Icon(
+                                  Icons.clear,
+                                  color: Colors.black,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _codeController.clear();
+                                    _showCodeClearButton = false;
+                                  });
+                                },
+                              )
+                            : null,
+                      ),
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        setState(() {
+                          _showCodeClearButton = value.isNotEmpty;
+                        });
+                      },
+                    )),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    SizedBox(
+                        height: 48,
+                        width: 130,
+                        child: CountDownButton(
+                          backgroundColor: Colors.black38,
+                          radius: 0,
+                          text: 'send_code'.tr,
+                          countDownText: 'count_down'.tr,
+                          onStart: (VoidCallback callback) {
+                            if (_emailController.text.isEmpty) {
+                              EasyLoading.showToast('email_hint'.tr);
+                              return;
+                            }
+                            getCodeData(() {
+                              callback();
+                            });
+                          },
+                        ))
+                  ],
+                ),
+              ),
             ],
           ),
         ],
       ),
     );
-
   }
 
   SliverToBoxAdapter _bottomBtn() {
@@ -307,7 +309,7 @@ class _SignUpFourState extends State<SignUpFour> {
             children: [
               Expanded(
                 child: Button(
-                  text: '上一步',
+                  text: 'step_two_btn_left'.tr,
                   textColor: Colors.black87,
                   backgroundColor: Colors.white70,
                   radius: 8,
@@ -322,13 +324,13 @@ class _SignUpFourState extends State<SignUpFour> {
               ),
               Expanded(
                   child: Button(
-                text: '已完成',
+                text: 'step_four_right_btn'.tr,
                 textColor: Colors.white,
                 backgroundColor: Colors.redAccent,
                 radius: 8,
                 textStyle: const TextStyle(fontSize: 15),
                 click: () {
-                  if(_codeController.text.isEmpty){
+                  if (_codeController.text.isEmpty) {
                     EasyLoading.showToast('code_hint'.tr);
                     return;
                   }
@@ -358,10 +360,15 @@ class _SignUpFourState extends State<SignUpFour> {
               onTap: () => Get.back()),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: CustomScrollView(
-          slivers: [_topWidget(), _midInputWidget(), _bottomBtn()],
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: CustomScrollView(
+            slivers: [_topWidget(), _midInputWidget(), _bottomBtn()],
+          ),
         ),
       ),
     );

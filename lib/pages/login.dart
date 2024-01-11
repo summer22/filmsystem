@@ -332,9 +332,12 @@ class _LoginPageState extends State<LoginPage> {
                       onTap: () {
                         Get.to(() => const SignUpOne());
                       },
-                      child: Text(
-                        'sign_in_btn_title'.tr,
-                        style: const TextStyle(color: Colors.white, fontSize: 12),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: Text(
+                          'sign_in_btn_title'.tr,
+                          style: const TextStyle(color: Colors.white, fontSize: 12),
+                        ),
                       ),
                     )
                   ],
