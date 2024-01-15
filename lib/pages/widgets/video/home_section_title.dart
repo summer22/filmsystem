@@ -40,7 +40,7 @@ class HomeSectionTitleState extends State<HomeSectionTitle>
       onTap: () => {_move()},
       child: Container(
           width: MediaQuery.of(context).size.width,
-          height: 90,
+          height: 60,
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.only(left: 10),
           child: Row(
@@ -48,7 +48,7 @@ class HomeSectionTitleState extends State<HomeSectionTitle>
               Text(widget.title ?? "",
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 22,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   )),
               GestureDetector(

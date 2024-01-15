@@ -77,6 +77,7 @@ class _NewsPageState extends State<NewsPage>
       builder: (BuildContext context, AsyncSnapshot<NewsModel?> snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
+            padding: const EdgeInsets.only(bottom: 50),
             itemCount: snapshot.data?.data?.length ?? 0,
             itemBuilder: (BuildContext context, int index) {
               return _item(snapshot.data?.data?[index]);
@@ -108,17 +109,21 @@ class _NewsPageState extends State<NewsPage>
               child: CachedNetworkImage(
                 key: ValueKey(baseUrl + (model?.cover ?? '')),
                 fit: BoxFit.fitWidth,
-                placeholder: (context, url) {
-                  return Image.asset(
-                    defaultAssets,
-                    fit: BoxFit.cover,
-                  );
-                },
+                // placeholder: (context, url) {
+                //   return Image.asset(
+                //     defaultAssets,
+                //     fit: BoxFit.cover,
+                //   );
+                // },
                 imageUrl: baseUrl + (model?.cover ?? ''),
                 errorWidget: (context, url, error) {
-                  return Image.asset(
-                    defaultAssets,
-                    fit: BoxFit.cover,
+                  return Center(
+                    child: Text('image_loading_error'.tr,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white60,
+                          fontSize: 15,
+                        )),
                   );
                 },
               ),
@@ -133,6 +138,7 @@ class _NewsPageState extends State<NewsPage>
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(model?.msgTitle ?? "",
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                     style: const TextStyle(color: Colors.white)),
               ),
               Padding(
@@ -140,12 +146,14 @@ class _NewsPageState extends State<NewsPage>
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(model?.msgContent ?? "",
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                     style: const TextStyle(color: Colors.white)),
               ),
               Padding(
                 padding:
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Text(model?.updateDate ?? "",
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(color: Colors.white)),
               ),

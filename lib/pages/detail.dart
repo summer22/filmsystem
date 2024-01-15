@@ -5,11 +5,13 @@ import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
-import 'package:filmsystem/pages/video.dart';
+import 'package:filmsystem/pages/login.dart';
 import 'package:filmsystem/pages/webiew.dart';
+import 'package:filmsystem/utils/constant.dart';
 import 'package:filmsystem/utils/image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'widgets/buttons/button.dart';
 
@@ -26,12 +28,15 @@ class _DetailPageState extends State<DetailPage> {
 
   Future<DetailModel?>? detailModel;
   DetailModel? recordDetailModel;
+  late String baseUrl;
+  final box = GetStorage();
 
   Future<DetailModel?> getData() async {
     BaseRequest request = BaseRequest();
     request.httpMethod = HttpMethod.post;
     request.path = ApiPath.detail;
     request.add("headNo", headNo);
+    baseUrl = request.host();
     try {
       ApiResponse response = await Api().fire(request);
       recordDetailModel = DetailModel.fromJson(response.data);
@@ -123,11 +128,12 @@ class _DetailPageState extends State<DetailPage> {
         future: detailModel,
         builder: (BuildContext context, AsyncSnapshot<DetailModel?> snapshot) {
           if (snapshot.hasData) {
+            String urlStr;
             return SliverList(
                 delegate: SliverChildListDelegate(<Widget>[
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 20),
                 height: 150,
                 child: Stack(
                   children: [
@@ -170,11 +176,12 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 snapshot.data?.data?.videoName ?? "",
                                 style: const TextStyle(
-                                    color: Colors.white, fontSize: 24),
+                                    color: Colors.white, fontSize: 20),
                               ),
                               Padding(
                                 padding:
@@ -182,33 +189,41 @@ class _DetailPageState extends State<DetailPage> {
                                 child: Text(
                                   _subtitle(snapshot.data),
                                   style: const TextStyle(
-                                      color: Colors.white60, fontSize: 16),
+                                      color: Colors.white60, fontSize: 14),
                                 ),
                               ),
                               Row(
                                 children: [
                                   SizedBox(
                                     width: 75,
-                                    height: 35,
+                                    height: 32,
                                     child: Button(
-                                      text: "播放",
+                                      text: 'play'.tr,
                                       textColor: Colors.white,
                                       backgroundColor: Colors.red,
                                       radius: 5,
                                       textStyle: const TextStyle(fontSize: 13),
                                       click: () => {
+                                        urlStr =
+                                            "${baseUrl}watch?url=${snapshot.data?.data?.filmUrl}&videoName=${snapshot.data?.data?.videoName}&headNo=${snapshot.data?.data?.headNo}",
                                         //播放
-                                        Get.to(() => const VideoPage(),
-                                            arguments: {
-                                              "headNo":
-                                                  snapshot.data?.data?.headNo
-                                            })
-                                        // Get.to(() => const WebViewScreen())
+                                        Get.to(() => WebViewScreen(
+                                              url: urlStr,
+                                            ))
+                                        // Get.to(() => const VideoPage(),
+                                        //     arguments: {
+                                        //       "headNo":
+                                        //           snapshot.data?.data?.headNo
+                                        //     })
                                       },
                                     ),
                                   ),
                                   GestureDetector(
                                     onTap: () {
+                                      if (box.read(token) == null) {
+                                        Get.to(() => const LoginPage());
+                                        return;
+                                      }
                                       _getCollectData(
                                           isCollect:
                                               snapshot.data?.data?.isCollect ==
@@ -218,8 +233,8 @@ class _DetailPageState extends State<DetailPage> {
                                       padding: const EdgeInsets.only(
                                           left: 5, right: 5),
                                       child: SizedBox(
-                                        width: 40,
-                                        height: 40,
+                                        width: 35,
+                                        height: 35,
                                         child: Image.asset(
                                           snapshot.data?.data?.isCollect ??
                                                   false
@@ -233,13 +248,17 @@ class _DetailPageState extends State<DetailPage> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
+                                      if (box.read(token) == null) {
+                                        Get.to(() => const LoginPage());
+                                        return;
+                                      }
                                       _getLikesData(
                                           isLike:
                                               snapshot.data?.data?.isLike == 1);
                                     },
                                     child: SizedBox(
-                                      width: 40,
-                                      height: 40,
+                                      width: 35,
+                                      height: 35,
                                       child: Image.asset(
                                         snapshot.data?.data?.isLike == 0
                                             ? unzanAssets
@@ -259,17 +278,17 @@ class _DetailPageState extends State<DetailPage> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 child: Text(
                   snapshot.data?.data?.intro ?? "",
                   maxLines: 7,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.white70, fontSize: 18),
+                  style: const TextStyle(color: Colors.white70, fontSize: 15),
                 ),
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -278,9 +297,11 @@ class _DetailPageState extends State<DetailPage> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style:
-                          const TextStyle(color: Colors.white70, fontSize: 24),
+                          const TextStyle(color: Colors.white70, fontSize: 20),
                     ),
-                    for (int index = 0; index < (snapshot.data?.data?.dramaList?.length ?? 0); index++)
+                    for (int index = 0;
+                        index < (snapshot.data?.data?.dramaList?.length ?? 0);
+                        index++)
                       GestureDetector(
                         child: Row(
                           children: [
@@ -292,18 +313,18 @@ class _DetailPageState extends State<DetailPage> {
                                     "${snapshot.data?.data?.dramaList?[index]?.dramaNumber}",
                                     style: const TextStyle(
                                         color: Colors.white70,
-                                        fontSize: 18,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 Container(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, right: 20),
+                                  padding:
+                                      const EdgeInsets.only(top: 10, right: 20),
                                   width: 120,
                                   height: 80,
                                   child: CachedNetworkImage(
                                     key: ValueKey(snapshot.data?.data
-                                        ?.dramaList?[index]?.dramaUrl ??
+                                            ?.dramaList?[index]?.dramaUrl ??
                                         ""),
                                     fit: BoxFit.cover,
                                     // placeholder: (context, url) {
@@ -312,8 +333,8 @@ class _DetailPageState extends State<DetailPage> {
                                     //     fit: BoxFit.cover,
                                     //   );
                                     // },
-                                    imageUrl: snapshot.data?.data?.dramaList
-                                    ?[index]?.dramaUrl ??
+                                    imageUrl: snapshot.data?.data
+                                            ?.dramaList?[index]?.dramaUrl ??
                                         "",
                                     errorWidget: (context, url, error) {
                                       return Center(
@@ -331,53 +352,59 @@ class _DetailPageState extends State<DetailPage> {
                             ),
                             Expanded(
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(child: Text(
-                                          snapshot.data?.data?.dramaList?[index]
-                                              ?.dramaTitle ??
-                                              "",
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              color: Colors.white70,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),),
-                                        Text("${snapshot.data?.data?.dramaList?[index]
-                                            ?.duration}分钟",
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                              color: Colors.white70,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        snapshot.data?.data?.dramaList?[index]
+                                                ?.dramaTitle ??
+                                            "",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                     Text(
-                                      snapshot.data?.data?.dramaList?[index]
-                                          ?.intro ??
-                                          "",
-                                      maxLines: 2,
+                                      "${snapshot.data?.data?.dramaList?[index]?.duration}分钟",
+                                      maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
-                                          color: Colors.white70, fontSize: 15),
+                                          color: Colors.white70,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ],
-                                )),
+                                ),
+                                Text(
+                                  snapshot.data?.data?.dramaList?[index]
+                                          ?.intro ??
+                                      "",
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      color: Colors.white70, fontSize: 12),
+                                ),
+                              ],
+                            )),
                           ],
                         ),
                         onTap: () => {
                           //播放
-                          Get.to(() => const VideoPage(), arguments: {
-                            "headNo": snapshot.data?.data?.dramaList?[index]
-                                ?.headNo
-                          })
+                          Get.to(() => WebViewScreen(
+                                url:
+                                    "${baseUrl}watch?url=${snapshot.data?.data?.dramaList?[index]?.filmUrl}&headNo=${snapshot.data?.data?.dramaList?[index]?.headNo}&dramaNumber=${snapshot.data?.data?.dramaList?[index]?.dramaNumber}",
+                              ))
+                          // Get.to(() => const VideoPage(), arguments: {
+                          //   "headNo": snapshot.data?.data?.dramaList?[index]
+                          //       ?.headNo
+                          // })
                         },
                       ),
                   ],
@@ -385,24 +412,25 @@ class _DetailPageState extends State<DetailPage> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "影片详情",
-                      style: TextStyle(color: Colors.white70, fontSize: 24),
+                    Text(
+                      'video_detail'.tr,
+                      style: const TextStyle(color: Colors.white70, fontSize: 18),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            "导演",
+                          Text(
+                            'director'.tr,
                             style:
-                                TextStyle(color: Colors.white70, fontSize: 15),
+                            const TextStyle(color: Colors.white70, fontSize: 14),
                           ),
+                          const SizedBox(width: 20),
                           Expanded(
                             child: Text(
                               snapshot.data?.data?.director ?? "",
@@ -410,7 +438,7 @@ class _DetailPageState extends State<DetailPage> {
                               textAlign: TextAlign.end,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 15),
+                                  color: Colors.white, fontSize: 14),
                             ),
                           ),
                         ],
@@ -421,11 +449,12 @@ class _DetailPageState extends State<DetailPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            "主演",
+                          Text(
+                            'cast'.tr,
                             style:
-                                TextStyle(color: Colors.white70, fontSize: 15),
+                            const TextStyle(color: Colors.white70, fontSize: 14),
                           ),
+                          const SizedBox(width: 20),
                           Expanded(
                             child: Text(
                               snapshot.data?.data?.cast ?? "",
@@ -433,7 +462,7 @@ class _DetailPageState extends State<DetailPage> {
                               textAlign: TextAlign.end,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 15),
+                                  color: Colors.white, fontSize: 14),
                             ),
                           ),
                         ],
@@ -444,11 +473,12 @@ class _DetailPageState extends State<DetailPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            "标签",
+                           Text(
+                            'tag'.tr,
                             style:
-                                TextStyle(color: Colors.white70, fontSize: 15),
+                            const TextStyle(color: Colors.white70, fontSize: 14),
                           ),
+                          const SizedBox(width: 20),
                           Expanded(
                             child: Text(
                               snapshot.data?.data?.videoTag?.join(",") ?? "",
@@ -456,7 +486,7 @@ class _DetailPageState extends State<DetailPage> {
                               textAlign: TextAlign.end,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 15),
+                                  color: Colors.white, fontSize: 14),
                             ),
                           ),
                         ],
@@ -467,11 +497,12 @@ class _DetailPageState extends State<DetailPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            "类型",
+                           Text(
+                            'story'.tr,
                             style:
-                                TextStyle(color: Colors.white70, fontSize: 15),
+                            const TextStyle(color: Colors.white70, fontSize: 14),
                           ),
+                          const SizedBox(width: 20),
                           Expanded(
                             child: Text(
                               snapshot.data?.data?.videoType ?? "",
@@ -479,7 +510,7 @@ class _DetailPageState extends State<DetailPage> {
                               textAlign: TextAlign.end,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                  color: Colors.white, fontSize: 15),
+                                  color: Colors.white, fontSize: 14),
                             ),
                           ),
                         ],
@@ -504,7 +535,7 @@ class _DetailPageState extends State<DetailPage> {
     if (state) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Text("更多类似《${model?.data?.videoName}》的影片",
+        child: Text("${'detail_like'.tr}《${model?.data?.videoName}》${'detail_like_movie'.tr}",
             textAlign: TextAlign.left,
             style: const TextStyle(
               color: Colors.white60,
@@ -518,7 +549,7 @@ class _DetailPageState extends State<DetailPage> {
 
   String _subtitle(DetailModel? model) {
     String year = model?.data?.videoDate?.split("-").first ?? "";
-    return "$year ${model?.data?.maturity ?? ""} 共 ${model?.data?.setsNumber ?? 1} 集";
+    return "$year ${model?.data?.maturity ?? ""} ${'detail_total'.tr} ${model?.data?.setsNumber ?? 1} ${'detail_collect'.tr}";
   }
 
   Widget _gridView() {
@@ -548,7 +579,7 @@ class _DetailPageState extends State<DetailPage> {
                             key: ValueKey(snapshot.data?.data
                                     ?.similarList?[index]?.posterUrl1 ??
                                 ''),
-                            fit: BoxFit.fitHeight,
+                            fit: BoxFit.cover,
                             // placeholder: (context, url) {
                             //   return Image.asset(
                             //     defaultAssets,
@@ -571,9 +602,12 @@ class _DetailPageState extends State<DetailPage> {
                           ),
                           onTap: () {
                             //播放
-                            Get.to(() => const VideoPage(), arguments: {
-                              "headNo": snapshot.data?.data?.similarList?[index]
-                                      ?.headNo ??
+                            Get.to(() => const DetailPage(), arguments: {
+                              "title": snapshot.data?.data?.similarList?[index]
+                                  ?.videoName ??
+                                  "",
+                              "headNo":snapshot.data?.data?.similarList?[index]
+                                  ?.headNo ??
                                   ""
                             });
                           },

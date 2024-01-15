@@ -36,7 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   # 网络通信管理插件
-  dio: ^4.0.0
+  dio: ^5.4.0
   # 监听网络类型和状态的插件
   connectivity: ^3.0.3
   # 格式日期

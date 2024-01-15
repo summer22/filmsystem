@@ -139,11 +139,12 @@ async function AVPOFetchFiles(fids) {
       resolve(files);
       return;
     }
-
-    var url = "https://avpo.com/file/" + reqfids.join(',');
-    window.flutter_inappwebview.callHandler('xmlHttpRequest', url).then(function(result) {
-        const response = result["response"];
-//        alert(response.statusText);
+    GM.xmlHttpRequest({
+      method: 'GET',
+      // 这里必须使用绝对地址, 因为 UserScripts 不能使用相对地址
+      url: `https://avpo.com/file/${reqfids}`,
+      responseType: 'json',
+      onload: (response) => {
         if (response.status != 200) {
           reject({ status: response.status, statusText: response.statusText });
           return;
@@ -166,38 +167,8 @@ async function AVPOFetchFiles(fids) {
           files[file.Id] = file;
         }
         resolve(files);
+      }
     });
-
-//     GM.xmlHttpRequest({
-//       method: 'GET',
-//       // 这里必须使用绝对地址, 因为 UserScripts 不能使用相对地址
-//       url: `https://avpo.com/file/${reqfids}`,
-//       responseType: 'json',
-//       onload: (response) => {
-//         if (response.status != 200) {
-//           reject({ status: response.status, statusText: response.statusText });
-//           return;
-//         }
-//         const object = response.response;
-//         if (object.code != 0) {
-//           reject({ status: object.code, statusText: object.message });
-//           return;
-//         }
-//         const resfiles = object.data;
-//         for (const file of resfiles) {
-//           if (file.Error != null) {
-//             reject({ status: 500, statusText: file.Error });
-//             return;
-//           }
-//           for (const container of Object.values(file.Download.Containers)) {
-//             container.ContainerLength = container.Chunks.reduce((total, chunk) => total + chunk.ChunkLength, 0);
-//           }
-//           cloudFilesCache[file.Id] = file;
-//           files[file.Id] = file;
-//         }
-//         resolve(files);
-//       }
-//     });
   });
 }
 
@@ -293,36 +264,20 @@ class AVPOFetch {
             return acc;
           }, {});
           headers["Range"] = `bytes=${containerOffset}-${containerOffset + containerLength - 1}`;
-
-
-          window.flutter_inappwebview.callHandler('arraybufferRequest', container.URI, headers).then(function(result) {
-//            alert("arraybufferRequest");
-//            alert(result["response"]["status"]);
-            const response = result["response"];
-
-            if (response.status != 206) {
+          GM.xmlHttpRequest({
+            method: 'GET',
+            url: container.URI,
+            headers: headers,
+            responseType: 'arraybuffer',
+            onload: (response) => {
+              if (response.status != 206) {
                 reject(response.statusText);
                 return;
               }
               const data = new Uint8Array(response.response);
               resolve(data);
+            }
           });
-
-//           GM.xmlHttpRequest({
-//             method: 'GET',
-//             url: container.URI,
-//             headers: headers,
-//             responseType: 'arraybuffer',
-//             onload: (response) => {
-//               if (response.status != 206) {
-//                 reject(response.statusText);
-//                 return;
-//               }
-//               const data = new Uint8Array(response.response);
-//               resolve(data);
-//             }
-//           });
-
           offset_is_correct = true;
           break;
         }
@@ -338,7 +293,6 @@ class AVPOFetch {
 // 注册 Service Worker
 async function serviceWorkerRegister() {
   if ('serviceWorker' in navigator) {
-//      alert("serviceWorkerRegister-success");
     try {
       const registration = await navigator.serviceWorker.register('avpo.service.js');
       if (!registration) {
@@ -348,7 +302,6 @@ async function serviceWorkerRegister() {
         window.location.reload();
       });
       navigator.serviceWorker.addEventListener("message", (event) => {
-//       alert("serviceWorkerRegister-message");
         if (event.data.action === 'request') {
           const { fileIds, chunkSize, range } = event.data;
           const ifetch = new AVPOFetch(fileIds, chunkSize, range, event.ports[0]);
@@ -363,8 +316,6 @@ async function serviceWorkerRegister() {
     } catch (error) {
       console.error(`register clouder service failed with ${error}`);
     }
-  }else{
-//      alert("serviceWorkerRegister-fail");
   }
 }
 

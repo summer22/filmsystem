@@ -81,6 +81,16 @@ class Messages extends Translations {
           'step_four': "第4步(共4步)",
           'step_four_desc': "我们依照每个的喜好和语言偏好为您精心推荐影片，您家中的每个成员都能拥有自己的专属片单，还有儿童专区",
           'step_four_right_btn': "完成",
+          'play': "播放",
+          'video_detail': "影片详情",
+          'director': "导演",
+          'cast': "主演",
+          'tag': "标签",
+          'story': "类型",
+          'detail_total': "共",
+          'detail_collect': "集",
+          'detail_like': "更多类似",
+          'detail_like_movie': "的影片",
 
         },
         'en_US': {
@@ -160,6 +170,16 @@ class Messages extends Translations {
           'step_four': "Step 4 (total of 4 steps)",
           'step_four_desc': "We tailor videos to your individual preferences and language preferences, and each member of your family can have their own list, as well as a children's section",
           'step_four_right_btn': "completed",
+          'play': "Play",
+          'video_detail': "Video details",
+          'director': "Director",
+          'cast': "Cast",
+          'tag': "Tag",
+          'story': "Story",
+          'detail_total': "total",
+          'detail_collect': "collect",
+          'detail_like': "More like",
+          'detail_like_movie': "movices",
         }
       };
 }

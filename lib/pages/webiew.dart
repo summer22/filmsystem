@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -20,6 +19,7 @@ class WebViewScreen extends StatefulWidget {
 class WebViewScreenState extends State<WebViewScreen> {
   final GlobalKey webViewKey = GlobalKey();
   Dio dio = Dio();
+  final CancelToken _cancelToken = CancelToken();
 
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
@@ -27,6 +27,7 @@ class WebViewScreenState extends State<WebViewScreen> {
         useShouldOverrideUrlLoading: true,
         mediaPlaybackRequiresUserGesture: false,
         transparentBackground: true,
+        applicationNameForUserAgent: "moblie-nbflix"
       ),
       android: AndroidInAppWebViewOptions(
         useHybridComposition: true,
@@ -38,38 +39,11 @@ class WebViewScreenState extends State<WebViewScreen> {
           ));
 
   late PullToRefreshController pullToRefreshController;
-  String url = "";
   double progress = 0;
-
-  void serviceWorker() async {
-    if (Platform.isAndroid) {
-      await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(
-          kDebugMode);
-
-      var swAvailable = await AndroidWebViewFeature.isFeatureSupported(
-          AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
-      var swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(
-          AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
-
-      if (swAvailable && swInterceptAvailable) {
-        AndroidServiceWorkerController serviceWorkerController =
-            AndroidServiceWorkerController.instance();
-
-        serviceWorkerController.serviceWorkerClient =
-            AndroidServiceWorkerClient(
-          shouldInterceptRequest: (request) async {
-            print(request);
-            return null;
-          },
-        );
-      }
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    serviceWorker();
     pullToRefreshController = PullToRefreshController(
       options: PullToRefreshOptions(
         color: Colors.blue,
@@ -87,6 +61,7 @@ class WebViewScreenState extends State<WebViewScreen> {
 
   @override
   void dispose() {
+    _cancelToken.cancel("页面销毁，取消请求");
     super.dispose();
   }
 
@@ -102,7 +77,9 @@ class WebViewScreenState extends State<WebViewScreen> {
               InAppWebView(
                 key: webViewKey,
                 initialUrlRequest:
-                    URLRequest(url: Uri.parse("https://www.nbflix.com")),
+                // URLRequest(url: Uri.parse("http://localhost:4000")),
+                // URLRequest(url: Uri.parse("https://www.nbflix.com")),
+                URLRequest(url: Uri.parse(widget.url ?? "")),
                 initialOptions: options,
                 pullToRefreshController: pullToRefreshController,
                 onWebViewCreated: (controller) {
@@ -110,16 +87,17 @@ class WebViewScreenState extends State<WebViewScreen> {
                   controller.addJavaScriptHandler(
                       handlerName: 'xmlHttpRequest',
                       callback: (args) async {
-                        debugPrint("xmlHttpRequest:");
-                        debugPrint(args[0]);
+                        // debugPrint("xmlHttpRequest:");
+                        // debugPrint(args[0]);
                         try {
                           var response = await dio.get(
                             args[0] ?? "",
                             options: Options(
+                              followRedirects: true,
                               responseType: ResponseType.json,
-                            ),
+                            ), cancelToken: _cancelToken
                           );
-                          debugPrint('Response data: $response');
+                          // debugPrint('Response data: $response');
                           var xmlHttpRequestResponse = {
                             'status': response.statusCode,
                             'statusText': response.statusMessage,
@@ -134,18 +112,18 @@ class WebViewScreenState extends State<WebViewScreen> {
                   controller.addJavaScriptHandler(
                       handlerName: 'arraybufferRequest',
                       callback: (args) async {
-                        debugPrint("arraybufferRequest:");
-                        debugPrint(args[0]);
+                        // debugPrint("arraybufferRequest:");
+                        // debugPrint(args[0]);
                         try {
                           var response = await dio.get(
                             args[0] ?? "",
                             options: Options(
                               headers: args[1] as Map<String, dynamic>,
+                              followRedirects: true,
                               responseType: ResponseType.bytes,
-                            ),
+                            ), cancelToken: _cancelToken
                           );
-                          debugPrint('Response data: $response');
-                          String jsonString = jsonEncode(response.data);
+                          // debugPrint('Response data: $response');
                           var xmlHttpRequestResponse = {
                             'status': response.statusCode,
                             'statusText': response.statusMessage,
@@ -156,6 +134,13 @@ class WebViewScreenState extends State<WebViewScreen> {
                           debugPrint('Error: $error');
                         }
                       });
+
+                  controller.addJavaScriptHandler(
+                      handlerName: 'nativeBack',
+                      callback: (args) async {
+                        debugPrint('Error:');
+                        Get.back();
+                      });
                 },
                 androidOnPermissionRequest:
                     (controller, origin, resources) async {
@@ -165,7 +150,6 @@ class WebViewScreenState extends State<WebViewScreen> {
                 },
                 shouldOverrideUrlLoading: (controller, navigationAction) async {
                   var uri = navigationAction.request.url!;
-
                   if (![
                     "http",
                     "https",
@@ -188,10 +172,6 @@ class WebViewScreenState extends State<WebViewScreen> {
                   return NavigationActionPolicy.ALLOW;
                 },
                 onLoadStart: (controller, url) async {
-                  // if(url?.path.toString() == "detail"){
-                  // String severJsContent =
-                  //     await rootBundle.loadString('assets/service.js');
-                  // controller.evaluateJavascript(source: severJsContent);
                   String jsContent =
                       await rootBundle.loadString('assets/user.js');
                   controller.evaluateJavascript(source: jsContent);
@@ -199,9 +179,9 @@ class WebViewScreenState extends State<WebViewScreen> {
                 },
                 onLoadStop: (controller, url) async {
                   pullToRefreshController.endRefreshing();
-                  setState(() {
-                    this.url = url.toString();
-                  });
+                  // setState(() {
+                  //   this.url = url.toString();
+                  // });
                   // if(url?.path.toString() == "detail"){
                   //   String jsContent = await rootBundle.loadString('assets/user.js');
                   //   controller.evaluateJavascript(source: jsContent);
@@ -225,9 +205,9 @@ class WebViewScreenState extends State<WebViewScreen> {
                   });
                 },
                 onUpdateVisitedHistory: (controller, url, androidIsReload) {
-                  setState(() {
-                    this.url = url.toString();
-                  });
+                  // setState(() {
+                  //   this.url = url.toString();
+                  // });
                 },
                 onConsoleMessage: (controller, consoleMessage) {
                   print(consoleMessage);
@@ -240,31 +220,31 @@ class WebViewScreenState extends State<WebViewScreen> {
             ],
           ),
         ),
-        ButtonBar(
-          alignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              child: const Icon(Icons.arrow_back),
-              onPressed: () {
-                webViewController?.canGoBack().then((value) => {
-                      if (value) {webViewController?.goBack()} else {Get.back()}
-                    });
-              },
-            ),
-            ElevatedButton(
-              child: const Icon(Icons.arrow_forward),
-              onPressed: () {
-                webViewController?.goForward();
-              },
-            ),
-            ElevatedButton(
-              child: const Icon(Icons.refresh),
-              onPressed: () {
-                webViewController?.reload();
-              },
-            ),
-          ],
-        ),
+        // ButtonBar(
+        //   alignment: MainAxisAlignment.center,
+        //   children: <Widget>[
+        //     ElevatedButton(
+        //       child: const Icon(Icons.arrow_back),
+        //       onPressed: () {
+        //         webViewController?.canGoBack().then((value) => {
+        //               if (value) {webViewController?.goBack()} else {Get.back()}
+        //             });
+        //       },
+        //     ),
+        //     ElevatedButton(
+        //       child: const Icon(Icons.arrow_forward),
+        //       onPressed: () {
+        //         webViewController?.goForward();
+        //       },
+        //     ),
+        //     ElevatedButton(
+        //       child: const Icon(Icons.refresh),
+        //       onPressed: () {
+        //         webViewController?.reload();
+        //       },
+        //     ),
+        //   ],
+        // ),
       ])),
     );
   }

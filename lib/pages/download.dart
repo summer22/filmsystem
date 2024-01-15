@@ -144,17 +144,21 @@ class _DownloadPageState extends State<DownloadPage>
                 child: CachedNetworkImage(
                   key: ValueKey(model?.dramaUrl ?? ''),
                   fit: BoxFit.fitWidth,
-                  placeholder: (context, url) {
-                    return Image.asset(
-                      defaultAssets,
-                      fit: BoxFit.cover,
-                    );
-                  },
+                  // placeholder: (context, url) {
+                  //   return Image.asset(
+                  //     defaultAssets,
+                  //     fit: BoxFit.cover,
+                  //   );
+                  // },
                   imageUrl: model?.dramaUrl ?? '',
                   errorWidget: (context, url, error) {
-                    return Image.asset(
-                      defaultAssets,
-                      fit: BoxFit.cover,
+                    return Center(
+                      child: Text('image_loading_error'.tr,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white60,
+                            fontSize: 15,
+                          )),
                     );
                   },
                 ),

@@ -330,6 +330,10 @@ class _SignUpFourState extends State<SignUpFour> {
                 radius: 8,
                 textStyle: const TextStyle(fontSize: 15),
                 click: () {
+                  if (_emailController.text.isEmpty) {
+                    EasyLoading.showToast('email_hint'.tr);
+                    return;
+                  }
                   if (_codeController.text.isEmpty) {
                     EasyLoading.showToast('code_hint'.tr);
                     return;

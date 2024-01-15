@@ -140,33 +140,47 @@ async function AVPOFetchFiles(fids) {
       return;
     }
 
-    var url = "https://avpo.com/file/" + reqfids.join(',');
-    window.flutter_inappwebview.callHandler('xmlHttpRequest', url).then(function(result) {
-        const response = result["response"];
-//        alert(response.statusText);
-        if (response.status != 200) {
-          reject({ status: response.status, statusText: response.statusText });
-          return;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', `https://avpo.com/file/${reqfids}`, true);
+    xhr.responseType = 'json';
+    // 处理请求完成时的回调
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            // 请求成功时，状态码为 200
+            var response = xhr.response;
+            if (xhr.status === 200) {
+                alert(xhr.responseText)
+            } else {
+                // 请求失败时的处理
+                console.error('Request failed with status:', xhr.status);
+            }
+            if (response.status != 200) {
+                 reject({ status: response.status, statusText: response.statusText });
+                 return;
+            }
+            const object = response.response;
+            if (object.code != 0) {
+                       reject({ status: object.code, statusText: object.message });
+                       return;
+                     }
+            const resfiles = object.data;
+            for (const file of resfiles) {
+                       if (file.Error != null) {
+                         reject({ status: 500, statusText: file.Error });
+                         return;
+                       }
+                       for (const container of Object.values(file.Download.Containers)) {
+                         container.ContainerLength = container.Chunks.reduce((total, chunk) => total + chunk.ChunkLength, 0);
+                       }
+                       cloudFilesCache[file.Id] = file;
+                       files[file.Id] = file;
+                     }
+            resolve(files);
         }
-        const object = response.response;
-        if (object.code != 0) {
-          reject({ status: object.code, statusText: object.message });
-          return;
-        }
-        const resfiles = object.data;
-        for (const file of resfiles) {
-          if (file.Error != null) {
-            reject({ status: 500, statusText: file.Error });
-            return;
-          }
-          for (const container of Object.values(file.Download.Containers)) {
-            container.ContainerLength = container.Chunks.reduce((total, chunk) => total + chunk.ChunkLength, 0);
-          }
-          cloudFilesCache[file.Id] = file;
-          files[file.Id] = file;
-        }
-        resolve(files);
-    });
+    };
+
+    // 发送请求
+    xhr.send();
 
 //     GM.xmlHttpRequest({
 //       method: 'GET',
@@ -198,6 +212,8 @@ async function AVPOFetchFiles(fids) {
 //         resolve(files);
 //       }
 //     });
+
+
   });
 }
 
@@ -294,19 +310,32 @@ class AVPOFetch {
           }, {});
           headers["Range"] = `bytes=${containerOffset}-${containerOffset + containerLength - 1}`;
 
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', container.URI, true);
+           xhr.headers = headers，
+          xhr.responseType = 'arraybuffer';
+          // 处理请求完成时的回调
+          xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            // 请求成功时，状态码为 200
+            var response = xhr.response;
+            if (xhr.status === 200) {
+                alert(xhr.responseText)
+            } else {
+                // 请求失败时的处理
+                console.error('Request failed with status:', xhr.status);
+            }
 
-          window.flutter_inappwebview.callHandler('arraybufferRequest', container.URI, headers).then(function(result) {
-//            alert("arraybufferRequest");
-//            alert(result["response"]["status"]);
-            const response = result["response"];
-
-            if (response.status != 206) {
-                reject(response.statusText);
-                return;
+             if (response.status != 206) {
+                  reject(response.statusText);
+                  return;
               }
               const data = new Uint8Array(response.response);
               resolve(data);
-          });
+        }
+    };
+          // 发送请求
+          xhr.send();
 
 //           GM.xmlHttpRequest({
 //             method: 'GET',
@@ -361,6 +390,7 @@ async function serviceWorkerRegister() {
       });
       registration.active.postMessage({ action: "register", from: 'UserScript' });
     } catch (error) {
+        alert(error);
       console.error(`register clouder service failed with ${error}`);
     }
   }else{

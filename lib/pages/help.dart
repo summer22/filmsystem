@@ -102,6 +102,7 @@ class _HelpPageState extends State<HelpPage> {
         builder: (BuildContext context, AsyncSnapshot<HelpModel?> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
+              padding: const EdgeInsets.only(bottom: 50),
               itemCount: snapshot.data?.data?.length ?? 0,
               itemBuilder: (context, index) {
                 return ExpansionTile(

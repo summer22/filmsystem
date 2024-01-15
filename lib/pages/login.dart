@@ -319,7 +319,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 30,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  // crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
                       'sign_in_tip'.tr,
@@ -333,10 +333,13 @@ class _LoginPageState extends State<LoginPage> {
                         Get.to(() => const SignUpOne());
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: Text(
-                          'sign_in_btn_title'.tr,
-                          style: const TextStyle(color: Colors.white, fontSize: 12),
+                        padding: const EdgeInsets.only(top: 20),
+                        child: SizedBox(
+                          height: 30,
+                          child: Text(
+                            'sign_in_btn_title'.tr,
+                            style: const TextStyle(color: Colors.white, fontSize: 12),
+                          ),
                         ),
                       ),
                     )

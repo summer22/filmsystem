@@ -23,9 +23,9 @@ class DioAdapter extends ApiAdapter {
 
   final box = GetStorage();
 
-  ///超时时间
-  static const int connectTimeout = 30000;
-  static const int receiveTimeout = 30000;
+  ///超时时间 30秒
+  static const int connectTimeout = 30;//30000;
+  static const int receiveTimeout = 30;//30000;
 
   static final DioAdapter _instance = DioAdapter._internal();
 
@@ -44,8 +44,8 @@ class DioAdapter extends ApiAdapter {
     }
     var options = BaseOptions(headers: request.header);
     options.method = request.httpMethod == HttpMethod.get ? 'GET' : 'POST';
-    options.connectTimeout = connectTimeout;
-    options.receiveTimeout = receiveTimeout;
+    options.connectTimeout = const Duration(seconds: connectTimeout);
+    options.receiveTimeout = const Duration(seconds: receiveTimeout);
     options.baseUrl = request.host();
     return options;
   }

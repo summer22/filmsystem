@@ -410,7 +410,7 @@ class _HomePageState extends State<HomePage>
                 ),
                 onTap: () {
                   Navigator.pop(context);
-                  Get.to(() =>  WebViewScreen()); //FavoritePage());
+                  Get.to(() => const FavoritePage());
                 },
               ),
               // ListTile(
@@ -438,7 +438,8 @@ class _HomePageState extends State<HomePage>
       builder: (BuildContext context, AsyncSnapshot<HomeModel?> snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
-            itemCount: snapshot.data?.data?.row?.length ?? 0, // 你的列表项数量
+            padding: const EdgeInsets.only(bottom: 80.0),
+            itemCount: snapshot.data?.data?.row?.length ?? 0,
             itemBuilder: (BuildContext context, int index) {
               return _hListView(snapshot.data?.data?.row?[index],
                   snapshot.data?.data?.row?[index]?.title);
@@ -465,7 +466,7 @@ class _HomePageState extends State<HomePage>
           },
         ),
         SizedBox(
-          height: 200,
+          height: 160,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: model?.list?.length,

@@ -5,6 +5,7 @@ import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
+import 'package:filmsystem/pages/detail.dart';
 import 'package:filmsystem/pages/video.dart';
 import 'package:filmsystem/pages/widgets/standard_search_bar.dart';
 import 'package:flutter/material.dart';
@@ -106,34 +107,37 @@ class _SearchPageState extends State<SearchPage> {
                         child: AspectRatio(
                           aspectRatio: 4 / 5,
                           child: InkWell(
-                            child: CachedNetworkImage(
-                              key: ValueKey(
-                                  snapshot.data?.data?[index]?.posterUrl1 ??
-                                      ''),
-                              fit: BoxFit.fitHeight,
-                              // placeholder: (context, url) {
-                              //   return Image.asset(
-                              //     defaultAssets,
-                              //     fit: BoxFit.cover,
-                              //   );
-                              // },
-                              imageUrl:
-                                  snapshot.data?.data?[index]?.posterUrl1 ?? '',
-                              errorWidget: (context, url, error) {
-                                return  Center(
-                                  child: Text('image_loading_error'.tr,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        color: Colors.white60,
-                                        fontSize: 15,
-                                      )),
-                                );
-                              },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child:  CachedNetworkImage(
+                                key: ValueKey(
+                                    snapshot.data?.data?[index]?.posterUrl1 ??
+                                        ''),
+                                fit: BoxFit.cover,
+                                // placeholder: (context, url) {
+                                //   return Image.asset(
+                                //     defaultAssets,
+                                //     fit: BoxFit.cover,
+                                //   );
+                                // },
+                                imageUrl:
+                                snapshot.data?.data?[index]?.posterUrl1 ?? '',
+                                errorWidget: (context, url, error) {
+                                  return  Center(
+                                    child: Text('image_loading_error'.tr,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          color: Colors.white60,
+                                          fontSize: 15,
+                                        )),
+                                  );
+                                },
+                              ),
                             ),
                             onTap: () {
-                              //播放
-                              Get.to(() => const VideoPage(), arguments: {
-                                "headNo": snapshot.data?.data?[index]?.headNo ?? ""
+                              Get.to(() => const DetailPage(), arguments: {
+                                "title": snapshot.data?.data?[index]?.videoName,
+                                "headNo": snapshot.data?.data?[index]?.headNo
                               });
                             },
                           ),
