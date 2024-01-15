@@ -205,7 +205,7 @@ class _DetailPageState extends State<DetailPage> {
                                       textStyle: const TextStyle(fontSize: 13),
                                       click: () => {
                                         urlStr =
-                                            "${baseUrl}watch?url=${snapshot.data?.data?.filmUrl}&videoName=${snapshot.data?.data?.videoName}&headNo=${snapshot.data?.data?.headNo}",
+                                            "${baseUrl}watch?url=${snapshot.data?.data?.filmUrl}&videoName=${snapshot.data?.data?.videoName}&headNo=${snapshot.data?.data?.headNo}&istest=nb",
                                         //播放
                                         Get.to(() => WebViewScreen(
                                               url: urlStr,

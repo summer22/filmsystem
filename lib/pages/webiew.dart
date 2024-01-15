@@ -138,7 +138,7 @@ class WebViewScreenState extends State<WebViewScreen> {
                   controller.addJavaScriptHandler(
                       handlerName: 'nativeBack',
                       callback: (args) async {
-                        debugPrint('Error:');
+                        // debugPrint('Error:');
                         Get.back();
                       });
                 },
