@@ -5,6 +5,7 @@ import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
+import 'package:filmsystem/pages/detail.dart';
 import 'package:filmsystem/pages/video.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -171,8 +172,9 @@ class _SubjectPageState extends State<SubjectPage>
                         },
                       ),
                       onTap: () {
-                        //播放
-                        Get.to(() => const VideoPage(), arguments: {
+                        Get.to(() => const DetailPage(), arguments: {
+                          "title": snapshot.data?.data?.row?.first?.list?[index]
+                              ?.videoName ?? "",
                           "headNo": snapshot.data?.data?.row?.first?.list?[index]
                               ?.headNo ?? ""
                         });

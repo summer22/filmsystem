@@ -1,4 +1,5 @@
 import 'package:filmsystem/pages/detail.dart';
+import 'package:filmsystem/pages/detail2.dart';
 import 'package:filmsystem/pages/download.dart';
 import 'package:filmsystem/pages/favorite.dart';
 import 'package:filmsystem/pages/forget.dart';
@@ -64,6 +65,10 @@ class AppPages {
         GetPage(
             name: _Paths.detail,
             page: () => const DetailPage()
+        ),
+        GetPage(
+            name: _Paths.detail2,
+            page: () => const DetailPage2()
         ),
         GetPage(
             name: _Paths.help,

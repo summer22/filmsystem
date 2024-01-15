@@ -5,6 +5,7 @@ import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
+import 'package:filmsystem/pages/detail2.dart';
 import 'package:filmsystem/pages/login.dart';
 import 'package:filmsystem/pages/webiew.dart';
 import 'package:filmsystem/utils/constant.dart';
@@ -128,12 +129,10 @@ class _DetailPageState extends State<DetailPage> {
         future: detailModel,
         builder: (BuildContext context, AsyncSnapshot<DetailModel?> snapshot) {
           if (snapshot.hasData) {
-            String urlStr;
             return SliverList(
                 delegate: SliverChildListDelegate(<Widget>[
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 height: 150,
                 child: Stack(
                   children: [
@@ -204,11 +203,10 @@ class _DetailPageState extends State<DetailPage> {
                                       radius: 5,
                                       textStyle: const TextStyle(fontSize: 13),
                                       click: () => {
-                                        urlStr =
-                                            "${baseUrl}watch?url=${snapshot.data?.data?.filmUrl}&videoName=${snapshot.data?.data?.videoName}&headNo=${snapshot.data?.data?.headNo}&istest=nb",
                                         //播放
                                         Get.to(() => WebViewScreen(
-                                              url: urlStr,
+                                              url:
+                                                  "${baseUrl}watch?url=${snapshot.data?.data?.filmUrl}&videoName=${snapshot.data?.data?.videoName}&headNo=${snapshot.data?.data?.headNo}",
                                             ))
                                         // Get.to(() => const VideoPage(),
                                         //     arguments: {
@@ -418,7 +416,8 @@ class _DetailPageState extends State<DetailPage> {
                   children: [
                     Text(
                       'video_detail'.tr,
-                      style: const TextStyle(color: Colors.white70, fontSize: 18),
+                      style:
+                          const TextStyle(color: Colors.white70, fontSize: 18),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
@@ -427,8 +426,8 @@ class _DetailPageState extends State<DetailPage> {
                         children: [
                           Text(
                             'director'.tr,
-                            style:
-                            const TextStyle(color: Colors.white70, fontSize: 14),
+                            style: const TextStyle(
+                                color: Colors.white70, fontSize: 14),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
@@ -451,8 +450,8 @@ class _DetailPageState extends State<DetailPage> {
                         children: [
                           Text(
                             'cast'.tr,
-                            style:
-                            const TextStyle(color: Colors.white70, fontSize: 14),
+                            style: const TextStyle(
+                                color: Colors.white70, fontSize: 14),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
@@ -473,10 +472,10 @@ class _DetailPageState extends State<DetailPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                           Text(
+                          Text(
                             'tag'.tr,
-                            style:
-                            const TextStyle(color: Colors.white70, fontSize: 14),
+                            style: const TextStyle(
+                                color: Colors.white70, fontSize: 14),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
@@ -497,10 +496,10 @@ class _DetailPageState extends State<DetailPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                           Text(
+                          Text(
                             'story'.tr,
-                            style:
-                            const TextStyle(color: Colors.white70, fontSize: 14),
+                            style: const TextStyle(
+                                color: Colors.white70, fontSize: 14),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
@@ -535,7 +534,8 @@ class _DetailPageState extends State<DetailPage> {
     if (state) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Text("${'detail_like'.tr}《${model?.data?.videoName}》${'detail_like_movie'.tr}",
+        child: Text(
+            "${'detail_like'.tr}《${model?.data?.videoName}》${'detail_like_movie'.tr}",
             textAlign: TextAlign.left,
             style: const TextStyle(
               color: Colors.white60,
@@ -601,13 +601,12 @@ class _DetailPageState extends State<DetailPage> {
                             },
                           ),
                           onTap: () {
-                            //播放
-                            Get.to(() => const DetailPage(), arguments: {
+                            Get.to(() => const DetailPage2(), arguments: {
                               "title": snapshot.data?.data?.similarList?[index]
-                                  ?.videoName ??
+                                      ?.videoName ??
                                   "",
-                              "headNo":snapshot.data?.data?.similarList?[index]
-                                  ?.headNo ??
+                              "headNo": snapshot.data?.data?.similarList?[index]
+                                      ?.headNo ??
                                   ""
                             });
                           },

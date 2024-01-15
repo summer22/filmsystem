@@ -12,6 +12,7 @@ abstract class Routes {
   static const search = _Paths.search;
   static const subject = _Paths.subject;
   static const detail = _Paths.detail;
+  static const detail2 = _Paths.detail2;
   static const video = _Paths.video;
   static const help = _Paths.help;
   static const webView = _Paths.webView;
@@ -37,6 +38,7 @@ abstract class _Paths {
   static const search = '/search';
   static const subject = '/subject';
   static const detail = '/detail';
+  static const detail2 = '/detail2';
   static const video = '/video';
   static const help = '/help';
   static const webView = '/webView';

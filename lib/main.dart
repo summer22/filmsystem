@@ -23,7 +23,8 @@ void main() async {
   await SimpleStorage.init();
 
   runApp(GetMaterialApp(
-    title: "filmsystem",
+    title: "nbflix",
+    enableLog: true,
     darkTheme: ThemeData(
       primaryColor: Colors.black87,
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.black87),
