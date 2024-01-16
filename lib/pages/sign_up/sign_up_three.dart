@@ -136,7 +136,10 @@ class _SignUpThreeState extends State<SignUpThree> {
                 ),
               )
             ],
-          )
+          ),
+          const SizedBox(
+            height: 30,
+          ),
         ],
       ),
     );

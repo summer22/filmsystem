@@ -157,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Text(
+                Text(
                   'login'.tr,
                   style: const TextStyle(
                       color: Colors.white,
@@ -260,12 +260,15 @@ class _LoginPageState extends State<LoginPage> {
                     radius: 8,
                     textStyle: const TextStyle(fontSize: 18),
                     click: () {
-                      if(_controller.text.isEmpty){
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      if (_controller.text.isEmpty) {
                         EasyLoading.showToast('email_hint'.tr,
                             toastPosition: EasyLoadingToastPosition.bottom);
                         return;
                       }
-                      if(_pwdController.text.isEmpty){
+                      if (_pwdController.text.isEmpty ||
+                          _pwdController.text.length < 4 ||
+                          _pwdController.text.length > 20) {
                         EasyLoading.showToast('pwd_hint'.tr,
                             toastPosition: EasyLoadingToastPosition.bottom);
                         return;
@@ -299,7 +302,8 @@ class _LoginPageState extends State<LoginPage> {
                           // Adjust spacing between icon and text
                           Text(
                             'remember'.tr,
-                            style: const TextStyle(color: Colors.white, fontSize: 12),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 12),
                           ),
                           // Trailing text
                         ],
@@ -311,12 +315,15 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       child: Text(
                         'forget_pwd'.tr,
-                        style: const TextStyle(color: Colors.white, fontSize: 12),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     )
                   ],
                 ),
-                const SizedBox(height: 30,),
+                const SizedBox(
+                  height: 30,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   // crossAxisAlignment: CrossAxisAlignment.end,
@@ -324,10 +331,13 @@ class _LoginPageState extends State<LoginPage> {
                     Text(
                       'sign_in_tip'.tr,
                       style: const TextStyle(
-                          color: Colors.white30,
-                          fontSize: 20,),
+                        color: Colors.white30,
+                        fontSize: 20,
+                      ),
                     ),
-                    const SizedBox(width: 15,),
+                    const SizedBox(
+                      width: 15,
+                    ),
                     GestureDetector(
                       onTap: () {
                         Get.to(() => const SignUpOne());
@@ -338,7 +348,8 @@ class _LoginPageState extends State<LoginPage> {
                           height: 30,
                           child: Text(
                             'sign_in_btn_title'.tr,
-                            style: const TextStyle(color: Colors.white, fontSize: 12),
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 12),
                           ),
                         ),
                       ),

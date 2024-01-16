@@ -134,7 +134,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
       ),
       body: GestureDetector(
         onTap: () {
-          // 当用户点击 CustomScrollView 时，关闭键盘
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Padding(
@@ -234,7 +233,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       onTap: () {
                         setState(() {
                           selectedIndex = index;
-                          selectedAvatar = avatarListModel?.data?[index]?.url ?? "";
+                          selectedAvatar =
+                              avatarListModel?.data?[index]?.url ?? "";
                         });
                       },
                       child: Container(
@@ -402,50 +402,50 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         ),
                         Expanded(
                             child: TextField(
-                              cursorColor: Colors.black,
-                              controller: _realNameController,
-                              style: const TextStyle(color: Colors.black),
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 10),
-                                hintText: 'update_info_real_name'.tr,
-                                hintStyle: const TextStyle(color: Colors.black45),
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                // errorBorder: const OutlineInputBorder(
-                                //   borderSide: BorderSide(color: Colors.black),
-                                // ),
-                                // errorText: _validateInput(_realNameController.text),
-                                // errorStyle:
-                                // const TextStyle(color: Colors.redAccent),
-                                suffixIcon: _showNameClearButton
-                                    ? IconButton(
-                                  icon: const Icon(
-                                    Icons.clear,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _realNameController.clear();
-                                      _showNameClearButton = false;
-                                    });
-                                  },
-                                )
-                                    : null,
-                              ),
-                              onChanged: (value) {
-                                setState(() {
-                                  _showNameClearButton = value.isNotEmpty;
-                                });
-                              },
-                            )),
+                          cursorColor: Colors.black,
+                          controller: _realNameController,
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 10),
+                            hintText: 'update_info_real_name'.tr,
+                            hintStyle: const TextStyle(color: Colors.black45),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedErrorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            // errorBorder: const OutlineInputBorder(
+                            //   borderSide: BorderSide(color: Colors.black),
+                            // ),
+                            // errorText: _validateInput(_realNameController.text),
+                            // errorStyle:
+                            // const TextStyle(color: Colors.redAccent),
+                            suffixIcon: _showNameClearButton
+                                ? IconButton(
+                                    icon: const Icon(
+                                      Icons.clear,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _realNameController.clear();
+                                        _showNameClearButton = false;
+                                      });
+                                    },
+                                  )
+                                : null,
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              _showNameClearButton = value.isNotEmpty;
+                            });
+                          },
+                        )),
                       ],
                     ),
                     const SizedBox(
@@ -467,51 +467,51 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         ),
                         Expanded(
                             child: TextField(
-                              cursorColor: Colors.black,
-                              controller: _emailController,
-                              style: const TextStyle(color: Colors.black),
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 10),
-                                hintText: 'update_info_email'.tr,
-                                hintStyle: const TextStyle(color: Colors.black45),
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                // errorBorder: const OutlineInputBorder(
-                                //   borderSide: BorderSide(color: Colors.black),
-                                // ),
-                                // errorText: _validateInput(_emailController.text),
-                                // errorStyle:
-                                // const TextStyle(color: Colors.redAccent),
-                                suffixIcon: _showEmailClearButton
-                                    ? IconButton(
-                                  icon: const Icon(
-                                    Icons.clear,
-                                    color: Colors.black,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _emailController.clear();
-                                      _showEmailClearButton = false;
-                                    });
-                                  },
-                                )
-                                    : null,
-                              ),
-                              keyboardType: TextInputType.emailAddress,
-                              onChanged: (value) {
-                                setState(() {
-                                  _showEmailClearButton = value.isNotEmpty;
-                                });
-                              },
-                            )),
+                          cursorColor: Colors.black,
+                          controller: _emailController,
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 10),
+                            hintText: 'update_info_email'.tr,
+                            hintStyle: const TextStyle(color: Colors.black45),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedErrorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            // errorBorder: const OutlineInputBorder(
+                            //   borderSide: BorderSide(color: Colors.black),
+                            // ),
+                            // errorText: _validateInput(_emailController.text),
+                            // errorStyle:
+                            // const TextStyle(color: Colors.redAccent),
+                            suffixIcon: _showEmailClearButton
+                                ? IconButton(
+                                    icon: const Icon(
+                                      Icons.clear,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _emailController.clear();
+                                        _showEmailClearButton = false;
+                                      });
+                                    },
+                                  )
+                                : null,
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          onChanged: (value) {
+                            setState(() {
+                              _showEmailClearButton = value.isNotEmpty;
+                            });
+                          },
+                        )),
                       ],
                     ),
                     const SizedBox(
@@ -533,38 +533,38 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         ),
                         Expanded(
                             child: TextField(
-                              obscureText: _cipherText,
-                              cursorColor: Colors.black,
-                              controller: _pwdController,
-                              style: const TextStyle(color: Colors.black),
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 10),
-                                hintText: 'update_info_password'.tr,
-                                hintStyle: const TextStyle(color: Colors.black45),
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black),
-                                ),
-                                // errorBorder: const OutlineInputBorder(
-                                //   borderSide: BorderSide(color: Colors.black),
-                                // ),
-                                // errorText: _validateInput(_pwdController.text),
-                                // errorStyle:
-                                // const TextStyle(color: Colors.redAccent),
-                                suffixIcon: _leftIcon(),
-                              ),
-                              onChanged: (value) {
-                                setState(() {
-                                  _showPwdClearButton = value.isNotEmpty;
-                                });
-                              },
-                            )),
+                          obscureText: _cipherText,
+                          cursorColor: Colors.black,
+                          controller: _pwdController,
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 10),
+                            hintText: 'update_info_password'.tr,
+                            hintStyle: const TextStyle(color: Colors.black45),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedErrorBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            // errorBorder: const OutlineInputBorder(
+                            //   borderSide: BorderSide(color: Colors.black),
+                            // ),
+                            // errorText: _validateInput(_pwdController.text),
+                            // errorStyle:
+                            // const TextStyle(color: Colors.redAccent),
+                            suffixIcon: _leftIcon(),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              _showPwdClearButton = value.isNotEmpty;
+                            });
+                          },
+                        )),
                       ],
                     ),
                     const SizedBox(
@@ -584,77 +584,82 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                 color: Colors.black, fontSize: 16),
                           ),
                         ),
-                        Expanded(child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                                child: TextField(
-                                  cursorColor: Colors.black,
-                                  controller: _codeController,
-                                  style: const TextStyle(color: Colors.black),
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        vertical: 8.0, horizontal: 10),
-                                    hintText: 'update_info_sms_code'.tr,
-                                    hintStyle: const TextStyle(color: Colors.black45),
-                                    border: const OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.black),
-                                    ),
-                                    focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.black),
-                                    ),
-                                    focusedErrorBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(color: Colors.black),
-                                    ),
-                                    // errorBorder: const OutlineInputBorder(
-                                    //   borderSide: BorderSide(color: Colors.black),
-                                    // ),
-                                    // errorText: _validateInput(_codeController.text),
-                                    // errorStyle:
-                                    // const TextStyle(color: Colors.redAccent),
-                                    suffixIcon: _showCodeClearButton
-                                        ? IconButton(
-                                      icon: const Icon(
-                                        Icons.clear,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _codeController.clear();
-                                          _showCodeClearButton = false;
-                                        });
-                                      },
-                                    )
-                                        : null,
+                        Expanded(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                  child: TextField(
+                                cursorColor: Colors.black,
+                                controller: _codeController,
+                                style: const TextStyle(color: Colors.black),
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 10),
+                                  hintText: 'update_info_sms_code'.tr,
+                                  hintStyle:
+                                      const TextStyle(color: Colors.black45),
+                                  border: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
                                   ),
-                                  keyboardType: TextInputType.number,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _showCodeClearButton = value.isNotEmpty;
-                                    });
-                                  },
-                                )),
-                            const SizedBox(width: 5,),
-                            SizedBox(
-                                height: 48,
-                                width: 130,
-                                child: CountDownButton(
-                                  backgroundColor: Colors.black38,
-                                  radius: 0,
-                                  text: 'send_code'.tr,
-                                  countDownText: 'count_down'.tr,
-                                  onStart: (VoidCallback callback) {
-                                    if(_emailController.text.isEmpty){
-                                      EasyLoading.showToast('email_hint'.tr);
-                                      return;
-                                    }
-                                    getCodeData((){
-                                      callback();
-                                    });
-                                  },
-                                ))
-                          ],
-                        ),),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  focusedErrorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  // errorBorder: const OutlineInputBorder(
+                                  //   borderSide: BorderSide(color: Colors.black),
+                                  // ),
+                                  // errorText: _validateInput(_codeController.text),
+                                  // errorStyle:
+                                  // const TextStyle(color: Colors.redAccent),
+                                  suffixIcon: _showCodeClearButton
+                                      ? IconButton(
+                                          icon: const Icon(
+                                            Icons.clear,
+                                            color: Colors.black,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              _codeController.clear();
+                                              _showCodeClearButton = false;
+                                            });
+                                          },
+                                        )
+                                      : null,
+                                ),
+                                keyboardType: TextInputType.number,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _showCodeClearButton = value.isNotEmpty;
+                                  });
+                                },
+                              )),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              SizedBox(
+                                  height: 48,
+                                  width: 130,
+                                  child: CountDownButton(
+                                    backgroundColor: Colors.black38,
+                                    radius: 0,
+                                    text: 'send_code'.tr,
+                                    countDownText: 'count_down'.tr,
+                                    onStart: (VoidCallback callback) {
+                                      if (_emailController.text.isEmpty) {
+                                        EasyLoading.showToast('email_hint'.tr);
+                                        return;
+                                      }
+                                      getCodeData(() {
+                                        callback();
+                                      });
+                                    },
+                                  ))
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -670,47 +675,68 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Button(text: 'update_info_clear'.tr, textColor: Colors.black54, backgroundColor: Colors.white, borderWidth: 2, borderColor: Colors.black38,  click: (){
-                          _mobileController.clear();
-                          _realNameController.clear();
-                          _emailController.clear();
-                          _pwdController.clear();
-                          _codeController.clear();
-                          _showMobileClearButton = false;
-                          _showNameClearButton = false;
-                          _showEmailClearButton = false;
-                          _showPwdClearButton = false;
-                          _showCodeClearButton = false;
-                        }),
-                        const SizedBox(width: 40,),
-                        Button(text: 'update_info_submit'.tr, textColor: Colors.white, backgroundColor: Colors.black54, click: (){
-                          if(_mobileController.text.isEmpty){
-                            EasyLoading.showToast('mobile_hint'.tr,
-                                toastPosition: EasyLoadingToastPosition.bottom);
-                            return;
-                          }
-                          if(_realNameController.text.isEmpty){
-                            EasyLoading.showToast('name_hint'.tr,
-                                toastPosition: EasyLoadingToastPosition.bottom);
-                            return;
-                          }
-                          if(_emailController.text.isEmpty){
-                            EasyLoading.showToast('email_hint'.tr,
-                                toastPosition: EasyLoadingToastPosition.bottom);
-                            return;
-                          }
-                          if(_pwdController.text.isEmpty){
-                            EasyLoading.showToast('pwd_hint'.tr,
-                                toastPosition: EasyLoadingToastPosition.bottom);
-                            return;
-                          }
-                          if(_codeController.text.isEmpty){
-                            EasyLoading.showToast('code_hint'.tr,
-                                toastPosition: EasyLoadingToastPosition.bottom);
-                            return;
-                          }
-                          updateInfoData();
-                        },),
+                        Button(
+                            text: 'update_info_clear'.tr,
+                            textColor: Colors.black54,
+                            backgroundColor: Colors.white,
+                            borderWidth: 2,
+                            borderColor: Colors.black38,
+                            click: () {
+                              _mobileController.clear();
+                              _realNameController.clear();
+                              _emailController.clear();
+                              _pwdController.clear();
+                              _codeController.clear();
+                              _showMobileClearButton = false;
+                              _showNameClearButton = false;
+                              _showEmailClearButton = false;
+                              _showPwdClearButton = false;
+                              _showCodeClearButton = false;
+                            }),
+                        const SizedBox(
+                          width: 40,
+                        ),
+                        Button(
+                          text: 'update_info_submit'.tr,
+                          textColor: Colors.white,
+                          backgroundColor: Colors.black54,
+                          click: () {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            if (_mobileController.text.isEmpty) {
+                              EasyLoading.showToast('mobile_hint'.tr,
+                                  toastPosition:
+                                      EasyLoadingToastPosition.bottom);
+                              return;
+                            }
+                            if (_realNameController.text.isEmpty) {
+                              EasyLoading.showToast('name_hint'.tr,
+                                  toastPosition:
+                                      EasyLoadingToastPosition.bottom);
+                              return;
+                            }
+                            if (_emailController.text.isEmpty) {
+                              EasyLoading.showToast('email_hint'.tr,
+                                  toastPosition:
+                                      EasyLoadingToastPosition.bottom);
+                              return;
+                            }
+                            if (_pwdController.text.isEmpty ||
+                                _pwdController.text.length < 4 ||
+                                _pwdController.text.length > 20) {
+                              EasyLoading.showToast('pwd_hint'.tr,
+                                  toastPosition:
+                                      EasyLoadingToastPosition.bottom);
+                              return;
+                            }
+                            if (_codeController.text.isEmpty) {
+                              EasyLoading.showToast('code_hint'.tr,
+                                  toastPosition:
+                                      EasyLoadingToastPosition.bottom);
+                              return;
+                            }
+                            updateInfoData();
+                          },
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -729,34 +755,34 @@ class _UserInfoPageState extends State<UserInfoPage> {
   Widget? _leftIcon() {
     return _showPwdClearButton
         ? SizedBox(
-      width: 100,
-      child: Row(
-        children: [
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  _cipherText = !_cipherText;
-                });
-              },
-              icon: Icon(
-                _cipherText ? Icons.visibility_off : Icons.visibility,
-                color: Colors.black,
-              )),
-          IconButton(
-            icon: const Icon(
-              Icons.clear,
-              color: Colors.black,
+            width: 100,
+            child: Row(
+              children: [
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _cipherText = !_cipherText;
+                      });
+                    },
+                    icon: Icon(
+                      _cipherText ? Icons.visibility_off : Icons.visibility,
+                      color: Colors.black,
+                    )),
+                IconButton(
+                  icon: const Icon(
+                    Icons.clear,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _pwdController.clear();
+                      _showPwdClearButton = false;
+                    });
+                  },
+                )
+              ],
             ),
-            onPressed: () {
-              setState(() {
-                _pwdController.clear();
-                _showPwdClearButton = false;
-              });
-            },
           )
-        ],
-      ),
-    )
         : null;
   }
 

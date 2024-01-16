@@ -323,6 +323,7 @@ class _SignUpOneState extends State<SignUpOne> {
                     ),
                     Expanded(
                         child: TextField(
+                          keyboardType: TextInputType.phone,
                           cursorColor: Colors.black,
                           controller: _mobileController,
                           style: const TextStyle(color: Colors.black),
@@ -376,6 +377,7 @@ class _SignUpOneState extends State<SignUpOne> {
                     radius: 8,
                     textStyle: const TextStyle(fontSize: 18),
                     click: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
                       if(_nameController.text.isEmpty){
                         EasyLoading.showToast('name_hint'.tr,
                             toastPosition: EasyLoadingToastPosition.bottom);

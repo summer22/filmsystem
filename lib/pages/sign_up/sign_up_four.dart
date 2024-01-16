@@ -224,6 +224,7 @@ class _SignUpFourState extends State<SignUpFour> {
                   children: [
                     Expanded(
                         child: TextField(
+                      keyboardType: TextInputType.number,
                       cursorColor: Colors.black,
                       controller: _codeController,
                       style: const TextStyle(color: Colors.black),
@@ -259,7 +260,6 @@ class _SignUpFourState extends State<SignUpFour> {
                               )
                             : null,
                       ),
-                      keyboardType: TextInputType.number,
                       onChanged: (value) {
                         setState(() {
                           _showCodeClearButton = value.isNotEmpty;
@@ -330,6 +330,8 @@ class _SignUpFourState extends State<SignUpFour> {
                 radius: 8,
                 textStyle: const TextStyle(fontSize: 15),
                 click: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+
                   if (_emailController.text.isEmpty) {
                     EasyLoading.showToast('email_hint'.tr);
                     return;

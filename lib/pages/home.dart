@@ -349,9 +349,9 @@ class _HomePageState extends State<HomePage>
             children: [
               Container(
                 padding: EdgeInsets.only(top: Get.statusBarHeight),
-                height: 190,
+                height: 180,
                 child: Center(
-                  child: Image.asset(logoAssets),
+                  child: Image.asset(logoAssets, fit: BoxFit.contain,),
                 ),
               ),
               ListTile(

@@ -436,12 +436,16 @@ class _ForgetPageState extends State<ForgetPage> {
                     radius: 8,
                     textStyle: const TextStyle(fontSize: 18),
                     click: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+
                       if(_controller.text.isEmpty){
                         EasyLoading.showToast('email_hint'.tr,
                             toastPosition: EasyLoadingToastPosition.bottom);
                         return;
                       }
-                      if(_pwdController.text.isEmpty){
+                      if (_pwdController.text.isEmpty ||
+                          _pwdController.text.length < 4 ||
+                          _pwdController.text.length > 20) {
                         EasyLoading.showToast('pwd_empty_tip'.tr,
                             toastPosition: EasyLoadingToastPosition.bottom);
                         return;
