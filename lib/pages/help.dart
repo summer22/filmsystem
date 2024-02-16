@@ -55,7 +55,6 @@ class _HelpPageState extends State<HelpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: Builder(

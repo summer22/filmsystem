@@ -16,8 +16,6 @@ import 'button.dart';
 // ),
 
 class CountDownButton extends StatefulWidget {
-  static const TextStyle defaultDisableTextStyle = TextStyle(fontSize: 14);
-  static const TextStyle defaultTextStyle = TextStyle(fontSize: 15);
 
   const CountDownButton({
     Key? key,
@@ -25,11 +23,13 @@ class CountDownButton extends StatefulWidget {
     this.onFinish,
     this.text = '',
     this.countDownText = '',
+    this.textColor = Colors.white,
+    this.disableTextColor = Colors.white70,
     this.countDownSecond = 60,
     this.backgroundColor = Colors.white24,
     this.radius = 10,
-    this.textStyle = defaultTextStyle,
-    this.disableTextStyle = defaultDisableTextStyle,
+    this.textStyle = const TextStyle(fontSize: 15),
+    this.disableTextStyle = const TextStyle(fontSize: 14),
   }) : super(key: key);
 
   /// 倒计时结束回调事件
@@ -56,6 +56,12 @@ class CountDownButton extends StatefulWidget {
   ///背景色
   final Color backgroundColor;
 
+  ///文本色
+  final Color textColor;
+
+  ///文本色
+  final Color disableTextColor;
+
   ///radius
   final double radius;
 
@@ -72,7 +78,7 @@ class _CountDownButtonState extends State<CountDownButton> {
     return Button(
       radius: widget.radius,
       backgroundColor: widget.backgroundColor,
-      textColor:  _countdownTime > 0 ? Colors.white70 : Colors.white,
+      textColor: _countdownTime > 0 ? widget.disableTextColor : widget.textColor,
       text: _countdownTime > 0
           ? '$_countdownTime${widget.countDownText}'
           : widget.text,
@@ -94,15 +100,14 @@ class _CountDownButtonState extends State<CountDownButton> {
     _countdownTime = widget.countDownSecond;
     _timer = Timer.periodic(
         const Duration(seconds: 1),
-        (Timer timer) => {
-              setState(() {
+        (Timer timer) => setState(() {
                 if (_countdownTime < 1) {
                   _timer!.cancel();
                 } else {
                   _countdownTime = _countdownTime - 1;
                 }
               })
-            });
+            );
   }
 
   @override

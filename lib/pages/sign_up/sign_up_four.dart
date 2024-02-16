@@ -75,7 +75,7 @@ class _SignUpFourState extends State<SignUpFour> {
     request.add("smsCode", _codeController.text);
     request.add("smsToken", smsToken);
     try {
-      ApiResponse response = await Api().fire(request);
+      await Api().fire(request);
       getLoginData();
     } on ApiError catch (e) {
       throw Exception(e.toString());
@@ -278,6 +278,7 @@ class _SignUpFourState extends State<SignUpFour> {
                           text: 'send_code'.tr,
                           countDownText: 'count_down'.tr,
                           onStart: (VoidCallback callback) {
+                            FocusScope.of(context).requestFocus(FocusNode());
                             if (_emailController.text.isEmpty) {
                               EasyLoading.showToast('email_hint'.tr);
                               return;

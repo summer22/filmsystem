@@ -1,5 +1,5 @@
+import 'package:filmsystem/data/models/code_model.dart';
 import 'package:filmsystem/data/models/login/login_model.dart';
-import 'package:filmsystem/data/models/info/userinfo_model.dart';
 import 'package:filmsystem/data/network/api.dart';
 import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
@@ -34,6 +34,7 @@ class _ForgetPageState extends State<ForgetPage> {
   bool _showCodeClearButton = false;
   bool _cipherText = true;
   bool _cipherTextTwo = true;
+  String smsToken = "";
 
   @override
   void initState() {
@@ -71,12 +72,12 @@ class _ForgetPageState extends State<ForgetPage> {
     BaseRequest request = BaseRequest();
     request.httpMethod = HttpMethod.post;
     request.path = ApiPath.forget;
-    request.add("code", _codeController.text);
+    request.add("smsCode", _codeController.text);
     request.add("email", _controller.text);
-    request.add("Reconfirmpassword", _pwdTwoController.text);
+    request.add("smsToken", smsToken);
     request.add("password", _pwdController.text);
     try {
-      ApiResponse response = await Api().fire(request);
+      await Api().fire(request);
       SimpleStorage.remove(account);
       SimpleStorage.remove(pwd);
       Get.back();
@@ -92,31 +93,12 @@ class _ForgetPageState extends State<ForgetPage> {
     request.add("email", _controller.text);
     try {
       ApiResponse response = await Api().fire(request);
+      CodeModel codeModel = CodeModel.fromJson(response.data);
+      smsToken = codeModel.data?.token ?? "";
       codeCallback();
     } on ApiError catch (e) {
       throw Exception(e.toString());
     }
-  }
-
-  String? _validateInput(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'email_hint'.tr;
-    }
-    return null;
-  }
-
-  String? _validatePwdInput(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'pwd_hint'.tr;
-    }
-    return null;
-  }
-
-  String? _validateCodeInput(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'code_hint'.tr;
-    }
-    return null;
   }
 
   Widget? _leftIcon() {

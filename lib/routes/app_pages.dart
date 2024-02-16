@@ -6,9 +6,14 @@ import 'package:filmsystem/pages/forget.dart';
 import 'package:filmsystem/pages/help.dart';
 import 'package:filmsystem/pages/home.dart';
 import 'package:filmsystem/pages/login.dart';
+import 'package:filmsystem/pages/my/birthday.dart';
+import 'package:filmsystem/pages/my/mobile.dart';
+import 'package:filmsystem/pages/my/nickname.dart';
+import 'package:filmsystem/pages/my/password.dart';
+import 'package:filmsystem/pages/my/sex.dart';
 import 'package:filmsystem/pages/news.dart';
 import 'package:filmsystem/pages/search.dart';
-import 'package:filmsystem/pages/sign_up/sign_up_binding.dart';
+import 'package:filmsystem/pages/sign_up/sign_up.dart';
 import 'package:filmsystem/pages/sign_up/sign_up_four.dart';
 import 'package:filmsystem/pages/sign_up/sign_up_one.dart';
 import 'package:filmsystem/pages/sign_up/sign_up_three.dart';
@@ -97,6 +102,30 @@ class AppPages {
         GetPage(
             name: _Paths.signUpFour,
             page: () =>  const SignUpFour()
+        ),
+        GetPage(
+            name: _Paths.signUp,
+            page: () =>  const SignUpPage()
+        ),
+        GetPage(
+            name: _Paths.sex,
+            page: () =>  const SexPage()
+        ),
+        GetPage(
+            name: _Paths.nickname,
+            page: () =>  const NickNamePage()
+        ),
+        GetPage(
+            name: _Paths.password,
+            page: () =>  const PasswordPage()
+        ),
+        GetPage(
+            name: _Paths.mobile,
+            page: () =>  const MobilePage()
+        ),
+        GetPage(
+            name: _Paths.birthday,
+            page: () =>  const BirthdayPage()
         ),
       ],
     ),

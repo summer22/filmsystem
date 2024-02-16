@@ -52,7 +52,9 @@
 	</array>
 	<key>WKAppBoundDomains</key>
 	<array>
-		<string>www.nbflix.com</string>
+		<string>nbflix.com</string>
+		<string>avpo.com</string>
+		<string>edge-004.jptyo12.icloud-content.com</string>
 	</array>
 </dict>
 </plist>

@@ -1,7 +1,6 @@
-# filmsystem
+# nbflix 
 
 A Flutter project.
 
-## Getting Started
 
 

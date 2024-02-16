@@ -10,21 +10,21 @@ import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
 import 'package:filmsystem/lang/messages_controller.dart';
 import 'package:filmsystem/pages/detail.dart';
-import 'package:filmsystem/pages/download.dart';
 import 'package:filmsystem/pages/favorite.dart';
 import 'package:filmsystem/pages/help.dart';
 import 'package:filmsystem/pages/login.dart';
+import 'package:filmsystem/pages/my/profile.dart';
 import 'package:filmsystem/pages/news.dart';
 import 'package:filmsystem/pages/search.dart';
 import 'package:filmsystem/pages/subject.dart';
-import 'package:filmsystem/pages/userinfo.dart';
-import 'package:filmsystem/pages/webiew.dart';
+import 'package:filmsystem/pages/my/userinfo.dart';
 import 'package:filmsystem/pages/widgets/video/home_section_title.dart';
 import 'package:filmsystem/utils/constant.dart';
 import 'package:filmsystem/utils/image.dart';
 import 'package:filmsystem/utils/simple_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:io';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     menuItems = [
-      LangModel('简体中文', "zh_CN"),
+      LangModel('中文', "zh_CN"),
       LangModel('English', "en_US"),
     ];
     if (SimpleStorage.read(token) == null) {
@@ -348,10 +348,10 @@ class _HomePageState extends State<HomePage>
             padding: EdgeInsets.zero,
             children: [
               Container(
-                padding: EdgeInsets.only(top: Get.statusBarHeight),
+                padding: EdgeInsets.only(top: Platform.isIOS ? 90 : Get.statusBarHeight),
                 height: 180,
                 child: Center(
-                  child: Image.asset(logoAssets, fit: BoxFit.contain,),
+                  child: Image.asset(logoAssets, fit: BoxFit.cover, width: 150,),
                 ),
               ),
               ListTile(
@@ -410,7 +410,9 @@ class _HomePageState extends State<HomePage>
                 ),
                 onTap: () {
                   Navigator.pop(context);
-                  Get.to(() => const FavoritePage());
+                  // Get.to(() => const FavoritePage());
+                  Get.to(() => const ProfilePage());
+
                 },
               ),
               // ListTile(

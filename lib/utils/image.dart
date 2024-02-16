@@ -12,6 +12,11 @@ const addedAssets = 'assets/images/added.png';
 const zanAssets = 'assets/images/zan.png';
 const unzanAssets = 'assets/images/unzan.png';
 const searchGlobalAssets = 'assets/images/search_global.png';
+const signUpBgAssets = 'assets/images/sign_up_bg.png';
+const inputMarkAssets = 'assets/images/input_mark.png';
+
+
+
 
 
 

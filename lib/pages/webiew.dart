@@ -24,15 +24,16 @@ class WebViewScreenState extends State<WebViewScreen> {
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
-        useShouldOverrideUrlLoading: true,
-        mediaPlaybackRequiresUserGesture: false,
-        transparentBackground: true,
-        applicationNameForUserAgent: "moblie-nbflix"
+          useShouldOverrideUrlLoading: true,
+          mediaPlaybackRequiresUserGesture: false,
+          transparentBackground: true,
+          applicationNameForUserAgent: "moblie-nbflix"
       ),
       android: AndroidInAppWebViewOptions(
         useHybridComposition: true,
       ),
       ios: IOSInAppWebViewOptions(
+          allowsPictureInPictureMediaPlayback: true,
           allowsInlineMediaPlayback: true,
           limitsNavigationsToAppBoundDomains:
               true // adds Service Worker API on iOS 14.0+
@@ -61,8 +62,16 @@ class WebViewScreenState extends State<WebViewScreen> {
 
   @override
   void dispose() {
-    _cancelToken.cancel("页面销毁，取消请求");
     super.dispose();
+    // _cancelToken.cancel("页面销毁，取消请求");
+    // 使用 try-catch 捕获异常
+    // try {
+    //   if (webViewController != null) {
+    //     webViewController?.removeAllUserScripts();
+    //   }
+    // } catch (e) {
+    //   print("Error closing WebView: $e");
+    // }
   }
 
   @override
@@ -77,9 +86,9 @@ class WebViewScreenState extends State<WebViewScreen> {
               InAppWebView(
                 key: webViewKey,
                 initialUrlRequest:
-                // URLRequest(url: Uri.parse("http://localhost:4000")),
-                // URLRequest(url: Uri.parse("https://www.nbflix.com")),
-                URLRequest(url: Uri.parse(widget.url ?? "")),
+                    // URLRequest(url: Uri.parse("http://localhost:4000")),
+                    // URLRequest(url: Uri.parse("https://www.nbflix.com")),
+                    URLRequest(url: Uri.parse(widget.url ?? "")),
                 initialOptions: options,
                 pullToRefreshController: pullToRefreshController,
                 onWebViewCreated: (controller) {
@@ -89,23 +98,24 @@ class WebViewScreenState extends State<WebViewScreen> {
                       callback: (args) async {
                         // debugPrint("xmlHttpRequest:");
                         // debugPrint(args[0]);
-                        try {
-                          var response = await dio.get(
-                            args[0] ?? "",
-                            options: Options(
-                              followRedirects: true,
-                              responseType: ResponseType.json,
-                            ), cancelToken: _cancelToken
-                          );
-                          // debugPrint('Response data: $response');
-                          var xmlHttpRequestResponse = {
-                            'status': response.statusCode,
-                            'statusText': response.statusMessage,
-                            'response': response.data,
-                          };
-                          return {'response': xmlHttpRequestResponse};
-                        } catch (error) {
-                          debugPrint('Error: $error');
+                        if (webViewController != null) {
+                          try {
+                            var response = await dio.get(args[0] ?? "",
+                                options: Options(
+                                  followRedirects: true,
+                                  responseType: ResponseType.json,
+                                ),
+                                cancelToken: _cancelToken);
+                            // debugPrint('Response data: $response');
+                            var xmlHttpRequestResponse = {
+                              'status': response.statusCode,
+                              'statusText': response.statusMessage,
+                              'response': response.data,
+                            };
+                            return {'response': xmlHttpRequestResponse};
+                          } catch (error) {
+                            debugPrint('Error: $error');
+                          }
                         }
                       });
 
@@ -114,24 +124,25 @@ class WebViewScreenState extends State<WebViewScreen> {
                       callback: (args) async {
                         // debugPrint("arraybufferRequest:");
                         // debugPrint(args[0]);
-                        try {
-                          var response = await dio.get(
-                            args[0] ?? "",
-                            options: Options(
-                              headers: args[1] as Map<String, dynamic>,
-                              followRedirects: true,
-                              responseType: ResponseType.bytes,
-                            ), cancelToken: _cancelToken
-                          );
-                          // debugPrint('Response data: $response');
-                          var xmlHttpRequestResponse = {
-                            'status': response.statusCode,
-                            'statusText': response.statusMessage,
-                            'response': response.data,
-                          };
-                          return {'response': xmlHttpRequestResponse};
-                        } catch (error) {
-                          debugPrint('Error: $error');
+                        if (webViewController != null) {
+                          try {
+                            var response = await dio.get(args[0] ?? "",
+                                options: Options(
+                                  headers: args[1] as Map<String, dynamic>,
+                                  followRedirects: true,
+                                  responseType: ResponseType.bytes,
+                                ),
+                                cancelToken: _cancelToken);
+                            // debugPrint('Response data: $response');
+                            var xmlHttpRequestResponse = {
+                              'status': response.statusCode,
+                              'statusText': response.statusMessage,
+                              'response': response.data,
+                            };
+                            return {'response': xmlHttpRequestResponse};
+                          } catch (error) {
+                            debugPrint('Error: $error');
+                          }
                         }
                       });
 
@@ -139,7 +150,12 @@ class WebViewScreenState extends State<WebViewScreen> {
                       handlerName: 'nativeBack',
                       callback: (args) async {
                         // debugPrint('Error:');
-                        Get.back();
+                        try {
+                          Get.back();
+                          webViewController = null;
+                        } catch (error) {
+                          debugPrint('Error: $error');
+                        }
                       });
                 },
                 androidOnPermissionRequest:

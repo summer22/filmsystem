@@ -146,7 +146,7 @@ class _SignUpThreeState extends State<SignUpThree> {
   }
 
   String selectCountText() {
-    return "${"step_three_desc3".tr}${3 - (selectedHobbyModel.length ?? 0)}${"step_three_desc4".tr}";
+    return "${"step_three_desc3".tr}${3 - (selectedHobbyModel.length)}${"step_three_desc4".tr}";
   }
 
   SliverGrid _sliverGrid() {

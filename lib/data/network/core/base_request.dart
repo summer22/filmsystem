@@ -45,24 +45,24 @@ class BaseRequest {
       case EnvironmentType.dev:
         return 'https://192.168.2.200/';
       case EnvironmentType.pre:
-        return 'https://p-api.castcards.com/';
+        return 'https://test.nbflix.com/';
       case EnvironmentType.product:
         return 'https://www.nbflix.com/';
       default:
-        return 'https://api.castcards.com/';
+        return 'https://www.nbflix.com';
     }
   }
 
   String h5Host() {
     switch (envType) {
       case EnvironmentType.dev:
-        return 'https://t-h5.castcards.com/';
+        return 'https://https://192.168.2.200/';
       case EnvironmentType.pre:
-        return 'https://p-h5.castcards.com/';
+        return 'https://test.nbflix.com/';
       case EnvironmentType.product:
         return 'https://www.nbflix.com/';
       default:
-        return 'https://h5.castcards.com/';
+        return 'https://www.nbflix.com/';
     }
   }
 

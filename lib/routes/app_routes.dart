@@ -21,7 +21,12 @@ abstract class Routes {
   static const signUpTwo = _Paths.signUpTwo;
   static const signUpThree = _Paths.signUpThree;
   static const signUpFour = _Paths.signUpFour;
-
+  static const signUp = _Paths.signUp;
+  static const nickname = _Paths.nickname;
+  static const sex = _Paths.sex;
+  static const password = _Paths.password;
+  static const mobile = _Paths.mobile;
+  static const birthday = _Paths.birthday;
   Routes._();
 
 }
@@ -47,5 +52,12 @@ abstract class _Paths {
   static const signUpTwo = '/signUpTwo';
   static const signUpThree = '/signUpThree';
   static const signUpFour = '/signUpFour';
+  static const signUp = '/signUp';
+  static const nickname = '/nickname';
+  static const sex = '/sex';
+  static const password = '/password';
+  static const mobile = '/mobile';
+  static const birthday = '/birthday';
+
 
 }

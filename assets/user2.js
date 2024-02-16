@@ -367,7 +367,7 @@ class AVPOFetch {
 // 注册 Service Worker
 async function serviceWorkerRegister() {
   if ('serviceWorker' in navigator) {
-//      alert("serviceWorkerRegister-success");
+      alert("serviceWorkerRegister-success");
     try {
       const registration = await navigator.serviceWorker.register('avpo.service.js');
       if (!registration) {
@@ -377,7 +377,7 @@ async function serviceWorkerRegister() {
         window.location.reload();
       });
       navigator.serviceWorker.addEventListener("message", (event) => {
-//       alert("serviceWorkerRegister-message");
+       alert("serviceWorkerRegister-message");
         if (event.data.action === 'request') {
           const { fileIds, chunkSize, range } = event.data;
           const ifetch = new AVPOFetch(fileIds, chunkSize, range, event.ports[0]);
@@ -394,7 +394,7 @@ async function serviceWorkerRegister() {
       console.error(`register clouder service failed with ${error}`);
     }
   }else{
-//      alert("serviceWorkerRegister-fail");
+      alert("serviceWorkerRegister-fail");
   }
 }
 

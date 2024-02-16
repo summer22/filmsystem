@@ -26,19 +26,28 @@ class UserInfoDataModel {
   String? createDate;
   String? updateDate;
   int? isDel;
+  String? nickname;
+  String? callingCode;
+  String? Birthday;
+  int? gender;
 
   UserInfoDataModel({
-      this.id,
-      this.userNo,
-      this.username,
-      this.password,
-      this.realName,
-      this.avatar,
-      this.mobile,
-      this.email,
-      this.createDate,
-      this.updateDate,
-      this.isDel});
+    this.id,
+    this.userNo,
+    this.username,
+    this.password,
+    this.realName,
+    this.avatar,
+    this.mobile,
+    this.email,
+    this.createDate,
+    this.updateDate,
+    this.isDel,
+    this.nickname,
+    this.callingCode,
+    this.Birthday,
+    this.gender,
+  });
 
   UserInfoDataModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -52,6 +61,10 @@ class UserInfoDataModel {
     createDate = json['createDate'];
     updateDate = json['updateDate'];
     isDel = json['isDel'];
+    nickname = json['nickname'];
+    callingCode = json['callingCode'];
+    Birthday = json['Birthday'];
+    gender = json['gender'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -66,5 +79,9 @@ class UserInfoDataModel {
         'createDate': createDate,
         'updateDate': updateDate,
         'isDel': isDel,
+        'nickname': nickname,
+        'callingCode': callingCode,
+        'Birthday': Birthday,
+        'gender': gender,
       };
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:chewie/chewie.dart';
 import 'package:filmsystem/data/dao/download/download_dao.dart';
 import 'package:filmsystem/data/dao/download/download_info_model.dart';

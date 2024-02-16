@@ -5,7 +5,6 @@ import 'package:filmsystem/data/network/api_path.dart';
 import 'package:filmsystem/data/network/core/api_adapter.dart';
 import 'package:filmsystem/data/network/core/api_error.dart';
 import 'package:filmsystem/data/network/core/base_request.dart';
-import 'package:filmsystem/utils/image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

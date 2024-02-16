@@ -551,12 +551,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             focusedErrorBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.black),
                             ),
-                            // errorBorder: const OutlineInputBorder(
-                            //   borderSide: BorderSide(color: Colors.black),
-                            // ),
-                            // errorText: _validateInput(_pwdController.text),
-                            // errorStyle:
-                            // const TextStyle(color: Colors.redAccent),
                             suffixIcon: _leftIcon(),
                           ),
                           onChanged: (value) {
@@ -608,12 +602,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
                                   focusedErrorBorder: const OutlineInputBorder(
                                     borderSide: BorderSide(color: Colors.black),
                                   ),
-                                  // errorBorder: const OutlineInputBorder(
-                                  //   borderSide: BorderSide(color: Colors.black),
-                                  // ),
-                                  // errorText: _validateInput(_codeController.text),
-                                  // errorStyle:
-                                  // const TextStyle(color: Colors.redAccent),
                                   suffixIcon: _showCodeClearButton
                                       ? IconButton(
                                           icon: const Icon(
@@ -786,10 +774,4 @@ class _UserInfoPageState extends State<UserInfoPage> {
         : null;
   }
 
-  String? _validateInput(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'update_info_hint'.tr;
-    }
-    return null;
-  }
 }
